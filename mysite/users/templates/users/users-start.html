@@ -1,0 +1,30 @@
+{% extends "about/header.html" %}
+{% block content %}
+
+
+
+<h1 class="animated slow tada">Hallo, {{ username }}!</h1> <!-- filter: |upper -->
+<h2 class="animated slow rollIn">Schön, dich zu sehen!</h2>
+<p class="nav-link" >Mit deinem persönlichen Account kannst du alles mögliche anstellen, zum Beispiel...</p>
+
+<ul class="list-group">
+    <li class="list-group-item list-group-item-success"><a href="{% url 'profile' %}">-> Dein Profil bearbeiten, Einstellungen ändern</a></li>
+    <li class="list-group-item list-group-item-success"><a href="{% url 'users-lernweg' %}">-> Lernsessions auf deine Lernbedürfnisse zugeschnitten</a></li>
+    <li class="list-group-item list-group-item-success"><a href="{% url 'profile' %}">-> Einen anpassbaren Prüfungsmodus im Profil-Bereich</a></li>
+    <li class="list-group-item list-group-item-success"><a href="{% url 'statistics-home' %}">-> Deine persönliche Statistik erhalten und sehen wie gut du dich schlägst</a></li>
+    <li class="list-group-item list-group-item-success"><a href="{% url 'blog-home' %}">-> in der Community aktiv werden</a></li>
+    <li class="list-group-item list-group-item-success"><a href="{% url 'post-create' %}">-> Freunde markieren</a></li>
+    <li class="list-group-item list-group-item-success"><a href="{% url 'new-words-start' %}">-> neue Vokabeln oder ganze Units hinzufügen</a></li>
+    <li class="list-group-item list-group-item-success">und noch vieles mehr!</li>
+    <li class="list-group-item list-group-item-success"><a href="{% url 'users-lernweg' %}"><button class="btn btn-success"><b>Starte mit dem Lernweg!</b></button></a></li>
+
+</ul>
+
+
+
+
+
+
+
+
+{% endblock content %}

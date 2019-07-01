@@ -1,0 +1,50 @@
+{% extends "about/header.html" %}
+{% block content %}
+<script>
+function showFunction(diva, divb) {
+    var x = document.getElementById(diva);
+    var y = document.getElementById(divb);
+          x.style.display = 'block';
+          y.style.display = 'none';
+}
+</script>
+
+
+<h2>Du kannst zwischen 2 Modi wählen!</h2>
+
+<table class="table table-bordered table-light">
+  <thead>
+<!--      <tr>
+      <th>Du kannst zwischen 2 Modi wählen!</th>
+      </tr>
+-->
+    <tr>
+      <th scope="col">Karteikarten</th>
+      <th scope="col">Schriftlich</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td><a href="{% url 'method-karteikarten' %}"><button class="btn btn-outline-info">Karteikarten</button></a>
+            <p>Here is text that is originally displayed</p>
+
+    <div id="div1">
+    <button class="btn btn-outline-error" onclick="showFunction('div2','div1')">Was ist das?</button>
+    </div>
+    <div id="div2" style="display:none">
+
+    <p>Put expanded text here</p>
+
+    <button class="btn btn-outline-info"  onclick="showFunction('div1','div2')">show less</button></div>
+
+    <p>more text</p>
+    </div>
+        </td>
+        <td><a href="{% url 'method-schriftlich' %}"><button class="btn btn-outline-info">Schriftlich</button></a></td>
+    </tr>
+
+  </tbody>
+</table>
+
+
+{% endblock %}

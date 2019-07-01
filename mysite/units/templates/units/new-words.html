@@ -1,0 +1,28 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+    {%if request.method == 'POST'%}
+
+    {%else%}
+        <div class="content-section">
+            <form method="POST">
+                {%  csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Neue Wörter hinzufügen</legend>
+                    <small class="text-muted">Achtung! Nur CSV-Dateien sind erlaubt. Du kannst die CSV-Tabelle (Download unten) aber auch in Excel bearbeiten</small>
+                    {{  form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Hinzufügen</button>
+                </div>
+            </form>
+            <div class="border-top pt-3">
+            </div>
+            <a href="{{link}}" download>Downloade die Vorlage</a>
+        </div>
+
+<a href="{%url 'new-words-start'%}">Zurück</a>
+    {% endif %}
+
+
+{% endblock content %}

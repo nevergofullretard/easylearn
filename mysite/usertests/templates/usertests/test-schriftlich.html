@@ -1,0 +1,77 @@
+{% extends "about/header.html" %}
+{% block content %}
+<small>{{test_art}} Wörter</small>
+
+{% if request.method == "POST" %}
+    <table class="table">
+        <tbody>
+                {% for key, item in words_right_false.items %}
+            {%for key2, value in item.items%}
+                {%if key2 == 'False'%}
+                {%if value == 'right'%}
+                    <tr class="table-success">
+                        <td>{{key.word.deutsch}}</td>
+                        <td>{{key.word.italienisch}}</td>
+                    </tr>
+                {%else%}
+                    <tr class="table-danger">
+                        <td>{{key.word.deutsch}}</td>
+                        <td>{{key.word.italienisch}}</td>
+                    </tr>
+                {%endif%}
+            {%else%}
+                {%if value == 'right'%}
+                    <tr class="table-success">
+                        <td>{{key.word.italienisch}}</td>
+                        <td>{{key.word.deutsch}}</td>
+                    </tr>
+                {%else%}
+                    <tr class="table-danger">
+                        <td>{{key.word.italienisch}}</td>
+                        <td>{{key.word.deutsch}}</td>
+                    </tr>
+                {%endif%}
+            {%endif%}
+
+            {%endfor%}
+
+        {%endfor%}
+
+
+        </tbody>
+    </table>
+{%else%}
+<form method="POST"> {%  csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Auf gehts!</legend>
+                    <table class="table">
+
+                        <tbody>
+                            {% for key, values in words_right_false.items %}
+                                {% for key2, value in values.items%}
+                            {%if key2 == False%}
+
+                            <tr>
+                                <td>{{ value.word.deutsch}}</td>
+                                <td> <input class="form-control-plaintext" placeholder="{{value.word.unit_name.sprache.sprache_lang}}" type='text' maxlength="80" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
+                            </tr>
+                        {%else%}
+                            <tr>
+                                <td>{{ value.word.italienisch}}</td>
+
+                                <!-- wenn man es required möchte, einfach nach naem='my_list' required eingeben -->
+                                <td> <input class="form-control-plaintext" placeholder="Deutsch" type='text' maxlength="80" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
+                            </tr>
+                            {%endif%}
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            </fieldset>
+
+            <button class="btn btn-outline-info" type="submit">Check</button>
+        </form>
+
+{%endif%}
+
+{% endblock content%}

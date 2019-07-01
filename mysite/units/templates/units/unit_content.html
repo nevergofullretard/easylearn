@@ -1,0 +1,147 @@
+{% extends "about/header.html" %}
+{% block content %}
+<script>
+    i = 0;
+$(document).ready(function(){
+    var getLink = window.location.hash;
+    if(getLink){
+       $("html, body").animate({ scrollTop: $(getLink).offset().top -60}, 1000);
+    $('#' + getLink.slice(1) + '').attr('style','background-color: #adf442');
+    };
+
+    window.addEventListener('hashchange', function(e){
+        var getLink = window.location.hash;
+        if(getLink){
+           $("html, body").animate({ scrollTop: $(getLink).offset().top -60}, 1000);
+           $( ".words" ).each(function() {
+              $(this).attr('style','background-color: transparent')
+              });
+              $('#' + getLink.slice(1) + '').attr('style','background-color: #adf442');
+    }
+    });
+
+var availableColleges = [
+  {% for clg in words %}
+      {
+        value: "#{{clg.id}}",
+        label: "{{clg.italienisch}}--Zeile {{ forloop.counter }}"
+      },
+      {
+        value: "#{{clg.id}}",
+        label: "{{clg.deutsch}}--Zeile {{ forloop.counter }}"
+      },
+  {% endfor %}
+  ];
+
+  $( "#search_word" ).autocomplete({
+    source: availableColleges,
+
+    select: function( event, ui ) {
+
+                    var getLink = ui.item.value;
+                if(getLink){
+                   $("html, body").animate({ scrollTop: $(getLink).offset().top -60}, 1000);
+                       window.location.href = ui.item.value;
+                    $( ".words" ).each(function() {
+                        $(this).attr('style','background-color: transparent')
+                      });
+                   $('#' + getLink.slice(1) + '').attr('style','background-color: #adf442');
+                    ui.item.value = ""
+            }
+        },
+     position: {
+        offset: '0 30' // Shift 20px to the left, 4px down.
+    },
+    });
+
+    });
+</script>
+
+<!--<style>-->
+    <!--&lt;!&ndash;div.anchor {&ndash;&gt;-->
+    <!--&lt;!&ndash;display: block;&ndash;&gt;-->
+    <!--&lt;!&ndash;position: relative;&ndash;&gt;-->
+    <!--&lt;!&ndash;top: -250px;&ndash;&gt;-->
+
+<!--&lt;!&ndash;}&ndash;&gt;-->
+
+<!--&lt;!&ndash;.anchor{&ndash;&gt;-->
+  <!--&lt;!&ndash;display: block;&ndash;&gt;-->
+  <!--&lt;!&ndash;height: 115px; /*same height as header*/&ndash;&gt;-->
+  <!--&lt;!&ndash;margin-top: -115px; /*same height as header*/&ndash;&gt;-->
+  <!--&lt;!&ndash;visibility: hidden;&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
+
+<!--a[name]{-->
+    <!--padding-top: 110px;-->
+  <!--margin-top: -110px;-->
+  <!--display: block;-->
+    <!--}-->
+<!--</style>-->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-7"> <h2 class="text-white" style="background-color:#56BB86;">{{name}}</h2> </div>
+        <div class="col-sm-5 input-group">
+            <input type="text" id="search_word" class='form-control mr-sm-2' placeholder="Suche ein Wort in der Unit" aria-label="Search"  value = '{{ val }}'>
+            <!--<button id="search_word_button" class="btn"><img src="https://img.icons8.com/material/24/000000/search.png"></button>-->
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm">
+
+
+
+            <table class="table table-striped">
+              <thead class="thead" style="background-color: #56BB86;">
+                <tr class="text-white">
+                  <th scope="col">{{name.sprache.sprache_lang}}</th>
+                  <th scope="col">Deutsch</th>
+                    <th scope="col">Sidenote</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                 {% for word in words %}
+
+                    <tr id="{{word.id}}" class="words">
+
+                        <td>{{ word }}</td>
+                        <td>{{ word.deutsch }}</td>
+                        <td><small class="text-muted">{{word.sidenote}}</small></td>
+                    </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!--{% if user.is_authenticated %}-->
+
+<!--{% else %}-->
+    <!--<h5>Lasse dich diese Vocabeln prüfen! <a href="{% url 'register' %}">Registriere dich</a> und bekomm vollen Zugriff auf alle Features-->
+        <!--<!doctype html>-->
+        <!--<html lang="en">-->
+        <!--<head>-->
+            <!--<meta charset="UTF-8">-->
+            <!--<meta name="viewport"-->
+                  <!--content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+            <!--<meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+            <!--<title>Document</title>-->
+        <!--</head>-->
+        <!--<body>-->
+        <!---->
+        <!--</body>-->
+        <!--</html></h5>-->
+<!--{% endif %}-->
+
+{% endblock %}

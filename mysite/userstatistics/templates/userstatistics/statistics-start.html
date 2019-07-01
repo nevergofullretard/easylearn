@@ -1,0 +1,423 @@
+{% extends "about/header.html" %}
+
+
+
+
+<script>
+{% block jquery %}
+var endpoint = '/statistics/api/chart1/data/'
+var defaultData = []
+var labels = []
+
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels = data.labels
+        defaultData = data.default
+
+        var ctx = document.getElementById("myChart");
+        var ctx2 = document.getElementById("myChart2");
+
+        var myChart1 = new Chart(ctx, {
+        type: 'pie',
+        data: {
+        labels: labels,
+        datasets: [{
+            label: '# Wörter',
+            data: defaultData,
+
+             backgroundColor: [
+                'rgba(0, 255, 0, 0.6)',
+                'rgba(255, 99, 132, 0.6)',
+
+            ],
+            borderColor: [
+                'rgba(0, 255, 0, 1)',
+                'rgba(255,99,132,1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+
+var myChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+        labels: labels,
+        datasets: [{
+            label: 'Gesamt',
+            data: defaultData,
+             backgroundColor: [
+                'rgba(0, 255, 0, 0.6)',
+                'rgba(255, 99, 132, 0.6)',
+
+
+            ],
+            borderColor: [
+                'rgba(0, 255, 0, 1)',
+                'rgba(255,99,132,1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+
+
+
+$.ajax({
+    method: "GET",
+    url: '/statistics/api/chart3/data/',
+    success: function(data){
+        labels = data.labels
+        defaultData = data.default
+
+        var ctx = document.getElementById("myChart3");
+
+        var myChart3 = new Chart(ctx, {
+        type: 'pie',
+        data: {
+        labels: labels,
+        datasets: [{
+            label: '# Wörter',
+            data: defaultData,
+
+             backgroundColor: [
+                'rgba(0, 255, 0, 0.6)',
+                'rgba(255, 99, 132, 0.6)',
+
+            ],
+            borderColor: [
+                'rgba(0, 255, 0, 1)',
+                'rgba(255,99,132,1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+},
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+
+
+$.ajax({
+    method: "GET",
+    url: '/statistics/api/chart4/data/',
+    success: function(data){
+        labels = data.labels
+        defaultData = data.default
+
+        var ctx = document.getElementById("myChart4");
+
+        var myChart4 = new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: labels,
+        datasets: [{
+            label: '# Wörter',
+            data: defaultData,
+
+             backgroundColor: [
+                'rgba(0, 255, 0, 0.6)',
+                'rgba(255, 99, 132, 0.6)',
+
+            ],
+            borderColor: [
+                'rgba(0, 255, 0, 1)',
+                'rgba(255,99,132,1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+},
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+
+
+$.ajax({
+    method: "GET",
+    url: '/statistics/api/chart5/data/',
+    success: function(data){
+        labels = data.labels
+        defaultData = data.default
+
+        var ctx = document.getElementById("myChart5");
+
+        var myChart5 = new Chart(ctx, {
+        type: 'pie',
+        data: {
+        labels: labels,
+        datasets: [{
+            label: '# of Votes',
+            data: defaultData,
+
+             backgroundColor: [
+                'rgba(0, 255, 0, 0.6)',
+                'rgba(255, 99, 132, 0.6)',
+
+            ],
+            borderColor: [
+                'rgba(0, 255, 0, 1)',
+                'rgba(255,99,132,1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+},
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+
+})
+
+
+</script>
+
+{% endblock %}
+
+
+
+
+{% block content %}
+<div class="row ">
+
+    <div class="col-sm-12" url-endpoint="{% url 'api-data'%}">
+        <h1>Statistik von {{request.user}}</h1>
+
+    </div>
+
+
+
+            <div class="col-sm-6 border border-primary">
+
+
+
+            <h3>Was du hier alles siehst...</h3>
+            <ul>
+                <li>Insgesamt richtige & falsch Vocabeln</li>
+                <li>Richtige und falsche Vocabeln heute</li>
+                <li>Richtige und falsche Vocabeln dieser Woche</li>
+                <li><a href="{%url 'statistics_units_all'%}">Richtige und falsche Vocabeln pro Unit</a></li>
+
+                <li>
+                    <a href="{% url 'user-posts' request.user.username %}">Aktivität in der Community</a>
+                </li>
+            </ul>
+
+             {% if current_unit == 0 %}
+            <h6>Du hast noch keine <a href="{% url 'users-lernweg' %}">neue Unit</a> ausgewählt!</h6>
+
+
+            <div class="dropup">
+              <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Meine Units
+              </button>
+               <div class="dropdown-menu">
+                {% for unit_gemacht in units_gemacht %}
+                   {%if forloop.counter < 4%}
+                    <a  class="dropdown-item" href="{% url 'statistic-units' pk=unit_gemacht.id name_of_unit=unit_gemacht %}">{{unit_gemacht}}</a>
+                   {%endif%}
+                {%endfor%}
+                <a  class="dropdown-item" href="{% url 'statistics_units_all' %}">Alle Units</a>
+             </div>
+            </div>
+
+            {% else %}
+
+
+                    <h6>Du bist gerade bei <a href="{% url 'users-lernweg' %}">{{current_unit}}</a> -
+                        <a href="{%url 'statistic-units' pk=current_unit.id name_of_unit=current_unit%}">Zur Statistik</a>
+                    </h6>
+
+                    <canvas id="myChart5" width="400" height="400"></canvas>
+
+
+                   <div class="dropup">
+              <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Meine Units
+              </button>
+               <div class="dropdown-menu">
+                {% for unit_gemacht in units_gemacht %}
+                   {%if forloop.counter < 4%}
+                    <a  class="dropdown-item" href="{% url 'statistic-units' pk=unit_gemacht.id name_of_unit=unit_gemacht %}">{{unit_gemacht}}</a>
+                   {%endif%}
+                {%endfor%}
+                <a  class="dropdown-item" href="{% url 'statistics_units_all' %}">Alle Units</a>
+
+             </div>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+            <div class="col-sm-6 border border-primary">
+                <h3>Insgesamt</h3>
+                <canvas id="myChart" width="400" height="400"></canvas>
+                <!--<canvas id="myChart2" width="400" height="400"></canvas>-->
+            </div>
+
+            <div class="col-sm-6 border border-primary">
+                <h3>Heute</h3>
+                <canvas id="myChart3" width="400" height="400"></canvas>
+            </div>
+
+            <div class="col-sm-6 border border-primary">
+                <h3>Letzten 7 Tage</h3>
+                <canvas id="myChart4" width="400" height="400"></canvas>
+            </div>
+
+    {%if posts%}
+
+
+        <div class="col-sm-12 border border-primary">
+            <h4><center>Posts von dir</center></h4>
+
+
+    <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                {% for post in posts %}
+                {% if forloop.first %}
+                 <div class="carousel-item active">
+
+                    <div class="row" style="background-image: linear-gradient(to right, white, rgb(102, 204, 255)) ;border-color:#66ff33; border-width: 2px; border-radius: 8px 8px 8px 8px; ">
+                        <div class="col-sm-3">
+                            <br>
+                            <center>
+                                <img src="https://img.icons8.com/cotton/64/000000/empty-flag.png" alt="Info-Bild">
+                            </center>
+                        </div>
+                        <div class="col-sm-9">
+                            <br>
+                            <center>
+                            <a href="{%url 'user-posts' username=request.user.username%}">
+                                <button class="btn btn-success">Zu deinem Community-Profil</button>
+                            </a>
+                        </center>
+                        <br>
+                            <h5>Im Community-Profil kannst du alle Posts sehen, auch die, in denen du markiert wurdest!</h5>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+                {%else%}
+                <div class="carousel-item">
+
+                    <div style="background-image: linear-gradient(to right, white, rgb(102, 204, 255)); ;border-color:#66ff33; border-width: 2px; border-radius: 8px 8px 8px 8px; ">
+       <article class="media content-section">
+          <img class="rounded-circle article-img" height="100" width="100" src="{{ post.author.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2 text-secondary" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+              <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h4><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
+              {%if post.author.is_staff%}
+                    <p class="article-content">{{ post.content|safe }}</p>
+              {%else%}
+                    <p class="article-content">{{ post.content }}</p>
+              {%endif%}
+          </div>
+        </article>
+        </div>
+
+                </div>
+                {%endif%}
+                {%endfor%}
+
+
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators3" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators3" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+
+
+
+
+        </div>
+{%endif%}
+
+
+
+</div>
+
+{% endblock content %}

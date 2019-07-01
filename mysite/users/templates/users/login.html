@@ -1,0 +1,38 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <h2>Sorry {{ request.user }}, it seems like you're already logged in</h2>
+    {% else %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+              <div class="content-section">
+            <form method="POST">
+                {%  csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Log In</legend>
+                    {{  form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Login</button>
+                </div>
+            </form>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    Need an Account? <a class="ml-2" href="{% url 'register' %}">Register</a>-
+                </small>
+                <small class="text-muted"><a href="{%url 'password-forgot'%}">Passwort vergessen?</a></small>
+            </div>
+        </div>
+
+        </div>
+    </div>
+</div>
+
+    {% endif %}
+
+
+{% endblock content %}

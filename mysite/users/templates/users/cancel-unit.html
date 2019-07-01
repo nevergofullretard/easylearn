@@ -1,0 +1,17 @@
+{% extends "about/header.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {%  csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Unit abbrechen</legend>
+                <h2>Bist du sicher dass du {{unit}} abbrechen möchtest?</h2>
+                <small>Dein Fortschritt bei dieser Unit wird gelöscht!</small>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit">Ja, Unit abbrechen</button>
+                <a class="btn btn-outline-secondary" href="{% url 'users-lernweg' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,240 @@
+{% load static %}
+
+{% include "about/style.html" %}
+{% include "about/js.html" %}
+
+<script>
+    function determineDropDirection(){
+  $(".dropdown-menu").each( function(){
+
+
+    // Invisibly expand the dropdown menu so its true height can be calculated
+    $(this).css({
+      visibility: "hidden",
+      display: "block"
+    });
+
+    // Necessary to remove class each time so we don't unwantedly use dropup's offset top
+    $(this).parent().removeClass("dropup");
+
+    // Determine whether bottom of menu will be below window at current scroll position
+    if ($(this).offset().top + $(this).innerHeight() > $(window).outerHeight() + $(window).scrollTop()){
+      $(this).parent().addClass("dropup");
+    }
+
+    // Return dropdown menu to fully hidden state
+    $(this).removeAttr("style");
+  });
+}
+
+determineDropDirection();
+
+$(window).scroll(determineDropDirection);
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>EasyLearn</title>
+
+
+
+</head>
+<body>
+<header class="site-header">
+
+
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #17A2B8; background-image: linear-gradient(to right, #17A2B8,  rgb(255, 255,0));">
+        <div  class="container">
+      <a class="navbar-brand animated bounceInLeft" href="{% url 'units' %}"><img src="https://img.icons8.com/color/30/000000/easy.png"> EasyLearn</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <!--<a class="nav-link animated bounceInLeft" href="{% url 'units' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/cottage.png"></a>-->
+          </li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link animated bounceInLeft" href="{% url 'users-lernweg' %}">Lernweg</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link animated bounceInLeft" href="{% url 'blog-home' %}">Community</a>
+            </li>
+            {% endif %}
+
+            <!--
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item " href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled animated bounceInLeft" href="#">Disabled</a>
+          </li>
+        -->
+
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}">
+            <ul class="navbar-nav mr-auto">
+
+               {% load search %}
+
+                {% search %}
+
+            {% if user.is_authenticated %}
+            <li class="nav-item active">
+            <a class="nav-item nav-link" href="{% url 'profile' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/gender-neutral-user.png"> Profil</a>
+            </li>
+                <li class="nav-item active">
+            <a class="nav-item nav-link" href="{% url 'statistics-home' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/statistics.png"> Statistik</a>
+            </li>
+            <a class="nav-item nav-link text-alert" href="{% url 'logout' %}"><img src="https://img.icons8.com/office/30/000000/exit.png"></a>
+            {% else %}
+              <a class="nav-item nav-link text-alert" href="{% url 'login' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/password.png"></a>
+              <a class="nav-item nav-link text-alert" href="{% url 'register' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/add-user-male.png"></a>
+            {% endif %}
+            </ul>
+        </form>
+      </div>
+      </div>
+    </nav>
+
+
+</header>
+    <div class="container" style="padding-top: 60px; background-image: linear-gradient(to right, rgb(102, 204, 255, 0), rgb(102, 204, 255, 0.3)); ">
+        <div class="row">
+            <div class="col-sm-9">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-info alert-dismissable">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      {{message|safe}}
+                    </div>
+                    <!--<div class="alert alert-{{ messages.tags }}">-->
+                        <!--{{ message }}-->
+                    <!--</div>-->
+                    {% endfor %}
+                {% endif %}
+
+                {% block content %}
+                {% endblock %}
+
+
+                <script>
+                    $(document).ready(function(){
+                        {% block jquery %}{% endblock %}
+                    })
+                </script>
+
+
+
+            </div>
+            <div class="col-sm-3" >
+                <div class="content-section bg-info">
+                    {% if user.is_authenticated %}
+                        {% load confirm_email %}
+                        {%confirm_email%}
+                    {%endif%}
+
+                    <h4 class='text-white'><br /><center>Funktionen</center></h4>
+                    <ul class="list-group">
+
+
+                        {% if user.is_authenticated %}
+                          <li class="list-group-item list-group-item-info">
+
+                                    {% load menu_items %}
+
+                                    {% menu_items %}
+
+                        </li>
+                            <li class="list-group-item list-group-item-success">
+                                <div class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Premium
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                           <a  class="dropdown-item" href="{% url 'new-unit-user' %}">Neue Wörter hinzufügen</a>
+                                            <a class="dropdown-item" href="{% url 'new-words-user' %}">Neue Unit hinzufügen</a>
+                                            <a class="dropdown-item" href="{% url 'new-words-start' %}">Hinzufügen - Start</a>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item list-group-item-info"><a href="{% url 'fehlertest-start-really' %}">Gelernte Wörter üben</a></li>
+                            <li class="list-group-item list-group-item-info"><a href="{% url 'unittest-start' %}">Unit-Test</a></li>
+
+                            {% if user.is_staff %}
+                                <li class="list-group-item list-group-item-info"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+
+                            {%endif%}
+                         <li class="list-group-item list-group-item-info"><a href="{% url 'about' %}">About</a></li>
+
+                        {%else%}
+
+
+                          <li class="list-group-item list-group-item-info">
+
+                                    {% load menu_items %}
+
+                                    {% menu_items %}
+
+                        </li>
+                        <li class="list-group-item list-group-item-info"><a href="{% url 'about' %}">About</a></li>
+                        <li class="list-group-item list-group-item-success"><a href="{%url 'register'%}">Go Premium for free!</a></li>
+                        {% endif %}
+
+
+
+                    </ul>
+                    {% if user.is_authenticated %}
+                {% load linked_in_post %}
+                {% linked_in_post %}
+            {%endif%}
+                    </div>
+
+
+                </div>
+
+            </div>
+
+</div>
+    </div>
+
+
+<footer>
+    <div class="container" style="background-image: linear-gradient(to right, rgb(102, 204, 255, 0), rgb(102, 204, 255, 0.3));">
+        <div class="row">
+            <div class="col-sm">
+                <ul>
+                    <small>
+                        <li><a href="{%url 'users-start'%}">Was kann ich mit meinem Account machen?</a></li>
+                        <li><a href="https://icons8.com/icon/23264/user">User icon by Icons8</a></li>
+                        <li><a href="https://icons8.com/icon/11496/statistics">Statistics icon by Icons8</a></li>
+                        <li><a href="https://icons8.com/icon/2445/exit">Exit icon by Icons8</a></li>
+                    </small>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>

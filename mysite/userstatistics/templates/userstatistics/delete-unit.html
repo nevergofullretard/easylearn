@@ -1,0 +1,17 @@
+{% extends "about/header.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {%  csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Unit löschen</legend>
+                <h3>Bist du sicher dass du {{unit}} löschen möchtest?</h3>
+                <small>Deine Statistik wird dabei gelöscht! Du kannst diese Unit danach wieder machen.</small>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
+                <a class="btn btn-outline-secondary" href="{% url 'statistics_units_all' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

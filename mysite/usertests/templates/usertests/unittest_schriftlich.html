@@ -1,0 +1,129 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+
+
+<script>
+    $(document).ready(function(){
+      $('#textToggle1').hide();
+
+      $('#buttonToggle1').click(function(){
+        $('#textToggle1').slideToggle();
+        });
+
+    });
+</script>
+
+<h3 class="bg-info text-white">Unit-Test: {{unit}} - Schriftlich</h3>
+
+{% if request.method == "POST" %}
+ <table class="table">
+      <thead class="thead-light">
+        <tr>
+
+        </tr>
+      </thead>
+        <tbody>
+                {% for key, item in words_right_false.items %}
+            {%for key2, value in item.items%}
+                {%if key2 == 'False'%}
+                {%if value == 'right'%}
+                    <tr class="table-success">
+                        <td>{{key.deutsch}}</td>
+                        <td>{{key.italienisch}}</td>
+                    </tr>
+                {%else%}
+                    <tr class="table-danger">
+                        <td>{{key.deutsch}}</td>
+                        <td>{{key.italienisch}}</td>
+                    </tr>
+                {%endif%}
+            {%else%}
+                {%if value == 'right'%}
+                    <tr class="table-success">
+                        <td>{{key.italienisch}}</td>
+                        <td>{{key.deutsch}}</td>
+                    </tr>
+                {%else%}
+                    <tr class="table-danger">
+                        <td>{{key.italienisch}}</td>
+                        <td>{{key.deutsch}}</td>
+                    </tr>
+                {%endif%}
+            {%endif%}
+
+            {%endfor%}
+
+        {%endfor%}
+
+
+        </tbody>
+    </table>
+    {%if message%}
+        <button class="btn btn-outline-error" id="buttonToggle1">Warum sind so viele Wörter falsch?</button>
+        <p id="textToggle1">Das kann vorkommen. Du hast evtl. einen weiteren Unit-Test Tab offen, nebenbei einen Unit-Test Karteikarten offen oder in der Zwischenzeit
+        einen zusätzlichen Unit-Test geöffnet. Das passiert, weil wir die Wörter der Unit zufällig mischen und jedes mal, wenn du einen neuen Unit-Test öffnest, werden die
+         Wörter neu gemischt. Oder du kannst einfach die Wörter noch nicht gut genug! ;)</p>
+        <a href="{%url 'units' %}"><button class="btn btn-error">Weiter -></button></a>
+    {%else%}
+    <a href="{%url 'units' %}"><button class="btn btn-success">Gut gemacht! Weiter -></button></a>
+    <a href="{%url 'unit-words' pk=unit.id name_of_unit=unit %}"><button class="btn btn-info">Zur Unit</button></a>
+
+    {%endif%}
+
+{% else %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm"><a href="{% url 'unittest-schriftlich' pk=unit.id name_of_unit=unit %}"> <button class="btn btn-outline-success">Karten mischen</button> </a> </div>
+        <div class="col-sm">  <a href="{%url 'unit-words' pk=unit.id name_of_unit=unit %}" target="_blank"><button class="btn btn-error">Zur Unit</button></a></div>
+    </div>
+</div>
+
+
+<form method="POST"> {%  csrf_token %}
+        <fieldset class="form-group">
+            <!--<legend class="border-bottom mb-4">Auf gehts!</legend>-->
+                <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+
+                    </tr>
+                  </thead>
+                    <tbody>
+                            {% for key, values in words_right_false.items %}
+                                {% for key2, value in values.items%}
+                            {%if key2 == False%}
+
+                            <tr>
+                                <td>{{ value.deutsch}}</td>
+                                <td> <input class="form-control-plaintext" placeholder="{{value.unit_name.sprache.sprache_lang}}" type='text' maxlength="80" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
+                            </tr>
+                        {%else%}
+                            <tr>
+                                <td>{{ value.italienisch}}</td>
+
+                                <!-- wenn man es required möchte, einfach nach naem='my_list' required eingeben -->
+                                <td> <input class="form-control-plaintext" placeholder="Deutsch" type='text' maxlength="80" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
+                            </tr>
+                            {%endif%}
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                </table>
+        </fieldset>
+
+        <button class="btn btn-outline-info" type="submit">Check</button>
+    </form>
+
+    <div class="alert alert-info alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <p class="text-muted">Die Ergebnisse dieses Tests werden nicht in die Statistik mit aufgenommen</p>
+    </div>
+
+
+
+
+{% endif %}
+
+{% endblock content%}

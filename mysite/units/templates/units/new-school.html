@@ -1,0 +1,18 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+<form method="POST">
+                {%  csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Neue Schule anfragen</legend>
+                    {{  new_school|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Anfragen</button>
+                </div>
+            </form>
+    <a href="{%url 'new-words-start'%}">Zurück</a>
+
+                <hr>
+                <small class="text-muted">Die Verarbeitung kann eine Weile dauern, wenn die Schule ins System integriert ist, kannst du auf eine neue Unit zu dieser Schule anfragen!</small>
+{% endblock content %}

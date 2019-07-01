@@ -1,0 +1,56 @@
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container", style="background:orange">
+            <div class="row">
+                <div class="col">Italiano4dummies</div>
+                <div class="col">
+                    <a class="nav-item nav-link" href="#">Home</a>
+                    <a class="nav-item nav-link" href="#">About</a>
+                </div>
+
+                <div class="col">
+                    {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" href="#">Neuer Post</a>
+                    <a class="nav-item nav-link" href="#">Mein Profil</a>
+                    <a class="nav-item nav-link" href="#">Logout</a>
+                    {% else %}
+                    <a class="nav-item nav-link" href="#">Login</a>
+                    <a class="nav-item nav-link" href="#">Registieren</a>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+    </nav>
+
+</header>
+
+
+<header class="site-header">
+  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+    <div class="container", style="background:orange">
+      <a class="navbar-brand mr-4" href="#">Italiano4dummies</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarToggle">
+        <div class="navbar-nav mr-auto">
+          <a class="nav-item nav-link" href="#">Home</a>
+          <a class="nav-item nav-link" href="#">About</a>
+        </div>
+        <!-- Navbar Right Side -->
+        <div class="navbar-nav">
+            {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="#">Neuer Post</a>
+            <a class="nav-item nav-link" href="#">Mein Profil</a>
+            <a class="nav-item nav-link" href="#">Logout</a>
+            {% else %}
+              <a class="nav-item nav-link" href="#">Login</a>
+              <a class="nav-item nav-link" href="#">Registieren</a>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

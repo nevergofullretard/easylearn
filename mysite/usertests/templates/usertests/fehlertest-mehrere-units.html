@@ -1,0 +1,8 @@
+{% extends "about/header.html" %}
+{% block content %}
+<h1>Fehlertest-Start</h1>
+<p>Du hast heute bei mehreren Units gearbeitet, wähle bitte eine aus oder <a href="#">alle von heute</a></p>
+{%for unit in units%}
+    <a href="{%url 'fehlertest-start' pk=unit.id name_of_unit='today' %}">{{unit}}</a>
+{%endfor%}
+{% endblock content%}

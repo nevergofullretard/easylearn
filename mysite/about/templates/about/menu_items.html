@@ -1,0 +1,65 @@
+<script>
+$(document).ready(function(){
+  $('.dropdown-submenu a.test').on("click", function(e){
+    $(this).next('ul'). toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
+
+
+</script>
+
+
+
+
+
+
+<div class="nav-item dropdown" style="position: relative;">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Units
+    </a>
+
+   <ul class="dropdown-menu">
+       {% for schule, sprache_dict in items.items %}
+
+
+    {%if sprache_dict%}
+      <li class="dropdown dropdown-submenu">
+        <a class="test" tabindex="-1"><button class="dropdown-item">{{schule}}</button><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+
+            {% for  sprache, units_list in sprache_dict.items %}
+            {%if forloop.counter < 4%}
+            <li class="dropdown dropdown-submenu">
+            <a class="test" href="#"><button class="dropdown-item">{{sprache.sprache_lang}}</button><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                {% for unit in units_list|slice:":5" %}
+              <li><a href="{%url 'unit-words' pk=unit.id name_of_unit=unit%}">{{unit}}</a></li>
+
+                {%endfor%}
+                <li>
+                    <a href="{%url 'schule_sprache_units' schule_pk=schule.id sprache_pk=sprache.id%}">Alle von {{schule}} {{sprache.sprache_kurz}}</a>
+                </li>
+            </ul>
+                </li>
+            {%endif%}
+        {%endfor%}
+            <li class="dropdown-item"><a class="text-dark" href="{% url 'schule_sprache_units' schule_pk=schule.id sprache_pk=0 %}">Alle von {{schule}}</a></li>
+        </ul>
+      </li>
+       {%endif%}
+        {%endfor%}
+       <li class="dropdown-item" style="background-color:#ffffcc;"><a href="{%url 'units-all'%}" class="text-dark">Alle Units</a></li>
+       <li class="dropdown-item" style="background-color:#ffffcc;"><a href="{%url 'schule_sprache_units' schule_pk=0 sprache_pk=0%}" class="text-dark">Unit suchen</a></li>
+    </ul>
+    </div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+{% extends "about/header.html" %}
+{% block content %}
+
+{% for word in words %}
+{% for word2 in words2 %}
+
+    <p>{{ word }} | {{ word2 }}</p>
+
+
+{%endfor%}
+{% endfor %}
+
+{% endblock %}

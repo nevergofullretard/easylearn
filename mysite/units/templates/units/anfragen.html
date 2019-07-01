@@ -1,0 +1,109 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+
+<script type="text/javascript" >
+function toggle(source,name) {
+    checkboxes = document.getElementsByName(name);
+    for (var i = 0,
+        n = checkboxes.length; i < n; i++) {
+        checkboxes[i].checked = source.checked;
+    }
+}
+</script>
+
+
+{%if request.POST%}
+    {%if added%}
+        <h2>Hinzugefügt:</h2>
+        {%for value in added%}
+        <ul>
+            <li>{{value}}</li>
+        </ul>
+        {%endfor%}
+
+    {%elif deleted%}
+        <h2>Gelöscht:</h2>
+        {%for value in deleted%}
+            <ul>
+                <li>{{value}}</li>
+            </ul>
+        {%endfor%}
+    {%endif%}
+    <a href="{%url 'anfragen'%}">Zurück zu Anfragen</a>
+{%else%}
+
+
+
+<form method="POST"> {%  csrf_token %}
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Auf gehts!</legend>
+        <small class="text-muted">Achtung! Die Anfragen dürfen keine Semikolons enthalten (;) sonst können sie nicht richtig in die Database integriert werden!</small>
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>User</th>
+                        <th>Unit</th>
+                        <th>Fremdsprache</th>
+                        <th>Deutsch</th>
+                        <th>Sidenote</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {%for key1,values1 in anfragen.items%}
+                    <tr>
+                        <td>
+                            <h4>{{key1}}</h4>
+                        </td>
+                    </tr>
+                    {%for values in values1%}
+                        {%for key2,value in values.items%}
+                            <tr>
+                                <td></td>
+                                <td><a href="{% url 'unit-words' pk=key2.id name_of_unit=key2 %}" target="_blank">{{key2}}</a></td>
+                            </tr>
+                            {%for anfrage_key, word1, word2, sidenote in value%}
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{word1}}</td>
+                                    <td>{{word2}}</td>
+                                    <td><small class="text-muted">{{sidenote}}</small></td>
+
+
+                                    <!--<form name="{{key1}}-{{key2}}">-->
+                                     <div class="checkbox">
+                                    <label>
+                                        <td> <input type="checkbox" value="{{word1}};{{word2}};{{anfrage_key.id}};{{sidenote}}" name="{{key1.id}}--{{key2.id}}"><br/></td>
+                                    </label>
+                                            </div>
+
+
+
+                                </tr>
+                            {%endfor%}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Select all <input type="checkbox" onClick="toggle(this,'{{key1.id}}--{{key2.id}}')"/></td>
+
+                            </tr>
+                        {%endfor%}
+                    {%endfor%}
+
+                {%endfor%}
+                </tbody>
+            </table>
+        </fieldset>
+     <button class="btn btn-outline-info" type="submit" name="add" value="add">Selektiere Hinzufügen</button>
+        <button class="btn btn-outline-danger" type="submit" name="delete" value="delete">Selektierte löschen</button>
+</form>
+
+{%endif%}
+
+
+{% endblock content %}

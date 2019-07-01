@@ -1,0 +1,74 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+
+<script type="text/javascript" >
+function toggle(source,name) {
+    checkboxes = document.getElementsByName(name);
+    for (var i = 0,
+        n = checkboxes.length; i < n; i++) {
+        checkboxes[i].checked = source.checked;
+    }
+}
+</script>
+
+{%if request.POST%}
+    {%if hinzugefuegt%}
+        <h2>Hinzugefügt:</h2>
+        {%for value in hinzugefuegt%}
+        <ul>
+            <li>{{value}}</li>
+        </ul>
+        {%endfor%}
+    {%elif deleted%}
+        <h2>Gelöscht:</h2>
+        {%for value in deleted%}
+            <ul>
+                <li>{{value}}</li>
+            </ul>
+        {%endfor%}
+    {%endif%}
+    <a href="{%url 'anfragen-sonstige'%}">Zurück zu Anfragen</a>
+
+{%else%}
+
+<form method="POST"> {%  csrf_token %}
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Units, Sprachen und Schulen hinzufügen</legend>
+
+           <div class="container">
+               <div class="row">
+                   <div class="col-sm-4">
+                       <h2>Units</h2>
+                       <input type="checkbox" onClick="toggle(this,'units')"/> <b>Select all</b><br>
+                       <br>
+                       {% for unit in units %}
+                       <input type="checkbox" value="{{unit.sprache.id}},{{unit.schule.id}},{{unit.unit}},{{unit.id}}" name="units"> {{unit}} ({{unit.date}})<br/>
+                       {% endfor %}
+                   </div>
+                   <div class="col-sm-4">
+                       <h2>Sprachen</h2>
+                       <input type="checkbox" onClick="toggle(this,'sprachen')"/> <b>Select all</b><br>
+                       <br>
+                         {% for sprache in sprachen %}
+                       <input type="checkbox" value="{{sprache.sprache_lang}},{{sprache.sprache_kurz}},{{sprache.id}}" name="sprachen"> {{sprache}} ({{sprache.date}})<br/>
+                       {% endfor %}
+                   </div>
+                   <div class="col-sm-4">
+                       <h2>Schulen</h2>
+                       <input type="checkbox" onClick="toggle(this,'schulen')"/> <b>Select all</b><br>
+                       <br>
+                         {% for schule in schulen %}
+                       <input type="checkbox" value="{{schule.schule}},{{schule.id}}" name="schulen"> {{schule}} ({{schule.date}})<br/>
+                       {% endfor %}
+                   </div>
+               </div>
+           </div>
+    </fieldset>
+        <button class="btn btn-outline-info" type="submit" name="add" value="add">Selektiere Hinzufügen</button>
+        <button class="btn btn-outline-danger" type="submit" name="delete" value="delete">Selektierte löschen</button>
+
+</form>
+
+{%endif%}
+{% endblock content %}

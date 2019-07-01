@@ -1,0 +1,424 @@
+{% extends "about/header.html" %}
+{% block content %}
+<style>
+    .Button:active, .active_button {
+    background-color:red;
+    color: white;
+}
+
+#textarea { background-color: #fff;
+    border: 1px solid #ccc;
+    color: #555;
+    font-size: 14px;
+    height: 34px;
+    width: 450px;}
+</style>
+
+<script>
+    $(document).ready(function(){
+
+    $('#toleranztext').hide();
+    $('#toleranzfield').click(function() {
+    $('#toleranztext').slideToggle();
+    });
+
+
+
+    console.log($('#words-66.66666666666666'))
+    console.log($('#id'))
+    $('#words-66.66666666666666').hide()
+    $('#id').hide()
+
+    $('#toleranzinput').val(55)
+
+
+    <!--{%for key, result in results.items%}-->
+    <!--console.log("{{key}}")-->
+        <!--{%for key2, values in result.items%}-->
+        <!--var id = "{{key}}" + "-" + "{{key2}}"-->
+        <!--console.log(id)-->
+        <!--&lt;!&ndash;if ({{key2}} < $('#toleranz').val()) {&ndash;&gt;-->
+           <!--&lt;!&ndash;console.log($('#' + id).html());&ndash;&gt;-->
+          <!--&lt;!&ndash;$('#'+ id).hide();&ndash;&gt;-->
+        <!--&lt;!&ndash;} else {&ndash;&gt;-->
+          <!--&lt;!&ndash;console.log('größer');&ndash;&gt;-->
+        <!--&lt;!&ndash;}&ndash;&gt;-->
+
+
+        <!--{%endfor%}-->
+     <!--{%endfor%}-->
+
+
+
+
+
+    $('#link-div').hide();
+
+    $('#link-header').click(function(){
+        $('#link-div').slideToggle();
+    });
+
+    <!--document.execCommand("CreateLink", false, "http://stackoverflow.com/");-->
+    <!--$("#textarea").html();-->
+
+
+
+
+    <!--$("#textarea").on("focus", function() {-->
+        <!--console.log('on focus');-->
+            <!--$(".bld").on('click',function(){-->
+        <!--$(this).toggleClass("active_button");-->
+            <!--document.execCommand('bold');-->
+          <!--var a = $("#textarea").html();-->
+        <!--});-->
+
+        <!--$(".itl").on('click',function(){-->
+            <!--$(this).toggleClass("active_button");-->
+            <!--document.execCommand('italic');-->
+          <!--var b = $("#textarea").html();-->
+        <!--});-->
+    <!--});-->
+
+
+         $(".bld").on('click',function(){
+
+        document.execCommand('bold');
+        document.execCommand('selectAll', false, null);
+        document.getSelection().collapseToEnd();
+        $('#textarea').focus();
+
+
+
+
+        });
+
+        $(".itl").on('click',function(){
+             setTimeout(function() {
+        $('#textarea').focus();
+        }, 0);
+            document.execCommand('italic');
+          var b = $("#textarea").html();
+        });
+
+
+    <!--$('#textarea').document.execCommand('insertHTML', false, html);-->
+
+
+    <!--$("#font-size").on("input", function() {-->
+           <!--console.log($(this).val());-->
+    <!--document.execCommand('insertHTML', false, '<b>hallo</b>');-->
+    <!--var a = $("#textarea").html(b)-->
+    <!--});-->
+
+
+        $('#textarea').keyup(function() {
+        console.log($(this).html());
+    });
+
+
+
+  });
+</script>
+
+<style>
+    li{background-color:transparent;}
+
+</style>
+
+<script>
+    $(document).ready(function(){
+        $( ".toleranz" ).each(function( index ) {
+              $(this).hide()
+              console.log( index + ": " + $( this ).text() );
+
+              if (Number($(this).text())  <  Number($("#toleranzinput").val()) ) {
+                console.log('kleiner');
+                $(this).parent().parent().hide();
+               } else {
+                 $(this).parent().parent().show();
+              }
+        });
+
+         $("#toleranzinput").on("input", function() {
+         if ($(this).val() > 100) {
+            $(this).val(100)
+         } else if ($(this).val() < 1){
+            $(this).val(1)
+         }
+           console.log($(this).val());
+           var tol = Number($(this).val())
+                $( ".toleranz" ).each(function( index ) {
+
+                  console.log( index + ": " + $( this ).text() );
+                  if (Number($(this).text()) <  tol || Number($(this).text()) < 5) {
+                    console.log('kleiner');
+                    $(this).parent().parent().hide();
+                   } else {
+                     $(this).parent().parent().show();
+                  }
+                 });
+           });
+
+        $( ".hidden" ).each(function() {
+              $(this).hide()
+              });
+
+        $('#show-all-posts').click(function(){
+            $( ".hidden" ).slideToggle()
+        });
+
+
+        $( ".hidden-units" ).each(function() {
+              $(this).hide()
+              });
+
+          $('#show-all-units').click(function(){
+            $( ".hidden-units" ).slideToggle()
+        });
+
+        $('#show-all-units2').click(function(){
+            $( ".hidden-units" ).slideToggle()
+        });
+});
+</script>
+
+
+
+
+
+
+<!--<span id="link-header">link</span>-->
+<!--<div id="link-div">-->
+    <!--<input id="link-url" type="text">URL<br/>-->
+    <!--<input id="link-text" type="text">Text<br/>-->
+    <!--<button id="link-submit"> Submit</button>-->
+<!--</div>-->
+
+<!--<div id="textarea" contenteditable></div>-->
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <h2>Ergebnisse für "{{input}}"</h2>
+            {%if results%}
+            {%for key, result in results.items%}
+            <hr>
+            <h5 class="text-muted">Ergebnisse in {{key}}</h5>
+        {%if key == 'words'%}
+
+            {%for key2, values in result.items%}
+            <div id="{{key}}-{{key2}}">
+                    <ul class="list-group" >
+                        <li  class="list-group-item toleranz" style="background-color:transparent;">{{key2}}</li>
+                        {%if request.user.is_authenticated%}
+
+                            <ul class="list-group">
+                                {%for value in values%}
+
+                                    {%for key3, val in value.items%}
+                                        <li class="list-group-item" style="background-color:transparent;">{{key3.italienisch}} - {{key3.deutsch}}
+
+                                        (<a
+                                        href="{%url 'unit-words' pk=key3.unit_name.id name_of_unit=key3.unit_name%}"> in {{key3.unit_name}}</a> |
+                                            <a href="{%url 'unit-words' pk=key3.unit_name.id name_of_unit=key3.unit_name%}#{{key3.id}}">zum Wort</a>)
+                                            {%for word_pruefung in val%}
+                                                <small>Dieses Wort hast du gelernt!</small>
+                                                {%if word_pruefung.right == True%}
+                                                    <span  style="background-color:green; text-indent:30px; ">
+                                                        {{word_pruefung.word.italienisch}} - {{word_pruefung.word.deutsch}} </span>
+                                                {%else%}
+                                                 <span style="background-color:red; text-indent:30px;">
+                                                     {{word_pruefung.word.italienisch}} - {{word_pruefung.word.deutsch}}</span>
+
+                                                {%endif%}
+                                            {%endfor%}
+
+                                         </li>
+                                    {%endfor%}
+
+                                {%endfor%}
+                            </ul>
+                        {%else%}
+                            <ul class="list-group">
+                            {%for value in values%}
+                                <li  class="list-group-item" style="background-color:transparent;">{{value.italienisch}} - {{value.deutsch}} (<a
+                                        href="{%url 'unit-words' pk=value.unit_name.id name_of_unit=value.unit_name%}">in {{value.unit_name}}</a> |
+                                    <a href="{%url 'unit-words' pk=value.unit_name.id name_of_unit=value.unit_name%}#{{value.id}}">zum Wort</a>
+                                    )</li>
+                            </ul>
+                            {%endfor%}
+                        {%endif%}
+
+                    </ul>
+                </div>
+            {%endfor%}
+
+        {%elif key == 'units'%}
+            {{result|length }}<br>
+            {%for key2, values in result.items%}
+                    <div id="{{key}}-{{key2}}">
+                            <ul class="list-group">
+                                <li class="list-group-item toleranz" style="background-color:transparent;">{{key2}}</li>
+
+                                {%if request.user.is_authenticated%}
+
+                                    <ul class="list-group">
+
+
+                                        {%for value in values%}
+                                            {%if forloop.counter <  2%}
+                                                {%for key3, val in value.items%}
+
+                                                    <li class="list-group-item" style="background-color:transparent;">
+                                                        <a href="{%url 'unit-words' pk=key3.id name_of_unit=key3%}">{{key3}}</a>
+                                                     {%for unit_fertig in val%}
+                                                            <small>Diese Unit hast du gelernt!</small>
+                                                        <a href="{%url 'statistic-units' pk=unit_fertig.id name_of_unit=unit_fertig%}">Zur Statistik</a>
+                                                        {%endfor%}
+                                                    </li>
+
+                                                {%endfor%}
+
+
+                                        {%else%}
+
+                                                {%for key3, val in value.items%}
+
+                                                        <li class="list-group-item hidden-units" style="background-color:transparent;">
+                                                            <a href="{%url 'unit-words' pk=key3.id name_of_unit=key3%}">{{key3}}</a>
+                                                         {%for unit_fertig in val%}
+                                                                <small>Diese Unit hast du gelernt!</small>
+                                                            <a href="{%url 'statistic-units' pk=unit_fertig.id name_of_unit=unit_fertig%}">Zur Statistik</a>
+                                                            {%endfor%}
+                                                        </li>
+
+                                                    {%endfor%}
+
+                                                {%endif%}
+                                           {%endfor%}
+
+
+                                        </ul>
+
+                                {%else%} <!-- for non authenticated-->
+                                    {%for value in values%}
+                                        {%if forloop.counter < 2%}
+                                            <li class="list-group-item" style="background-color:transparent;"><a
+                                                href="{%url 'unit-words' pk=value.id name_of_unit=value%}">{{value}}</a></li>
+
+                                        {%else%}
+                                             <li class="list-group-item hidden-units" style="background-color:transparent;"><a
+                                                href="{%url 'unit-words' pk=value.id name_of_unit=value%}">{{value}}</a></li>
+                                        {%endif%}
+
+                                    {%endfor%}
+
+                                {%endif%}
+                            </ul>
+                        </div>
+                    {%endfor%}
+
+                    {%if result|length > 1%}
+                        <button class="btn" id="show-all-units">Alle Units anzeigen</button>
+                    {%endif%}
+
+
+          {%elif key == 'posts'%}
+
+            {%for key2, values in result.items%}
+            <div id="{{key}}-{{key2}}">
+                    <ul class="list-group">
+                        <li class="toleranz">{{key2}}</li>
+                            <ul class="list-group">
+                                {%for post in values%}
+                                {%if forloop.counter <= 3%}
+                                      <div style="background-image: linear-gradient(to right, white, rgb(102, 204, 255)); ;border-color:#66ff33; border-width: 2px; border-radius: 8px 8px 8px 8px; ">
+                                       <article class="media content-section">
+                                          <img class="rounded-circle article-img" height="100" width="100" src="{{ post.author.profile.image.url }}">
+                                          <div class="media-body">
+                                            <div class="article-metadata">
+                                              <a class="mr-2 text-secondary" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                                              <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                                            </div>
+                                            <h5><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
+                                            <p class="article-content">{{ post.content }}</p>
+                                          </div>
+                                        </article>
+                                        </div>
+                                {%else%}
+                                     <div class="hidden" style="background-image: linear-gradient(to right, white, rgb(102, 204, 255)); ;border-color:#66ff33; border-width: 2px; border-radius: 8px 8px 8px 8px; ">
+                                   <article class="media content-section">
+                                      <img class="rounded-circle article-img" height="100" width="100" src="{{ post.author.profile.image.url }}">
+                                      <div class="media-body">
+                                        <div class="article-metadata">
+                                          <a class="mr-2 text-secondary" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                                          <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                                        </div>
+                                        <h5><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
+                                        <p class="article-content">{{ post.content }}</p>
+                                      </div>
+                                    </article>
+                                    </div>
+
+                                {%endif%}
+
+                                {%endfor%}
+                                {%if values|length > 3%}
+                                <button class="btn" id="show-all-posts">Alle Posts anzeigen</button>
+                                {%endif%}
+                            </ul>
+                    </ul>
+                </div>
+            {%endfor%}
+
+        {%else%}
+
+            {%for key2, values in result.items%}
+            <div id="{{key}}-{{key2}}">
+                    <ul class="list-group">
+                        <li class="toleranz">{{key2}}</li>
+                            <ul class="list-group">
+                                {%if key == 'sprache'%}
+                                    {%for value in values%}
+                                        <li class="list-group-item" style="background-color:transparent;">
+                                            <a href="{%url 'schule_sprache_units' schule_pk=0 sprache_pk=value.id%}">{{value}}</a>
+                                        </li>
+                                    {%endfor%}
+                                {%elif key == 'schule'%}
+                                    {%for value in values%}
+                                        <li class="list-group-item" style="background-color:transparent;">
+                                            <a href="{%url 'schule_sprache_units' schule_pk=value.id sprache_pk=0%}">{{value}}</a>
+                                        </li>
+                                    {%endfor%}
+                                {%endif%}
+
+                            </ul>
+                    </ul>
+                </div>
+            {%endfor%}
+
+        {%endif%}
+
+
+    {%endfor%}
+
+        </div>
+        <div class="col-sm-3">
+            <div id="toleranzfield">
+            <h3 class="text-muted">Toleranz <small >*</small></h3>
+            </div>
+            <input id="toleranzinput" type="number" min="5" max="100" style="height: 40px; width: 50px;">%
+            <p class="text-muted" id="toleranztext">Die Toleranz bestimmt, wie viele Ergebnisse dir angezeigt werden. Jedes Ergebnis bekommt eine Wertung
+                (von 0 bis 100 % Übereinstimmung mit dem, was du eingegeben hast). Hier kannst du entscheiden, bis zu welcher %-Zahl dir
+                Ergebnisse angezeigt werden. (Auswahl: von 5-100 %)</p>
+             {%else%}
+                <p>Suche zu ungenau, gib mehr als einen Buchstaben an</p>
+             {%endif%}
+        </div>
+    </div>
+
+</div>
+
+
+{%endblock content%}

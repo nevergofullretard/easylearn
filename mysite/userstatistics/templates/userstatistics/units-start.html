@@ -1,0 +1,196 @@
+{% extends "about/header.html" %}
+
+{% block jquery %}
+var endpoint = '/statistics/api/{{pk}}/{{ name_of_unit }}/data/'
+var defaultData = []
+var labels = []
+
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels = data.labels
+        defaultData = data.default
+
+        var ctx = document.getElementById("Chart1");
+
+        var Chart1 = new Chart(ctx, {
+        type: 'pie',
+        data: {
+        labels: labels,
+        datasets: [{
+            label: '# of Votes',
+            data: defaultData,
+
+             backgroundColor: [
+                'rgba(0, 255, 0, 0.6)',
+                'rgba(255, 99, 132, 0.6)',
+
+            ],
+            borderColor: [
+                'rgba(0, 255, 0, 1)',
+                'rgba(255,99,132,1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+    },
+        error: function(error_data){
+            console.log("error")
+            console.log(error_data)
+        }
+    })
+$('#new_words').hide()
+
+        $('#new_words_button').click(function(){
+            $('#new_words').slideToggle()
+        });
+{% endblock %}
+
+
+{% block content %}
+
+<script>
+    $(document).ready(function(){
+var getLink = window.location.hash;
+    if(getLink){
+       $("html, body").animate({ scrollTop: $(getLink).offset().top -60}, 1000);
+    $('#' + getLink.slice(1) + '').attr('style','border-left: 10px solid #56BB86;');
+    };
+
+    window.addEventListener('hashchange', function(e){
+        var getLink = window.location.hash;
+        if(getLink){
+           $("html, body").animate({ scrollTop: $(getLink).offset().top -60}, 1000);
+           $( ".words" ).each(function() {
+              $(this).removeAttr('style')
+              });
+              $('#' + getLink.slice(1) + '').attr('style', 'border-left: 10px solid #56BB86;');
+    }
+    });
+
+var availableColleges = [
+  {% for clg in words %}
+      {
+        value: "#{{clg.id}}",
+        label: "{{clg.word.italienisch}}--Zeile {{ forloop.counter }}"
+      },
+      {
+        value: "#{{clg.id}}",
+        label: "{{clg.word.deutsch}}--Zeile {{ forloop.counter }}"
+      },
+  {% endfor %}
+  ];
+
+
+  $( "#search_word" ).autocomplete({
+    source: availableColleges,
+
+    select: function( event, ui ) {
+
+                    var getLink = ui.item.value;
+                if(getLink){
+                   $("html, body").animate({ scrollTop: $(getLink).offset().top -60}, 1000);
+                       window.location.href = ui.item.value;
+                    $( ".words" ).each(function() {
+                        $(this).removeAttr('style')
+                      });
+                   $('#' + getLink.slice(1) + '').attr('style','border-left: 10px solid #56BB86;');
+                    ui.item.value = ""
+            }
+        },
+     position: {
+        offset: '0 30' // Shift 20px to the left, 4px down.
+    },
+    });
+});
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Statistik von {{ request.user }}, {{ name_of_unit }}</h2>
+    </div>
+
+    <div class="col-sm-6">
+        <canvas id="Chart1" width="400" height="400"></canvas>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm"><h5>{{words|length}} von {{all_words|length}} Wörter gelernt</h5></div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    {%if outstanding_words%}
+                        {%if name_of_unit == current_unit%}
+                            <a href="{%url 'users-lernweg'%}">Gut so, bleib dran!</a>
+                        {%else%}
+                            <button id="new_words_button" class="btn btn-success">Neue Wörter!</button>
+                                <p style="font-size:13px;" class="text-muted">Das bedeutet, die neuen Wörter kannst du beim Lernweg üben, wenn du eine neue Unit auswählst!</p>
+                            <ul class="list-group" id="new_words">
+                            {%for wrd in outstanding_words%}
+                                <li class="list-group-item"><a href="{%url 'unit-words' pk=wrd.unit_name.id name_of_unit=wrd.unit_name%}#{{wrd.id}}">{{wrd}} - {{wrd.deutsch}}</a></li>
+                            {%endfor%}
+                                </ul>
+                        {%endif%}
+                    {%endif%}
+                </div>
+                <div class="col-sm">
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'delete-unit' pk=pk name_of_unit=name_of_unit %}">Unit löschen</a></div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <input type="text" id="search_word" class='form-control mr-sm-2' placeholder="Suche ein Wort in der Unit" aria-label="Search"  value = '{{ val }}'>
+            </div>
+        </div>
+
+
+
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <td scope="col"><h4></h4></td>
+                <td scope="col"><h4></h4></td>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for word in words %}
+                <tr id="{{word.id}}" class="words">
+                    {% if word.right == True %}
+                            <td><a href="{%url 'test-zwischenschritt' test_art='richtige' von=word.date bis=word.date unit_ids='0'%}">{{word.date|date:"M d, Y"}}</a></td>
+                            <td class="table-success">{{ word.word.deutsch}}</td>
+                            <td class="table-success">{{ word.word.italienisch }}</td>
+                    {% else %}
+                            <td><a href="{%url 'test-zwischenschritt' test_art='falsche' von=word.date bis=word.date unit_ids='0'%}">{{word.date|date:"M d, Y"}}</a></td>
+                            <td  class="table-danger">{{ word.word.deutsch}}</td>
+                            <td  class="table-danger">{{ word.word.italienisch }}</td>
+                    {% endif %}
+               </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+</div>
+
+
+
+
+{% endblock content %}

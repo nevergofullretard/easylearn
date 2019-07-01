@@ -1,0 +1,95 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+
+<script>
+$(document).ready(function(){
+  $('#textToggle1').hide();
+
+  $('#buttonToggle1').click(function(){
+    $('#textToggle1').slideToggle();
+    });
+
+});
+</script>
+
+<!--<script>-->
+    <!--$(document).ready(function(){-->
+    <!--$("input").keydown(function(event){-->
+    <!--if (event.which == 186) {-->
+    <!--console.log("not allowed")-->
+    <!--}-->
+    <!--});-->
+<!--});-->
+<!--</script>-->
+
+<div class="content-section">
+            <form method="POST">
+                {%  csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Neue Wörter</legend>
+                    <a href="{%url 'new-words-start'%}">Zurück</a>
+                    <small class="text-muted">Immer Wörterpaare eingeben, ein einzelnes Wort wird nicht gesendet. |</small>
+                    <small class="text-muted">Achtung! ";" ist im Wort nicht erlaubt!</small>
+                    <small> | <a href="{%url 'new-words-user'%}">Neue Unit hinzufügen?</a></small>
+
+                    {{  form|crispy }}
+                    <div class="container">
+                        <button class="btn btn-outline-info" type="submit">Senden</button>
+                        {%for x in range1%}
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm">
+                                    <p>{{x}}</p>
+                                </div>
+                            <div class="col-sm">
+                                <input class="form-control-plaintext" placeholder="Fremdsprache" type='text' maxlength="80" value = '{{ val }}' name='{{x}}fremd'> {{ val }}</input>
+
+                            </div>
+                            <div class="col-sm">
+                                <input class="form-control-plaintext" placeholder="Deutsch" type='text' maxlength="80" value = '{{ val }}' name='{{x}}deutsch'> {{ val }}</input>
+                            </div>
+                            <div class="col-sm">
+                                <input class="form-control-plaintext" placeholder="Sidenote" type='text' maxlength="1000" value = '{{ val }}' name='{{x}}sidenote'> {{ val }}</input>
+                            </div>
+                        </div>
+                        {%endfor%}
+                        <small  id="buttonToggle1">Mehr</small>
+
+                        <div id="textToggle1">
+                            {%for x in range2%}
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <p>{{x}}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <input class="form-control-plaintext" placeholder="Fremdsprache" type='text' maxlength="80" value = '{{ val }}' name='{{x}}fremd'> {{ val }}</input>
+
+                                </div>
+                                <div class="col-sm">
+                                    <input class="form-control-plaintext" placeholder="Deutsch" type='text' maxlength="80" value = '{{ val }}' name='{{x}}deutsch'> {{ val }}</input>
+                                </div>
+                                <div class="col-sm">
+                                <input class="form-control-plaintext" placeholder="Sidenote" type='text' maxlength="1000" value = '{{ val }}' name='{{x}}sidenote'> {{ val }}</input>
+                            </div>
+                             </div>
+                            {%endfor%}
+                        </div>
+
+                    </div>
+
+
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Senden</button>
+                </div>
+            </form>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    <!--Need Help? <a class="ml-2" href="#">Help</a>-->
+                </small>
+            </div>
+
+        </div>
+{% endblock %}

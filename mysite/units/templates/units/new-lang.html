@@ -1,0 +1,24 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+<form method="POST">
+                {%  csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Neue Sprache anfragen</legend>
+                    <small class="text-muted">Hier kannst  du um eine neue Sprache anfragen (Beispiel: Englisch), die Kurzform hat höchstens 3 Buchstaben.</small>
+                    {{  new_lang|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Anfragen</button>
+                </div>
+            </form>
+            <a href="{%url 'new-words-start'%}">Zurück</a>
+
+                    <hr>
+
+                    <small class="text-muted">Die Verarbeitung kann eine Weile dauern, wenn die Sprache ins System integriert ist, kannst du auf eine neue Unit zu dieser Sprache anfragen!</small>
+
+</div> <!-- style="float: left" -->
+
+{% endblock content %}

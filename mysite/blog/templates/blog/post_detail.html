@@ -1,0 +1,117 @@
+{% extends "blog/base.html" %}
+{%  load crispy_forms_tags %}
+
+{% block content %}
+
+<!--<script>-->
+  <!--$(document).ready(function(){-->
+  <!--console.log("{{title}}");-->
+  <!--$("#title").html('{{title}}');-->
+  <!--});-->
+<!--</script>-->
+
+<script>
+i = 0;
+$(document).ready(function(){
+    $('#textToggle1').hide();
+     $('#buttonToggle1').click(function(){
+    $('#textToggle1').slideToggle();
+    });
+
+var availableColleges = [
+  {% for clg in users %}
+      "{{clg}}",
+  {% endfor %}];
+     var title =  $("#title")
+    title.val("@{{object.author}} ");
+
+  $( "#markieren" ).autocomplete({
+    source: availableColleges,
+    select: function( event , ui ) {
+     title.val(title.val() + "@" + ui.item.label + " ");
+    },
+    close: function(el) {
+        el.target.value = '';
+    }
+    });
+
+
+
+});
+</script>
+
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+    <div class="media-body">
+
+      <div class="article-metadata">
+        <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+        <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+        {% if object.author == user %}
+          <div>
+            <small class="text-muted">Zufrieden mit deinem Post?</small>
+            <br>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+          </div>
+        {% endif %}
+      </div>
+      <h4 class="article-title">
+        {%for key, value in title.items%}
+        {%if key in links_all%}
+        <a href="{% url 'user-posts' username=value %}"  style="border-radius: 8px 8px 8px 8px" class="bg-success text-white">@{{value}}</a>
+        {%else%}
+          {{value}}
+        {%endif%}
+        {%endfor%}
+
+      </h4>
+            {%if object.author.is_staff%}
+                    <div class="article-content" id="post-content">{{object.content|safe}}</div>
+              {%else%}
+                    <div class="article-content" id="post-content">{{object.content}}</div>
+              {%endif%}
+
+    </div>
+    <!--<h2>Amadeus testa <p class="bg-success text-white"><a href="{% url "user-posts" username="maxistraif"%}">@maxistraif</a></p>maxistraif </h2>-->
+  </article>
+
+{%if content_form%}
+<center class="text-muted">Du wurdest markiert!</center>
+<p><center class="text-muted" id="buttonToggle1"><button class="btn btn-success"> Zurückschreiben</button></center></p>
+<div class="content-section" id="textToggle1">
+        <form method="POST">
+            {%  csrf_token %}
+            <fieldset class="form-group">
+
+                <legend class="border-bottom mb-4"><small class="text-muted">Du wurdest markiert!</small>
+                  <br>Schreibe zurück</legend>
+
+
+    <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <small>Markieren</small>
+                        <input type="text" class="form-control" id="markieren" placeholder="Markiere Friends">
+                    </div>
+                    <div class="col-sm-9">
+                        <small>Title</small>
+                        <input class="form-control" type="text" id="title" name="title" required contenteditable="true"/>
+                        <small class="text-muted">Bei den markierten Freunden immer ein Leerzeichen danach lassen</small>
+
+                    </div>
+
+
+                </div>
+        </div>
+                    {{  content_form|crispy }}
+
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Zurückschreiben</button>
+
+            </div>
+        </form>
+    </div>
+{%endif%}
+{% endblock content %}

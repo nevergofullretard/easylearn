@@ -1,0 +1,58 @@
+{% extends "about/header.html" %}
+{% block content %}
+
+
+<script>
+$(document).ready(function(){
+  $('#textToggle1').hide();
+  $('#textToggle2').hide();
+
+  $('#buttonToggle1').click(function(){
+    $('#textToggle1').slideToggle();
+    });
+
+  $('#buttonToggle2').click(function(){
+    $('#textToggle2').slideToggle();
+  });
+});
+</script>
+
+
+
+
+<h1 class="bg-info text-white">Unit-Test</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm"><h3>{{ unit }}</h3></div>
+        <div class="col-sm">  <a href="{%url 'unit-words' pk=unit.id name_of_unit=unit %}" target="_blank"><button class="btn btn-success">Zur Unit</button></a></div>
+    </div>
+</div>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Karteikarten</th>
+      <th scope="col">Schriftlich</th>
+    </tr>
+  </thead>
+    <tbody>
+
+    <tr>
+
+        <td><a href="{% url 'unittest-karteikarten' pk=unit.id name_of_unit=unit %}"><button class="btn btn-outline-info">Karteikarten</button></a>
+
+    <p id="textToggle1">Bei der Karteikarten-Methode wirst du  {{request.user.profile.pruefung_voc}} Wörter geprüft, wo du dich jeweils für eine von {{request.user.profile.karteikarten_voc}} Auswahlmgölichkeiten entscheiden kannst! </p> <!-- style="float: left" -->
+    <button class="btn btn-outline-error" id="buttonToggle1">Was ist das?</button>
+        </td>
+        <td><a href="{% url 'unittest-schriftlich' pk=unit.id name_of_unit=unit %}"><button class="btn btn-outline-info">Schriftlich</button></a>
+
+            <p id="textToggle2">Bei der Schriftlichen Methode wirst du jeweils {{request.user.profile.pruefung_voc}} Wörter schriftlich geprüft.</p> <!-- style="float: left" -->
+        <button class="btn btn-outline-error" id="buttonToggle2">Was ist das?</button>
+        </td>
+    </tr>
+
+  </tbody>
+</table>
+
+
+{% endblock content%}

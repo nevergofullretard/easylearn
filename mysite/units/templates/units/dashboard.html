@@ -1,0 +1,18 @@
+{% extends "about/header.html" %}
+{% block content %}
+
+<h1>Dashboard</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <a href="{%url 'anfragen'%}"><button class="btn btn-outline-info" >Anfragen neue Wörter</button></a>
+        </div>
+        <div class="col-sm">
+            <a href="{%url 'anfragen-sonstige'%}"><button class="btn btn-outline-info" >Anfragen Units-Schulen-Sprachen</button></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm"><a href="{%url 'new-words'%}"><button class="btn btn-outline-info">Neue Wörter manuell</button></a></div>
+    </div>
+</div>
+{% endblock content %}

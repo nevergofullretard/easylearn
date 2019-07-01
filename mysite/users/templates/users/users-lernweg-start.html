@@ -1,0 +1,72 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+
+
+<script>
+$(document).ready(function(){
+  $('#textToggle1').hide();
+  $('#textToggle2').hide();
+
+  $('#buttonToggle1').click(function(){
+    $('#textToggle1').slideToggle();
+    });
+
+  $('#buttonToggle2').click(function(){
+    $('#textToggle2').slideToggle();
+  });
+});
+</script>
+
+
+
+<h3 class="bg-info text-white">Hallo {{ request.user }}, du bist gerade bei {{ info }}!</h3>
+
+<table class="table table-striped">
+  <thead class="thead text-white" style="background-color: blue; background-image: linear-gradient(to left, rgb(51, 153, 255, 0.7), blue);">
+    <tr>
+      <th scope="col">{{info.sprache.sprache_lang}}</th>
+      <th scope="col">Deutsch</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for word in words %}
+        <tr>
+            <td>{{ word }}</td>
+            <td>{{ word.deutsch }}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h5><b>Merke dir die Wörter gut! Du wirst sie gleich geprüft!</b></h5><br> <!-- style="float: right" -->
+
+<table class="table">
+  <thead class="thead text-white" style="background-color: blue; background-image: linear-gradient(to right, rgb(51, 153, 255, 0.7), blue);">
+    <tr>
+      <th scope="col">Karteikarten</th>
+      <th scope="col">Schriftlich</th>
+    </tr>
+  </thead>
+    <tbody>
+
+    <tr>
+        <td><a href="{% url 'method-karteikarten' %}"><button class="btn btn-outline-info">Karteikarten</button></a>
+
+    <p id="textToggle1">Bei der Karteikarten-Methode wirst du  {{request.user.profile.pruefung_voc}} Wörter geprüft, wo du dich jeweils für eine von {{request.user.profile.karteikarten_voc}} Auswahlmgölichkeiten entscheiden kannst! </p> <!-- style="float: left" -->
+    <button class="btn btn-outline-error" id="buttonToggle1">Was ist das?</button>
+        </td>
+        <td><a href="{% url 'method-schriftlich' %}"><button class="btn btn-outline-info">Schriftlich</button></a>
+            <p id="textToggle2">Bei der Schriftlichen Methode wirst du jeweils {{request.user.profile.pruefung_voc}} Wörter schriftlich geprüft.</p> <!-- style="float: left" -->
+        <button class="btn btn-outline-error" id="buttonToggle2">Was ist das?</button>
+        </td>
+    </tr>
+    <tr>
+        <td><a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'cancel-unit' %}">Unit abbrechen</a></td>
+    </tr>
+  </tbody>
+
+</table>
+
+
+{% endblock %}

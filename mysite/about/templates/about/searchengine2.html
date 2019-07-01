@@ -1,0 +1,282 @@
+{% extends "about/header.html" %}
+{% block content %}
+
+
+
+<script>
+$(document).ready(function(){
+
+    console.log($(window).width()-$("nav").width());
+    console.log($("nav").width())
+    {%if request.user.is_authenticated%}
+        $('#toleranzinput').val({{request.user.profile.toleranz}})
+    {%else%}
+     $('#toleranzinput').val(51)
+     {%endif%}
+     $('#toleranztext').hide();
+    $('#toleranzfield').click(function() {
+    $('#toleranztext').slideToggle();
+    });
+
+    $(".toleranz").each(function(){
+        <!--console.log($(this).attr("content"));-->
+        if(Number($(this).attr("content")) < $('#toleranzinput').val()){
+         $(this).removeClass("show");
+        $(this).addClass("full-hide");
+        $(this).hide()
+        } else {
+        $(this).removeClass("full-hide");
+        $(this).addClass("show");
+        };
+    });
+
+        $(".alle-anzeigen").each(function(){
+            var button = $(this)
+            var id = $(this).attr('id')
+            var contentToShow = $("." + id + ".show")
+            if (contentToShow.length == 0){
+                $("h5." + id).hide()
+            };
+            if (contentToShow.length > 3){
+                button.show()
+            } else {
+                button.hide()
+            };
+
+                contentToShow.each(function(index, value){
+                $(this).removeClass("hide-temporary")
+                if (index > 2) {
+                    $(this).addClass("hide-temporary")
+                    $(this).hide()
+                };
+                    console.log($(this).text() + index)
+
+                });
+            });
+
+
+     $("#toleranzinput").on("input", function() {
+         if ($(this).val() > 100) {
+            $(this).val(100)
+         } else if ($(this).val() < 0){
+            $(this).val(1)
+         }
+           console.log($(this).val());
+
+             $(".toleranz").each(function(){
+                <!--console.log($(this).attr("content"));-->
+                if(Number($(this).attr("content")) < $('#toleranzinput').val()){
+                 $(this).removeClass("show");
+                $(this).addClass("full-hide");
+                $(this).hide()
+                } else {
+                $(this).removeClass("full-hide");
+                $(this).addClass("show");
+                $(this).show()
+                };
+            });
+
+          $(".alle-anzeigen").each(function(){
+            var button = $(this)
+            var id = $(this).attr('id')
+            var contentToShow = $("." + id + ".show")
+
+            if (contentToShow.length == 0){
+                $("h5." + id).hide()
+            } else {
+                $("h5." + id).show()
+            };
+            if (contentToShow.length > 3){
+                button.show()
+            } else {
+                button.hide()
+            };
+
+                contentToShow.each(function(index, value){
+                $(this).removeClass("hide-temporary")
+                if (index > 2) {
+                    $(this).addClass("hide-temporary")
+                    $(this).hide()
+                };
+                    console.log($(this).text() + index)
+
+                });
+            });
+         });
+
+    $(".alle-anzeigen").each(function(){
+        $(this).click(function(){
+            $("." + $(this).attr('id') + ".hide-temporary").each(function(){
+                $(this).slideToggle();
+            });
+        });
+    });
+
+    });
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <h2>Ergebnisse für "{{input}}"</h2>
+            {%if results%}
+
+
+
+                {%for key, result in results.items%}
+
+                    <h5 class="text-muted {{key}}">Ergebnisse in {{key}}</h5>
+                    {%if key == 'words'%}
+                         <ul class="list-group" >
+                        {%if request.user.is_authenticated%}
+                            {%for value, probability in result.items%}
+                                {%for prob, query in probability.items%}
+                                    <li content="{{prob}}" class="list-group-item toleranz {{key}}" >
+                                        <span class="bg-warning">{{value.italienisch}} - {{value.deutsch}}</span>
+                                        (<a
+                                        href="{%url 'unit-words' pk=value.unit_name.id name_of_unit=value.unit_name%}"> in {{value.unit_name}}</a> |
+                                            <a href="{%url 'unit-words' pk=value.unit_name.id name_of_unit=value.unit_name%}#{{value.id}}">zum Wort</a>)
+
+
+                                    {%if query%}
+                                        {%for val in query%}
+
+                                         <small>Dieses Wort hast du gelernt!</small>
+                                                {%if val.right == True%}
+                                                        <a href="{%url 'statistic-units' pk=val.word.unit_name.id name_of_unit=val.word.unit_name%}#{{val.id}}" style="background-color:green; border-radius:5px;" class="text-white">
+                                                            zum Wort
+                                                        </a>
+
+                                                {%else%}
+                                                     <a href="{%url 'statistic-units' pk=val.word.unit_name.id name_of_unit=val.word.unit_name%}#{{val.id}}" style="background-color:red; border-radius:5px;" class="text-white">
+                                                        zum Wort
+                                                     </a>
+
+                                                {%endif%}
+                                        {%endfor%}
+                                    {%endif%}
+                                {%endfor%}
+                              </li>
+
+                            {%endfor%}
+                                <li  class="list-group-item alle-anzeigen " id="{{key}}" ><center><button class="btn btn-success">Alle anzeigen</button></center></li>
+                        {%else%}
+                            {%for value, probability in result.items%}
+                                <li class="list-group-item toleranz {{key}}" content="{{probability}}">
+
+                                        <span class="bg-warning">{{value.italienisch}} - {{value.deutsch}}</span>
+                                        (<a
+                                        href="{%url 'unit-words' pk=value.unit_name.id name_of_unit=value.unit_name%}"> in {{value.unit_name}}</a> |
+                                            <a href="{%url 'unit-words' pk=value.unit_name.id name_of_unit=value.unit_name%}#{{value.id}}">zum Wort</a>)
+
+                                </li>
+                            {%endfor%}
+                             <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success" >Alle anzeigen</button></center></li>
+                        {%endif%}
+                         </ul>
+                    {%elif key == 'units'%}
+                        <ul class="list-group" >
+                        {%if request.user.is_authenticated%}
+                            {%for value, probability in result.items%}
+                                 {%for prob, query in probability.items%}
+                                    <li class="list-group-item toleranz {{key}}" content="{{prob}}">
+
+                                        <a href="{%url 'unit-words' pk=value.id name_of_unit=value%}">{{value}}</a>
+
+                                    {%if query%}
+                                        {%for val in query%}
+                                        {% if forloop.counter == 1%}
+                                         <small>Diese Unit hast du gelernt!</small>
+                                         <a href="{%url 'statistic-units' pk=val.word.unit_name.id name_of_unit=val.word.unit_name%}">Zur Statistik</a>
+                                        {%endif%}
+                                        {%endfor%}
+                                    {%endif%}
+                                    </li>
+                                {%endfor%}
+
+                            {%endfor%}
+                            <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success">Alle anzeigen</button></center></li>
+                        {%else%}
+                            {%for value, probability in result.items%}
+                                <li class="list-group-item toleranz {{key}}" content="{{probability}}">
+                                    <a href="{%url 'unit-words' pk=value.id name_of_unit=value%}">{{value}}</a>
+                                </li>
+                            {%endfor%}
+                            <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success ">Alle anzeigen</button></center></li>
+                        {%endif%}
+                        </ul>
+                    {%elif key == 'posts'%}
+                    <ul class="list-group" >
+                        {%for post, probability in result.items%}
+                            <li class="list-group-item toleranz {{key}}" content="{{probability}}">
+                                  <div style="background-image: linear-gradient(to right, white, rgb(102, 204, 255)); ;border-color:#66ff33; border-width: 2px; border-radius: 8px 8px 8px 8px; ">
+                                       <article class="media content-section">
+                                          <img class="rounded-circle article-img" height="100" width="100" src="{{ post.author.profile.image.url }}">
+                                          <div class="media-body">
+                                            <div class="article-metadata">
+                                              <a class="mr-2 text-secondary" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                                              <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                                            </div>
+                                            <h5><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
+                                              {%if post.author.is_staff%}
+                                            <p class="article-content">{{ post.content|safe }}</p>
+                                              {%else%}
+                                              <p class="article-content">{{ post.content }}</p>
+                                              {%endif%}
+                                          </div>
+                                        </article>
+                                        </div>
+                            </li>
+                        {%endfor%}
+                        <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success" >Alle anzeigen</button></center></li>
+                    </ul>
+                    {%elif key == 'sprache'%}
+                     <ul class="list-group" >
+                        {%for value, probability in result.items%}
+                            <li class="list-group-item toleranz {{key}}" content="{{probability}}">
+                                 <a href="{%url 'schule_sprache_units' schule_pk=0 sprache_pk=value.id%}">{{value.sprache_lang}}</a>
+                            </li>
+                        {%endfor%}
+                        <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success">Alle anzeigen</button></center></li>
+                          <ul class="list-group" >
+                    {%elif key == 'schule'%}
+                        {%for value, probability in result.items%}
+                            <li class="list-group-item toleranz {{key}}" content="{{probability}}">
+                                <a href="{%url 'schule_sprache_units' schule_pk=value.id sprache_pk=0%}">{{value}}</a>
+                            </li>
+                        {%endfor%}
+                            <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success" >Alle anzeigen</button></center></li>
+                          </ul>
+                    {%endif%}
+
+
+                {%endfor%}
+
+
+
+
+
+        </div>
+        <div class="col-sm-3">
+            <div id="toleranzfield">
+            <h3 class="text-muted">Toleranz <small >*</small></h3>
+            </div>
+            <input id="toleranzinput" type="number" min="5" max="100" style="height: 40px; width: 50px;"> %
+            <p class="text-muted" id="toleranztext">Die Toleranz bestimmt, wie viele Ergebnisse dir angezeigt werden. Jedes Ergebnis bekommt eine Wertung
+                (von 0 bis 100 % Übereinstimmung mit dem, was du eingegeben hast). Hier kannst du entscheiden, bis zu welcher %-Zahl dir
+                Ergebnisse angezeigt werden. (Auswahl: von 5-100 %)</p>
+             {%else%}
+                <p>Suche zu ungenau, gib mehr als einen Buchstaben an</p>
+             {%endif%}
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+{% endblock content %}

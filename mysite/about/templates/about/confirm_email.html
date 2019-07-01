@@ -1,0 +1,6 @@
+{%if confirm_email%}
+    <div class="alert alert-info alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h5>Bestätige deine E-Mail Adresse! <small><a href="{% url 'confirm-start' %}">Erneut senden</a></small></h5>
+    </div>
+{%endif%}

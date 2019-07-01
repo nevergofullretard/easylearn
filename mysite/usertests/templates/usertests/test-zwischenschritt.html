@@ -1,0 +1,73 @@
+{% extends "about/header.html" %}
+{% block content %}
+<script>
+    $(document).ready(function(){
+        {%for unit, words in units.items%}
+            $("#{{unit.id}}-words").hide();
+
+            $("#{{unit.id}}-button").click(function(){
+            $("#{{unit.id}}-words").slideToggle();
+            });
+        {%endfor%}
+
+    })
+</script>
+
+
+    {%if not units%}
+        {%if test_art == "alle"%}
+                <p>Von <b>{{von}}</b> bis <b>{{bis}}</b> sind keine Wörter gefunden worden, die du geübt hast.</p>
+
+        {%elif test_art == "falsche"%}
+                <p>Von <b>{{von}}</b> bis <b>{{bis}}</b> sind keine <b>falschen</b> Wörter gefunden worden, die du geübt hast.</p>
+
+        {%elif test_art == "richtige"%}
+                <p>Von <b>{{von}}</b> bis <b>{{bis}}</b> sind keine <b>richtigen</b> Wörter gefunden worden, die du geübt hast.</p>
+
+        {%endif%}
+        <a href="{%url 'fehlertest-start-really'%}">Zurück</a>
+
+    {%else%}
+{%if test_art == "alle"%}
+    <h4 class="text-muted">-> Alle Wörter</h4>
+    {%elif test_art == "falsche"%}
+    <h4 class="text-muted">-> Nur falsche Wörter</h4>
+
+    {%elif test_art == "richtige"%}
+    <h4 class="text-muted">-> Nur richtige Wörter</h4>
+{%endif%}
+    <h5>In dem Zeitraum von {{von}} bis {{bis}} gibt es mehrere Units</h5>
+    <small class="text-muted">Hier kannst du auswählen, von welchen Units du dich die Wörter prüfen möchtest</small><br>
+
+
+
+
+        <form method="POST"> {%  csrf_token %}
+                <fieldset class="form-group">
+            <ul>
+
+        {%for unit, words in units.items%}
+             <li><input type="checkbox" name="units" value="{{unit.id}}"> Wörter von {{unit}}, <b id="{{unit.id}}-button">Wörter dazu -> hier klicken</b></li>
+
+                <ul class="list-group" id="{{unit.id}}-words">
+                    {%for word in words%}
+                    {%if word.right%}
+                    <li class="list-group-item">
+                        <p style="color:green;">{{word.word.italienisch}} - {{word.word.deutsch}}</p>
+                    </li>
+                    {%else%}
+                    <li class="list-group-item">
+                        <p style="color:red;">{{word.word.italienisch}} - {{word.word.deutsch}}</p>
+                    </li>
+                    {%endif%}
+                 {%endfor%}
+
+                </ul>
+        {%endfor%}
+            </ul>
+                </fieldset>
+            <button class="btn btn-outline-info" type="submit">Teste mich!</button>
+
+        </form>
+    {%endif%}
+{% endblock content%}

@@ -1,0 +1,143 @@
+{% extends "about/header.html" %}
+{% block content %}
+
+<script>
+$(document).ready(function(){
+    $( ".hidden" ).each(function() {
+         $(this).hide()
+     });
+      $('.show').click(function(){
+            $( ".hidden" ).slideToggle()
+        });
+
+
+    $( ".hidden_schule_or_sprache" ).each(function() {
+             $(this).hide()
+         });
+    $('.show_schule_or_sprache').click(function(){
+                $( ".hidden_schule_or_sprache" ).slideToggle()
+            });
+
+
+
+     $( ".hidden_schule" ).each(function() {
+                 $(this).hide()
+             });
+       $('.show_schule').click(function(){
+                    $( ".hidden_schule" ).slideToggle()
+                });
+
+     $( ".hidden_sprache" ).each(function() {
+                 $(this).hide()
+             });
+       $('.show_sprache').click(function(){
+                    $( ".hidden_sprache" ).slideToggle()
+                });
+
+    });
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h2>Unit-Suche</h2>
+        <h3 style="background-color: #416df4" class="text-white">{{schule}}  {{sprache.sprache_lang}}</h3>
+            {%if not sprachen and not schulen and not units%}
+        <p>Sorry, aber hierzu gibt es (noch) keine Units <a href="{%url 'schule_sprache_units' schule_pk=0 sprache_pk=0%}">Zurück</a></p>
+
+    {%endif%}
+        </div>
+
+        </div>
+    <div class="row">
+        {% if units %}
+
+                <div class="col-sm">
+                    <ul class="list-group">
+                        {%for unit in units%}
+                            {%if forloop.counter <= 8%}
+                                <li class="list-group-item"><a href="{%url 'unit-words' pk=unit.id name_of_unit=unit%}">{{unit}}</a></li>
+                            {%else%}
+                                <li class="list-group-item hidden"><a href="{%url 'unit-words' pk=unit.id name_of_unit=unit%}">{{unit}}</a></li>
+                            {%endif%}
+                        {%endfor %}
+                        {%if units|length > 8%}
+                            <button class="btn show">Alle anzeigen</button>
+                        {%endif%}
+                    </ul>
+
+
+
+                </div>
+        {%endif %}
+
+        {%if schulen and not sprachen%}
+            <div class="col-sm">
+                <center><button class="btn btn-warning show_schule_or_sprache">Zusätzlich nach Schulen filtern</button></center>
+
+                <ul class="list-group hidden_schule_or_sprache">
+                    {%for school in schulen%}
+                    <li class="list-group-item"><a href="{%url 'schule_sprache_units' schule_pk=school.id sprache_pk=sprache.id%}">{{school}}</a></li>
+                    {%endfor %}
+                </ul>
+
+             </div>
+        {%endif %}
+
+        {%if sprachen and not schulen%}
+            <div class="col-sm">
+                    <center><button class="btn btn-warning show_schule_or_sprache">Zusätzlich nach Sprachen filtern</button></center>
+
+                <ul class="list-group hidden_schule_or_sprache">
+                    {%for lang in sprachen%}
+                        <li class="list-group-item"><a href="{%url 'schule_sprache_units' schule_pk=schule.id sprache_pk=lang.id%}">{{lang.sprache_lang}}</a></li>
+                    {%endfor %}
+                </ul>
+
+            </div>
+        {%endif %}
+
+
+
+    </div>
+        {%if sprachen and  schulen and not units%}
+    <div class="row">
+        <div class="col-sm">
+            <h4>Schulen</h4>
+                <ul class="list-group">
+                    {%for school in schulen%}
+                        {%if forloop.counter <= 5%}
+                            <li class="list-group-item"><a href="{%url 'schule_sprache_units' schule_pk=school.id sprache_pk=0%}">{{school}}</a></li>
+                        {%else%}
+                         <li class="list-group-item hidden_schule"><a href="{%url 'schule_sprache_units' schule_pk=school.id sprache_pk=0%}">{{school}}</a></li>
+                        {%endif%}
+                    {%endfor %}
+                    {%if schulen|length > 5%}
+                        <button class="btn show_schule">Alle anzeigen</button>
+                    {%endif%}
+                </ul>
+        </div>
+        <div class="col-sm">
+            <h4>Sprachen</h4>
+            <ul class="list-group ">
+                    {%for lang in sprachen%}
+                        {%if forloop.counter <= 5%}
+                                <li class="list-group-item"><a href="{%url 'schule_sprache_units' schule_pk=0 sprache_pk=lang.id%}">{{lang.sprache_lang}}</a></li>
+                        {%else%}
+                            <li class="list-group-item hidden_sprache"><a href="{%url 'schule_sprache_units' schule_pk=0 sprache_pk=lang.id%}">{{lang.sprache_lang}}</a></li>
+                        {%endif%}
+                    {%endfor %}
+                {%if sprachen|length > 5%}
+                    <button class="btn show_sprache">Alle anzeigen</button>
+                {%endif%}
+                </ul>
+        </div>
+    </div>
+
+        {%endif %}
+
+
+</div>
+
+
+{%endblock content%}

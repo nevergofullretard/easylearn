@@ -1,0 +1,54 @@
+
+<script>
+$(document).ready(function(){
+  $("#all_posts").hide();
+
+  $('#buttonToggle1').click(function(){
+    $("#all_posts").slideToggle();
+    var x = document.getElementsById("all_posts")
+    console.log(x);
+    });
+
+});
+</script>
+
+{%if posts%}
+    <div class="content-section bg-success">
+        <h4 class='text-white'><br /><center>Community</center></h4>
+        {%if anzahl == 1%}
+        <small class="text-white"><center><b>Du wurdest in einem Post markiert!</b></center></small>
+        <br>
+        {%else%}
+        <small class="text-white"><center><b>Du wurdest in {{anzahl}} Posts markiert!</b></center></small>
+        <br>
+        {%endif%}
+        {%for post in posts%}
+
+              <div  style="border-radius: 8px 8px 8px 8px; background-color: #66ff66">
+                <div class="article-metadata">
+                  <a class="text" href="{% url 'user-posts' post.author.username %}"><b>{{ post.author }}</b></a>
+                  <small class="text-muted">  -  {{ post.date_posted|date:"F d, Y" }}</small>
+                </div>
+                <p><a class="article-title text-secondary" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></p>
+              </div>
+
+        {%endfor%}
+
+
+            {%if all_posts%}
+                <small  id="buttonToggle1" class="text-white"><center>Alle Posts</center></small>
+
+            <div id="all_posts">
+            {%for post in all_posts%}
+            <div  style="border-radius: 8px 8px 8px 8px; background-color: #66ff66">
+                <div class="article-metadata">
+                   <a class="text-secondary" href="{% url 'user-posts' post.author.username %}"><b>{{ post.author }}</b> - </a>
+                  <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                </div>
+                <p><a class="article-title text-secondary" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></p>
+              </div>
+            {%endfor%}
+                </div>
+        {%endif%}
+    </div>
+{%endif%}

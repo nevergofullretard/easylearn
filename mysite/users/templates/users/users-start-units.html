@@ -1,0 +1,12 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+
+<!-- action="." -->
+
+<form method="POST"> {%csrf_token %}
+    {{ form|crispy }}
+    <button class="btn btn-outline-info" type="submit">Weiter</button>
+</form>
+
+{% endblock content %}

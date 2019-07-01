@@ -1,0 +1,45 @@
+{% extends "about/header.html" %}
+{% block content %}
+
+<h3>Alle Units</h3>
+
+{% for schule_key, schule_data in units_all.items %}
+
+<table class="table table-striped">
+    <thead class="thead-light" align="center">
+    <tr>
+        <th align="center">{{schule_key}}</th>
+        <th> </th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+        {%for sprache_key, sprache_data in schule_data.items%}
+            <tr>
+                <td bgcolor="#4169E1", class="text-white"><b>{{sprache_key}}</b></td>
+                <td bgcolor="#66B2FF"> </td>
+                <!--<td>{{sprache_data}} </td>-->
+            </tr>
+
+            {% for units in sprache_data %}
+                <tr>
+                    {%for item in units %}
+
+                    {% if item == ' ' %}
+                    <td> </td>
+                    {% else %}
+                        <td><a href="{% url 'unit-words' pk=item.id name_of_unit=item %}">{{item}}</a></td>
+                    {% endif %}
+
+                    {%endfor%}
+                </tr>
+            {%endfor%}
+
+        {%endfor%}
+
+    </tbody>
+</table>
+{% endfor %}
+
+{% endblock content%}

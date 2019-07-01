@@ -1,0 +1,172 @@
+{% extends "about/header.html" %}
+{% block content %}
+
+
+
+<h2>Unit-Test</h2>
+<small class="text-muted">Hier werden nur ganze Units geprüft</small>
+{%if current_unit%}
+<div class="container">
+    <div class="row" style="background-color: #0698f9">
+        <div class="col-sm-3" ><p class="text-white"><b>Jetzige Unit:</b></p></div>
+        <div class="col-sm-9"><a href="{% url 'unittest-method' pk=current_unit.id name_of_unit=current_unit%}" class="text-white"><h5>{{current_unit}}</h5></a></div>
+    </div>
+</div>
+{%endif%}
+
+{%if not units_latest%}
+{%else%}
+<table class="table table-striped">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col"><center>Deine Units</center></th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for left,right in units_latest %}
+       {% if left == ' ' %}
+                <tr>
+                    <td> </td>
+                    <td><a  href="{% url 'unittest-method' pk=right.id name_of_unit=right%}">{{right}}</a></td>
+                </tr>
+
+      {%elif right == ' '%}
+        <tr>
+            <td><a  href="{% url 'unittest-method' pk=left.id name_of_unit=left%}">{{left}}</a></td>
+            <td> </td>
+
+        </tr>
+      {%else%}
+      <tr>
+          <td><a href="{% url 'unittest-method' pk=left.id name_of_unit=left%}">{{left}}</a></td>
+            <td><a href="{% url 'unittest-method' pk=right.id name_of_unit=right%}">{{right}}</a></td>
+      </tr>
+      {% endif %}
+       {% endfor %}
+
+
+
+  </tbody>
+</table>
+
+{%endif%}
+
+{%if not similar_units %}
+
+    {%if not andere_units_schule %}
+
+    {%else%}
+        <table class="table table-striped">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Ähnliche Units für dich</th>
+              <th scope="col"></th>
+
+            </tr>
+          </thead>
+          <tbody>
+              {% for left,right in andere_units_schule %}
+              {% if right == ' ' %}
+                <tr>
+                    <td><a  href="{% url 'unittest-method' pk=left.id name_of_unit=left %}">{{left}}</a></td>
+                    <td> </td>
+                </tr>
+              {% elif left == ' ' %}
+                <tr>
+                    <td><a  href="{% url 'unittest-method' pk=right.id name_of_unit=right %}">{{right}}</a></td>
+                    <td> </td>
+                </tr>
+            {% else %}
+              <tr>
+                  <td><a href="{% url 'unittest-method' pk=left.id name_of_unit=left %}">{{left}}</a></td>
+                    <td><a href="{% url 'unittest-method' pk=right.id name_of_unit=right %}">{{right}}</a></td>
+              </tr>
+              {% endif %}
+       {% endfor %}
+
+
+
+  </tbody>
+</table>
+    {% endif %}
+{%else%}
+<table class="table table-striped">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Ähnliche Units für dich</th>
+      <th scope="col"></th>
+
+    </tr>
+  </thead>
+  <tbody>
+      {% for left,right in similar_units %}
+       {% if left == ' ' %}
+            <tr>
+                <td><a  href="{% url 'unittest-method' pk=right.id name_of_unit=right %}">{{right}}</a></td>
+                <td></td>
+            </tr>
+      {% elif right == ' ' %}
+                <tr>
+                    <td><a  href="{% url 'unittest-method' pk=left.id name_of_unit=left %}">{{left}}</a></td>
+                    <td></td>
+                </tr>
+        {% else %}
+          <tr>
+              <td><a href="{% url 'unittest-method' pk=left.id name_of_unit=left %}">{{left}}</a></td>
+                <td><a href="{% url 'unittest-method' pk=right.id name_of_unit=right %}">{{right}}</a></td>
+          </tr>
+      {% endif %}
+       {% endfor %}
+
+
+
+  </tbody>
+</table>
+
+
+{%endif%}
+
+<h3>Alle Units</h3>
+
+{% for schule_key, schule_data in schulen_units.items %}
+
+<table class="table table-striped">
+    <thead class="thead-light" align="center">
+    <tr>
+        <th align="center">{{schule_key}}</th>
+        <th> </th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+        {%for sprache_key, sprache_data in schule_data.items%}
+            <tr>
+                <td bgcolor="#4169E1", class="text-white"><b>{{sprache_key}}</b></td>
+                <td bgcolor="#66B2FF"> </td>
+                <!--<td>{{sprache_data}} </td>-->
+            </tr>
+
+            {% for units in sprache_data %}
+                <tr>
+                    {%for unit in units %}
+
+                        {% if unit == ' ' %}
+                            <td> </td>
+                        {% else %}
+                            <td> <a href="{% url 'unittest-method' pk=unit.id name_of_unit=unit %}">{{unit}}</a> </td>
+                        {% endif %}
+
+                    {%endfor%}
+                </tr>
+            {%endfor%}
+
+        {%endfor%}
+
+    </tbody>
+</table>
+{% endfor %}
+
+
+{% endblock content%}

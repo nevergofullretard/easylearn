@@ -1,0 +1,116 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+
+
+    {% if request.method == "POST" %}
+{% if to_learnweg_start %}
+    <h3>Du bist fertig mit diesem Abschnitt!</h3>
+{%endif%}
+
+    <table class="table">
+        <tbody>
+                {% for key, item in words_right_false.items %}
+            {%for key2, value in item.items%}
+                {%if key2 == 'False'%}
+                {%if value == 'right'%}
+                    <tr class="table-success">
+                        <td>{{key.word.deutsch}}</td>
+                        <td>{{key.word.italienisch}}</td>
+                    </tr>
+                {%else%}
+                    <tr class="table-danger">
+                        <td>{{key.word.deutsch}}</td>
+                        <td>{{key.word.italienisch}}</td>
+                    </tr>
+                {%endif%}
+            {%else%}
+                {%if value == 'right'%}
+                    <tr class="table-success">
+                        <td>{{key.word.italienisch}}</td>
+                        <td>{{key.word.deutsch}}</td>
+                    </tr>
+                {%else%}
+                    <tr class="table-danger">
+                        <td>{{key.word.italienisch}}</td>
+                        <td>{{key.word.deutsch}}</td>
+                    </tr>
+                {%endif%}
+            {%endif%}
+
+            {%endfor%}
+
+        {%endfor%}
+
+
+        </tbody>
+    </table>
+
+        {% if to_learnweg_start %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Abschnitt gesamt</h5>
+                <table class="table">
+                    <tbody>
+                        {%for word in to_learnweg_start%}
+                            {%if word.right == True%}
+                        <tr class="table-success">
+                                <td><center>{{word.word.deutsch}}</center></td>
+                                <td><center>{{word.word.italienisch}}</center></td>
+                            </tr>
+                            {%else%}
+                                 <tr class="table-danger">
+                                <td><center>{{word.word.deutsch}}</center></td>
+                                <td><center>{{word.word.italienisch}}</center></td>
+                            </tr>
+                            {%endif%}
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+            <a href="{% url 'users-lernweg' %}"> <button class="btn btn-outline-success" >Weiter zum Lernweg!</button> </a>
+        {% else %}
+            <a href="{% url 'method-schriftlich' %}"> <button class="btn btn-outline-info" >Weiter</button> </a>
+        {% endif %}
+
+    {% else %}
+
+    <form method="POST"> {%  csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Auf gehts!</legend>
+                    <table class="table">
+
+                        <tbody>
+                            {% for key, values in words_right_false.items %}
+                                {% for key2, value in values.items%}
+                            {%if key2 == False%}
+
+                            <tr>
+                                <td>{{ value.word.deutsch}}</td>
+                                <td> <input class="form-control-plaintext" placeholder="{{value.word.unit_name.sprache.sprache_lang}}" type='text' maxlength="80" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
+                            </tr>
+                        {%else%}
+                            <tr>
+                                <td>{{ value.word.italienisch}}</td>
+
+                                <!-- wenn man es required möchte, einfach nach naem='my_list' required eingeben -->
+                                <td> <input class="form-control-plaintext" placeholder="Deutsch" type='text' maxlength="80" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
+                            </tr>
+                            {%endif%}
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            </fieldset>
+
+            <button class="btn btn-outline-info" type="submit">Check</button>
+        </form>
+
+    <a href="{% url 'method-schriftlich' %}"> <button class="btn btn-outline-success">Karten mischen</button> </a>
+
+    {% endif %}
+
+{% endblock %}

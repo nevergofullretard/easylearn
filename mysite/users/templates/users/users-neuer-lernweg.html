@@ -1,0 +1,132 @@
+{% extends "about/header.html" %}
+{%  load crispy_forms_tags %}
+{% block content %}
+
+<script>
+$(document).ready(function(){
+  $('#textToggle1').hide();
+
+  $('#buttonToggle1').click(function(){
+    $('#textToggle1').slideToggle();
+    });
+
+    <!--nur Spielerei das mit den Radiobuttons-->
+    $('input:radio').on('click', function(e) {
+        if ($(this).hasClass("units_gemacht")) {
+        console.log('schon erledigte Unit');
+        }
+    });
+
+
+    {%if units_gemacht%}
+        {%for unit, outstanding_words in units_gemacht.items %}
+            {%if outstanding_words%}
+            $("#{{unit.id}}-dropdown").hide()
+
+                $("#{{unit.id}}-button").click(function(){
+                   $("#{{unit.id}}-dropdown").slideToggle()
+                });
+            {%endif%}
+        {%endfor%}
+    {%endif%}
+});
+</script>
+
+<!-- <h3>Herzlich willkommen {{ request.user }} zu deinem neuen Lernweg!</h3> -->
+
+<form method="POST"> {%  csrf_token %}
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Hier kannst du deine neue Unit zum Lernen auswählen!</legend>
+            <button class="btn btn-outline-info" type="submit">Weiter</button>
+
+        <div class="container">
+            {%if naechste_unit%}
+            <div class="row">
+                <div style="background-color: #66ccff" class="col-sm-7 text-white"> <h3>Weiter mit nächster Unit</h3></div>
+                <div style="background-color: #66ccff" class="col-sm-5 text-white"><input type="radio" value="{{naechste_unit.id}}" name="unit" required> {{naechste_unit}} <br></div>
+            </div>
+            {%endif%}
+            {%if similar%}
+        <div class="row">
+            <div style="background-color: #3399ff" class="col-sm-7 text-white"><h4>Ähnliche Units</h4></div>
+            <div style="background-color: #3399ff" class="col-sm-5 text-white">
+                {%for unit in similar %}
+                    <input type="radio" value="{{unit.id}}" name="unit" required> {{unit}}<br>
+                {%endfor%}
+            </div>
+        </div>
+            {%endif%}
+
+            {%if units_gemacht%}
+                <div class="row">
+            <div style="background-color: #0066ff" class="col-sm-7 text-white"><h4>Deine Units</h4></div>
+            <div style="background-color: #0066ff" class="col-sm-5 text-white">
+                {%for unit, outstanding_words in units_gemacht.items %}
+                    <input class="units_gemacht" type="radio" value="{{unit.id}}" name="unit" required> {{unit}}-
+                {%if outstanding_words%}
+                <small class="text-white border border-white rounded" id="{{unit.id}}-button" >neue Wörter!</small>
+                <div id="{{unit.id}}-dropdown">
+                    <ul class="list-group">
+                    {%for wrd in outstanding_words%}
+                        <li class="list-group-item">
+                            <a href="{%url 'unit-words' pk=wrd.unit_name.id name_of_unit=wrd.unit_name%}#{{wrd.id}}">{{wrd.italienisch}} -- {{wrd.deutsch}}</a>
+                        </li>
+                    {%endfor%}
+                        </ul>
+                </div>
+                {%else%}
+                <small class="text-white">Unit neu beginnen!</small>
+                {%endif%}
+                <br>
+                {%endfor%}
+            </div>
+        </div>
+            {%endif%}
+
+        <div class="row">
+            <div style="background-color: #3366ff" class="col-sm-3 text-white"><h5 id="buttonToggle1" style="border-radius: 8px 8px 8px 8px; background-color: #99ccff"><center>Alle Units</center></h5></div>
+            <div style="background-color: #3366ff" class="col-sm-9 text-white"><p class="text-white">Zum Aufklappen einfach auf "Alle Units" klicken</p>
+                <div id="textToggle1">
+                <table  class="table text-white" >
+                    <thead class="thead">
+                        <tr>
+                            <th>Schule</th>
+                            <th>Sprache</th>
+                            <th>Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for key1,value1 in alle.items%}
+                        <tr>
+                            <td>{{key1}}</td>
+                        </tr>
+                            {%for key2,value2 in value1.items%}
+                            <tr>
+                                <td></td>
+                                <td>{{key2}}</td>
+                            </tr>
+                                {%for value3 in value2%}
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input type="radio" value="{{value3.id}}" name="unit" required> {{value3}}<br></td>
+                                </tr>
+
+                                {%endfor%}
+                            {%endfor%}
+                        {%endfor%}
+                    </tbody>
+                </table>
+                    </div>
+
+            </div>
+        </div>
+        </div>
+
+
+
+    </fieldset>
+    <button class="btn btn-outline-info" type="submit">Weiter</button>
+</form>
+
+{% endblock %}

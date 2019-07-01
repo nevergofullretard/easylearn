@@ -1,0 +1,114 @@
+{% load static %}
+{% include "about/style.html" %}
+{% include "about/js.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+
+
+
+
+    {% if title %}
+        <title>EasyLearn - Community - {{ title }}</title>
+    {% else %}
+        <title>EasyLearn - Community</title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top" style="background-color: #17A2B8; background-image: linear-gradient(to right, green,  yellow);">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{% url 'blog-home' %}"><img src="https://img.icons8.com/color/30/000000/easy.png"> Easylearn - Friends</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{% url 'units' %}">Home</a>
+
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+                <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}">
+                    <ul class="navbar-nav mr-auto">
+
+                     {% load search %}
+
+                {% search %}
+
+
+                {% if user.is_authenticated %}
+
+                    <li class="nav-item active">
+                        <a class="nav-item nav-link" href="{% url 'post-create' %}">Neuer Post</a></li>
+                    <li class="nav-item active">
+                        <a class="nav-item nav-link" href="{% url 'profile' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/gender-neutral-user.png"> Profil</a></li>
+                    <li class="nav-item active">
+                        <a class="nav-item nav-link" href="{% url 'logout' %}"><img src="https://img.icons8.com/office/30/000000/exit.png"></a></li>
+                {% else %}
+                  <a class="nav-item nav-link" href="{% url 'login' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/password.png"></a>
+                  <a class="nav-item nav-link" href="{% url 'register' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/add-user-male.png"></a>
+                {% endif %}
+                </form>
+                </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ messages.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Wichtiges</h3>
+              <p class='text-muted'>Grundfunktionen hier im Community-Bereich </p>
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">Schreibe einen neuen Post</li>
+                <li class="list-group-item list-group-item-light">Chatte mit anderen Usern</li>
+                  <li class="list-group-item list-group-item-light">Markiere Freunde</li>
+                <li class="list-group-item list-group-item-light">Sieh dir Posts von anderen Usern an</li>
+                <li class="list-group-item list-group-item-light">Bearbeite deine Posts</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <!--<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>-->
+    <!--<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+
+
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>-->
+</body>
+</html>
+
