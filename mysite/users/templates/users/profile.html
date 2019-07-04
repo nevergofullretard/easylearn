@@ -8,7 +8,7 @@
          <div class="media-body">
             <h2 class="account-heading">{{ user.username }}</h2>
             <p class="text-secondary">{{ user.email }}</p>
-             <p class="text-secondary">Deine Lernabschnitte: zu jeweils {{ user.profile.voc_bits }} Vocabeln</p>
+             <p class="text-secondary">Deine Worthäppchen: zu jeweils {{ user.profile.voc_bits }} Vocabeln</p>
          </div>
       </div>
 
@@ -25,9 +25,12 @@
         </form>
    </div>
     <div class="row">
-        <div class="col-sm"><a href="{%url 'new-password'%}">Passwort ändern</a></div>
-        <div class="col-sm"><a href="{%url 'password-forgot'%}">Passwort vergessen</a></div>
+        <div class="col-sm"><a href="{%url 'new-password'%}"><button class="btn btn-sm btn-warning  btn-sm mt-1 mb-1">Passwort ändern</button></a></div>
+
     </div>
+<div class="row">
+    <div class="col-sm"><a href="{%url 'password-forgot'%}"><button class="btn btn-sm btn-warning  btn-sm mt-1 mb-1">Passwort vergessen</button></a></div>
+</div>
     <div class="row">
         <div class="col-sm">
             <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'account-delete' request.user.id %}">Account löschen</a>

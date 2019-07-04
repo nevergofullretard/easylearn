@@ -16,6 +16,8 @@ from users.models import Units_user, Words_user
 from blog.models import Post
 from .models import Unit_name, Unit_words, Unit_schule, Unit_sprache, Anfrage_sprache, Anfrage_schule, Anfrage_words_user, Anfrage_unit
 from .forms import UploadFileForm, UserNewWordsForm, UserExistingUnitForm, NewSchoolForm, NewLangForm
+from users import views as users_views
+
 
 def schule_sprache_unit(request, schule_pk, sprache_pk):
     schule = ""
@@ -196,30 +198,35 @@ def units_all(request):
 
     # schulen_units_all = schulen_units(schulen=schulen)
 
-    alle_units = Unit_name.objects.all()
 
-    alle_dict = {}
-    for schule in Unit_schule.objects.all():
-        units_schule = alle_units.filter(schule=schule)
-        schule_words = Unit_words.objects.filter(unit_name__in=units_schule)
+    # alle_units = Unit_name.objects.all()
+    #
+    # alle_dict = {}
+    # for schule in Unit_schule.objects.all():
+    #     units_schule = alle_units.filter(schule=schule)
+    #     schule_words = Unit_words.objects.filter(unit_name__in=units_schule)
+    #
+    #
+    #     if units_schule and schule_words:
+    #         alle_dict[str(schule)] = {}
+    #
+    #         for sprache in Unit_sprache.objects.all():
+    #             units_schule_sprache = units_schule.filter(sprache=sprache)
+    #             units_schule_sprache_all = []
+    #             for schule_sprache in units_schule_sprache: # ist mir egal ob da schon Wörter drinnen sind oder noch nicht, hab keine Zeit mehr!
+    #                 print(schule_sprache.id)
+    #                 if Unit_words.objects.filter(unit_name__id=schule_sprache.id):
+    #                     units_schule_sprache_all.append(schule_sprache)
+    #                     alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = units_schule_sprache_all
 
+    if request.user.is_authenticated:
+        auswahl = users_views.units_auswahl(request, nur_volle_units=False, nur_alle=False)
+    else:
+        auswahl = users_views.units_auswahl(request, nur_volle_units=False, nur_alle=True)
+    context = {'naechste_unit': auswahl['next'], 'similar': auswahl['similar'], 'alle': auswahl['alle'],
+               'units_gemacht': auswahl['dict_units_gemacht'], 'current_unit': auswahl['current_unit']}
 
-        if units_schule and schule_words:
-            alle_dict[str(schule)] = {}
-
-            for sprache in Unit_sprache.objects.all():
-                units_schule_sprache = units_schule.filter(sprache=sprache)
-                units_schule_sprache_all = []
-                for schule_sprache in units_schule_sprache: # ist mir egal ob da schon Wörter drinnen sind oder noch nicht, hab keine Zeit mehr!
-                    print(schule_sprache.id)
-                    if Unit_words.objects.filter(unit_name__id=schule_sprache.id):
-                        units_schule_sprache_all.append(schule_sprache)
-                        alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = units_schule_sprache_all
-
-
-
-
-    context = {'alle': alle_dict}
+    # context = {'alle': alle_dict}
     return render(request, 'units/units_all.html', context)
 
 @staff_member_required
@@ -247,7 +254,7 @@ def new_words_user(request):
             sprache = form.cleaned_data.get('sprache')
             schule = form.clean().get('schule')
 
-            if ',' not in unit:
+            if ',' not in unit and '/' not in unit and '#' not in unit:
                 Anfrage_unit.objects.create(user=request.user, sprache_id=sprache, schule=schule, unit=unit)
                 messages.success(request, 'Anfrage wurde gesendet')
                 anfragen = Anfrage_unit.objects.all()
@@ -256,7 +263,7 @@ def new_words_user(request):
                     first = Anfrage_unit.objects.all()[:1].get()
                     first.delete()
             else:
-                messages.error(request, 'Sorry, aber Beistriche ist im Unitnamen nicht erlaubt!')
+                messages.error(request, 'Sorry, aber "," "/" und "#" ist im Unitnamen nicht erlaubt!')
 
     else:
         form = UserNewWordsForm()
@@ -266,8 +273,9 @@ def new_words_user(request):
 
 @login_required
 def new_unit_user(request):
+    context = {}
     if request.method == 'POST':
-        form = UserExistingUnitForm(request.POST)
+
         all_values = []
         for i in range(1, 50):
             values_fremd = request.POST.getlist(str(i) + 'fremd')
@@ -279,29 +287,31 @@ def new_unit_user(request):
                 elif ';' in value1 or ';' in value2 or ';' in value3:
                     messages.error(request, 'Sorry, aber ";" ist nicht erlaubt! Die restlichen Wörter wurden zur Anfrage geschickt.')
 
-        if form.is_valid():
-            unit = form.cleaned_data.get('unit')
 
-            for value in all_values:
-                print(value)
+        new_unit = request.POST.get('unit')
+        unit = Unit_name.objects.get(id=new_unit)
 
-                Anfrage_words_user.objects.create(user=request.user, unit=unit, word_fremdsprache=value[0], word_deutsch=value[1], sidenote=value[2])
+        for value in all_values:
+            print(value)
 
-                anfragen = Anfrage_words_user.objects.all()
-                max = 5000
-                if anfragen.count() > max:
-                    words_delete = Anfrage_words_user.objects.all()[::1][0:anfragen.count()-max]
+            Anfrage_words_user.objects.create(user=request.user, unit=unit, word_fremdsprache=value[0], word_deutsch=value[1], sidenote=value[2])
 
-                    for word_delete in words_delete:
-                        word_delete.delete()
+            anfragen = Anfrage_words_user.objects.all()
+            max = 5000
+            if anfragen.count() > max:
+                words_delete = Anfrage_words_user.objects.all()[::1][0:anfragen.count()-max]
 
-            messages.success(request, 'Anfrage wurde gesendet')
+                for word_delete in words_delete:
+                    word_delete.delete()
+
+        messages.success(request, 'Anfrage wurde gesendet')
 
 
     else:
-        form = UserExistingUnitForm()
-
-    return render(request, 'units/new-unit-user.html', {'form': form, 'range1': [x for x in range(1,15)], 'range2': [x for x in range(15, 50)]})
+        auswahl = users_views.units_auswahl(request, nur_volle_units=False, nur_alle=False)
+        context = {'naechste_unit': auswahl['next'], 'similar': auswahl['similar'], 'alle': auswahl['alle'],
+                   'units_gemacht': auswahl['dict_units_gemacht'], 'range1': [x for x in range(1,15)], 'range2': [x for x in range(15, 50)]}
+    return render(request, 'units/new-unit-user.html', context)
 @login_required
 def new_words_start(request):
     return render(request, 'units/new-words-start.html')
@@ -380,7 +390,7 @@ def new_school(request):
         new_school = NewSchoolForm(request.POST)
         if new_school.is_valid():
             schule = new_school.cleaned_data.get('schule')
-            if ',' not in schule:
+            if ',' not in schule and '/' not in schule and '#' not in schule:
                 Anfrage_schule.objects.create(user=request.user, schule=schule)
                 messages.success(request, 'Anfrage wurde gesendet')
                 anfragen = Anfrage_schule.objects.all()
@@ -389,7 +399,7 @@ def new_school(request):
                     first = Anfrage_schule.objects.all()[:1].get()
                     first.delete()
             else:
-                messages.error(request, 'Sorry, aber "," darf nicht enthalten sein')
+                messages.error(request, 'Sorry, aber "," "/" und "#" darf nicht enthalten sein')
 
     else:
         new_school = NewSchoolForm()
@@ -403,8 +413,8 @@ def new_lang(request):
         if new_lang.is_valid():
             sprache_lang = new_lang.cleaned_data.get('sprache_lang')
             sprache_kurz = new_lang.cleaned_data.get('sprache_kurz')
-            if ',' in sprache_lang or ',' in sprache_kurz:
-                messages.error(request, 'Sorry, aber "," darf nicht enthalten sein')
+            if ',' in sprache_lang or ',' in sprache_kurz or "/" in sprache_lang or "/" in sprache_kurz or "#" in sprache_lang or "#" in sprache_kurz:
+                messages.error(request, 'Sorry, aber "," "/" und "#" darf nicht enthalten sein')
             else:
                 Anfrage_sprache.objects.create(user=request.user, sprache_lang=sprache_lang, sprache_kurz=sprache_kurz)
                 messages.success(request, 'Anfrage wurde gesendet')

@@ -23,7 +23,7 @@ class Profile(models.Model):
     karteikarten_voc = models.IntegerField(default=4)
     pruefung_umgekehrt = models.BooleanField(default=False) # wenn True, kann es dem User auch Vokabeln von Deutsch auf Italienisch vorschlagen
     units_gemacht = models.ManyToManyField(Units_user, blank=True) # blank=True bedeutet, dass es nicht required ist
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    image = models.ImageField(default='default.png', upload_to='profile_pics')
     newsletter = models.BooleanField(default=True)
     toleranz = models.IntegerField(default=51)
 

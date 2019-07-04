@@ -173,14 +173,14 @@ class LernwegPost(LoginRequiredMixin):
             for key, value in values.items():
                 if self.save:
                     if key == 'False':  #wenn key == 'False' bedeutet, dass das Wort nicht umgekehrt ist!
-                        if str(word_database.word.italienisch) == value:
+                        if str(word_database.word.italienisch).upper() == value.upper():
                             self.words_right_false[word_database] = {key: 'right'}
                             word_database.right = True
                         else:
                             self.words_right_false[word_database] = {key: 'false'}
                             word_database.right = False
                     else:
-                        if str(word_database.word.deutsch) == value:
+                        if str(word_database.word.deutsch).upper() == value.upper():
                             self.words_right_false[word_database] = {key: 'right'}
                             word_database.right = True
                         else:
@@ -193,12 +193,12 @@ class LernwegPost(LoginRequiredMixin):
 
                 else:   #wenn Words nicht gespeichert werden, braucht man nicht Words_user_instance, sondern Words_unit inststance
                     if key == 'False':
-                        if str(word_database.italienisch) == value:
+                        if str(word_database.italienisch).upper() == value.upper():
                             self.words_right_false[word_database] = {key: 'right'}
                         else:
                             self.words_right_false[word_database] = {key: 'false'}
                     else:
-                        if str(word_database.deutsch) == value:
+                        if str(word_database.deutsch).upper() == value.upper():
                             self.words_right_false[word_database] = {key: 'right'}
                         else:
                             self.words_right_false[word_database] = {key: 'false'}

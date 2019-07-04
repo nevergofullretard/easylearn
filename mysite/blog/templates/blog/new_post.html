@@ -132,8 +132,29 @@ var content = $("textarea[name=content]");
      $("#h5").click(function(){
         content.insertAtCaret("<h5></h5>")
     });
+    $("#small").click(function(){
+        content.insertAtCaret("<small></small>")
+    });
+
+    $("#p").click(function(){
+        content.insertAtCaret("<p></p>")
+    });
+    $("#span").click(function(){
+        content.insertAtCaret("<span></span>")
+    });
+
+    $("#ul").click(function(){
+        content.insertAtCaret("<ul>\n\n</ul>")
+    });
+
+    $("#li").click(function(){
+        content.insertAtCaret("<li></li>")
+    });
 
 
+    $("#text-muted").click(function(){
+        content.insertAtCaret("class='text-muted'")
+    });
     var vorschau = $("#content-vorschau")
     vorschau.html(content.val())
 
@@ -324,14 +345,18 @@ var content = $("textarea[name=content]");
                         <div class="col-sm">
                             <div class="dropdown">
                                   <button class="btn btn-info dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Heading
+                                    Elements
                                   </button>
                                    <div class="dropdown-menu">
+                                        <small class="dropdown-item" id="small">small</small>
+                                       <small class="dropdown-item" id="p">p</small>
+                                       <small class="dropdown-item" id="span">span</small>
                                        <small class="dropdown-item" id="h1">h1</small>
                                        <small class="dropdown-item" id="h2">h2</small>
                                        <small class="dropdown-item" id="h3">h3</small>
                                        <small class="dropdown-item" id="h4">h4</small>
                                        <small class="dropdown-item" id="h5">h5</small>
+
                                     </div>
                                 </div>
                         </div>
@@ -344,6 +369,7 @@ var content = $("textarea[name=content]");
                                    <div class="dropdown-menu">
                                        <small class="dropdown-item" id="style">Style Tag</small>
                                        <small class="dropdown-item" id="center">text center</small>
+                                       <small class="dropdown-item" id="text-muted">text muted</small>
                                     </div>
                                 </div>
                         </div>
@@ -354,9 +380,12 @@ var content = $("textarea[name=content]");
                                     Tabelle
                                   </button>
                                    <div class="dropdown-menu">
+                                       <small class="dropdown-item" id="ul">ul</small>
+                                       <small class="dropdown-item" id="li">li</small>
                                        <small class="dropdown-item" id="table">Tabelle</small>
                                        <small class="dropdown-item" id="row">row</small>
                                        <small class="dropdown-item" id="col">column</small>
+
                                     </div>
                                 </div>
                         </div>

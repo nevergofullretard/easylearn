@@ -189,15 +189,23 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
                         if words_naechste_unit:
                             lst_naechste_unit.append(naechste)
                 else:
-                    lst_naechste_unit = naechste_untit #könnte evtl für Probleme sorgen, weil hier statt List dann Query verwendet wird
+                    lst_naechste_unit = [unit for unit in naechste_untit]
 
-                next = naechste_untit[0]
+                if not current_unit:
+                    next = naechste_untit[0]
+                else:
+                    next = naechste_untit[1]
+                print(next)
 
                 # similar = naechste_untit.exclude(id=next.id)
                 if next in lst_naechste_unit:
                     lst_naechste_unit.remove(next)
+                if current_unit in lst_naechste_unit:
+                    lst_naechste_unit.remove(current_unit)
+                print(lst_naechste_unit)
+                # if lst_naechste_unit:
+                similar = lst_naechste_unit
 
-                similar = split_list(lst_naechste_unit)
                 real_units_gemacht.append(next.id)
                 if not Unit_words.objects.filter(unit_name=next):
                     next = None
@@ -244,6 +252,8 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
             else:
                 dict_units_gemacht[unit] = None
 
+
+
     else:
         alle_units = Unit_name.objects.all()
         for schule in Unit_schule.objects.all():
@@ -266,7 +276,8 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
                             units_schule_sprache_all.append(schule_sprache)
                             alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = split_list(units_schule_sprache_all)
 
-    return {'current_unit': current_unit, 'next': next, 'similiar': similar, 'alle': alle_dict, 'dict_units_gemacht': dict_units_gemacht}
+
+    return {'current_unit': current_unit, 'next': next, 'similar': similar, 'alle': alle_dict, 'dict_units_gemacht': dict_units_gemacht}
 
 
 @login_required
@@ -276,9 +287,7 @@ def lernweg(request):
     if current_u == 0:
         if request.method == 'POST':
             new_unit = request.POST.get('unit')
-            print('neue Unit')
             real_new_unit = Unit_name.objects.get(id=new_unit)
-            print(real_new_unit)
 
 
             words_unit = Words_user.objects.filter(user=request.user, word__unit_name=real_new_unit,
@@ -376,7 +385,7 @@ def lernweg(request):
             # 'naechste_unit': auswahl['next'], 'similar': auswahl['similiar'], 'alle': auswahl['alle'], 'units_gemacht': auswahl['dict_units_gemacht']
 
             auswahl = units_auswahl(request=request, nur_volle_units=True)
-        context = {'naechste_unit': auswahl['next'], 'similar': auswahl['similiar'], 'alle': auswahl['alle'], 'units_gemacht': auswahl['dict_units_gemacht']}
+        context = {'naechste_unit': auswahl['next'], 'similar': auswahl['similar'], 'alle': auswahl['alle'], 'units_gemacht': auswahl['dict_units_gemacht']}
         return render(request, 'users/users-neuer-lernweg.html', context)
 
     else:

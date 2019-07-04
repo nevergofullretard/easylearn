@@ -12,6 +12,7 @@ from django.contrib import messages
 from users.models import Words_user, Units_user
 from units.models import Unit_name, Unit_sprache, Unit_schule, Unit_words
 from units.views import split_list, unit_exists, schulen_units
+from users.views import units_auswahl
 # from users.models import Words_user
 from usertests.lernweg import LernwegGet, LernwegPost
 
@@ -143,8 +144,8 @@ def test_passt(request, test_art, von, bis, unit_ids):
         if von == "0" and bis == "0":
             try:
                 int_unit = int(unit_ids)
-                unit_gemacht = Units_user.objects.get(user=user, unit__id=int_unit)
-                words = Words_user.objects.filter(user=user, word__unit_name=unit_gemacht.unit, lernweg_voc=False)
+                unit_gemacht = Unit_name.objects.get(id=int_unit)
+                words = Words_user.objects.filter(user=user, word__unit_name=unit_gemacht, lernweg_voc=False)
             except:
                 try:    #für jetzige Unit (wo der User jetzt gerade ist)
                     int_unit = int(unit_ids)
@@ -173,8 +174,8 @@ def test_passt(request, test_art, von, bis, unit_ids):
         if von == "0" and bis == "0":
             try:
                 int_unit = int(unit_ids)
-                unit_gemacht = Units_user.objects.get(user=user, unit__id=int_unit)
-                words = Words_user.objects.filter(user=user, word__unit_name=unit_gemacht.unit, lernweg_voc=False, right=False)
+                unit_gemacht = Unit_name.objects.get(id=int_unit)
+                words = Words_user.objects.filter(user=user, word__unit_name=unit_gemacht, lernweg_voc=False, right=False)
             except:
                 try:    #für jetzige Unit (wo der User jetzt gerade ist)
                     int_unit = int(unit_ids)
@@ -201,8 +202,8 @@ def test_passt(request, test_art, von, bis, unit_ids):
         if von == "0" and bis == "0":
             try:
                 int_unit = int(unit_ids)
-                unit_gemacht = Units_user.objects.get(user=user, unit__id=int_unit)
-                words = Words_user.objects.filter(user=user, word__unit_name=unit_gemacht.unit, lernweg_voc=False, right=True)
+                unit_gemacht = Unit_name.objects.get(id=int_unit)
+                words = Words_user.objects.filter(user=user, word__unit_name=unit_gemacht, lernweg_voc=False, right=True)
             except:
                 try:    #für jetzige Unit (wo der User jetzt gerade ist)
                     int_unit = int(unit_ids)
@@ -276,74 +277,79 @@ def fehlertest_schriftlich(request, test_art, von, bis, unit_ids):
 
 @login_required
 def unittest_start(request):
-    units = []
-    units_gemacht_id = []
-    # units_gemacht = Units_user.objects.filter(user=request.user)[::-1]
-    # maximum_school = None
-    # maximum_language = None
-    last_schule = None
-    last_sprache = None
-    current_unit = None
-    if request.user.profile.current_unit != 0:
-        current_unit = Unit_name.objects.get(id=request.user.profile.current_unit)
+    auswahl = units_auswahl(request, nur_volle_units=True, nur_alle=False)
 
-    units_gemacht = []
-    for wrd in Words_user.objects.filter(user=request.user, lernweg_voc=False)[::-1]:
-        if wrd.word.unit_name not in units_gemacht:
-            if wrd.word.unit_name != current_unit:
-                units_gemacht.append(wrd.word.unit_name)
+    # units = []
+    # units_gemacht_id = []
+    # # units_gemacht = Units_user.objects.filter(user=request.user)[::-1]
+    # # maximum_school = None
+    # # maximum_language = None
+    # last_schule = None
+    # last_sprache = None
+    # current_unit = None
+    # if request.user.profile.current_unit != 0:
+    #     current_unit = Unit_name.objects.get(id=request.user.profile.current_unit)
+    #
+    # units_gemacht = []
+    # for wrd in Words_user.objects.filter(user=request.user, lernweg_voc=False)[::-1]:
+    #     if wrd.word.unit_name not in units_gemacht:
+    #         if wrd.word.unit_name != current_unit:
+    #             units_gemacht.append(wrd.word.unit_name)
+    #
+    # for unit_gemacht in units_gemacht:
+    #     units_gemacht_id.append(unit_gemacht.id)
+    #     units.append(unit_gemacht)
+    #
+    # units_your_school = [u.schule for u in units]
+    # units_your_language = [s.sprache for s in units]
+    #
+    # units_id = [unit.id for unit in units]
+    # last_unit = Units_user.objects.filter(user=request.user)[::-1]
+    # if request.user.profile.current_unit != 0:
+    #     last_schule = Unit_schule.objects.get(id=current_unit.schule.id)
+    #     last_sprache = Unit_sprache.objects.get(id=current_unit.sprache.id)
+    # else:
+    #     if last_unit:
+    #         last_schule = Unit_schule.objects.get(id=last_unit[0].unit.schule.id)
+    #         last_sprache = Unit_sprache.objects.get(id=last_unit[0].unit.sprache.id)
+    #         print(Unit_name.objects.filter(schule=last_schule, sprache=last_sprache).exclude(id__in=units_id))
+    #     if not Unit_name.objects.filter(schule=last_schule, sprache=last_sprache).exclude(id__in=units_id):
+    #         try:
+    #             units_count = Counter(units_your_school)
+    #             last_schule = max(units_count, key=units_count.get)
+    #             sprache_count = Counter(units_your_language)  # this is a dictionary
+    #             last_sprache = max(sprache_count, key=sprache_count.get)
+    #         except ValueError:  #wenn man noch gar keine Units gemacht hat, soll er das überspringen
+    #             pass
+    #         print(last_schule)
+    #         print(last_sprache)
+    #
+    #
+    # similar_units = Unit_name.objects.filter(Q(schule=last_schule, sprache=last_sprache)).exclude(id__in=units_id) #| Q(schule=last_schule) | Q(sprache=last_sprache))
+    #
+    # if similar_units:
+    #     similar_split = split_list(similar_units)
+    # else:
+    #     similar_split = None
+    #
+    # if units:
+    #     units_split = split_list(units)
+    # else:
+    #     units_split = None
+    #
+    # andere_units_schule = Unit_name.objects.filter(schule=last_schule).exclude(id__in=units_id)
+    #
+    # if andere_units_schule:
+    #     andere_units_split = split_list(andere_units_schule)
+    # else:
+    #     andere_units_split = None
+    #
+    # schulen_units_all = schulen_units(Unit_schule.objects.all().exclude(schule=last_schule))
 
-    for unit_gemacht in units_gemacht:
-        units_gemacht_id.append(unit_gemacht.id)
-        units.append(unit_gemacht)
+    # context = {'current_unit': current_unit, 'units_latest': units_split, 'similar_units': similar_split, 'schulen_units': schulen_units_all, 'andere_units_schule': andere_units_split}
+    context = {'current_unit': auswahl['current_unit'], 'naechste_unit': auswahl['next'], 'similar': auswahl['similar'], 'alle': auswahl['alle'],
+               'units_gemacht': auswahl['dict_units_gemacht']}
 
-    units_your_school = [u.schule for u in units]
-    units_your_language = [s.sprache for s in units]
-
-    units_id = [unit.id for unit in units]
-    last_unit = Units_user.objects.filter(user=request.user)[::-1]
-    if request.user.profile.current_unit != 0:
-        last_schule = Unit_schule.objects.get(id=current_unit.schule.id)
-        last_sprache = Unit_sprache.objects.get(id=current_unit.sprache.id)
-    else:
-        if last_unit:
-            last_schule = Unit_schule.objects.get(id=last_unit[0].unit.schule.id)
-            last_sprache = Unit_sprache.objects.get(id=last_unit[0].unit.sprache.id)
-            print(Unit_name.objects.filter(schule=last_schule, sprache=last_sprache).exclude(id__in=units_id))
-        if not Unit_name.objects.filter(schule=last_schule, sprache=last_sprache).exclude(id__in=units_id):
-            try:
-                units_count = Counter(units_your_school)
-                last_schule = max(units_count, key=units_count.get)
-                sprache_count = Counter(units_your_language)  # this is a dictionary
-                last_sprache = max(sprache_count, key=sprache_count.get)
-            except ValueError:  #wenn man noch gar keine Units gemacht hat, soll er das überspringen
-                pass
-            print(last_schule)
-            print(last_sprache)
-
-
-    similar_units = Unit_name.objects.filter(Q(schule=last_schule, sprache=last_sprache)).exclude(id__in=units_id) #| Q(schule=last_schule) | Q(sprache=last_sprache))
-
-    if similar_units:
-        similar_split = split_list(similar_units)
-    else:
-        similar_split = None
-
-    if units:
-        units_split = split_list(units)
-    else:
-        units_split = None
-
-    andere_units_schule = Unit_name.objects.filter(schule=last_schule).exclude(id__in=units_id)
-
-    if andere_units_schule:
-        andere_units_split = split_list(andere_units_schule)
-    else:
-        andere_units_split = None
-
-    schulen_units_all = schulen_units(Unit_schule.objects.all().exclude(schule=last_schule))
-
-    context = {'current_unit': current_unit, 'units_latest': units_split, 'similar_units': similar_split, 'schulen_units': schulen_units_all, 'andere_units_schule': andere_units_split}
     return render(request, 'usertests/unittest-start.html', context)
 
 @login_required

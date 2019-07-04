@@ -1,172 +1,159 @@
 {% extends "about/header.html" %}
 {% block content %}
 
+<script>
+   $(document).ready(function(){
+      $('#textToggle1').hide();
 
+      $('#buttonToggle1').click(function(){
+        $('#textToggle1').slideToggle();
+        });
+
+     {%if units_gemacht%}
+        {%for unit, outstanding_words in units_gemacht.items %}
+            {%if outstanding_words%}
+            $("#{{unit.id}}-dropdown").hide()
+
+                $("#{{unit.id}}-button").click(function(){
+                   $("#{{unit.id}}-dropdown").slideToggle()
+                });
+            {%endif%}
+        {%endfor%}
+    {%endif%}
+    });
+</script>
 
 <h2>Unit-Test</h2>
 <small class="text-muted">Hier werden nur ganze Units geprüft</small>
-{%if current_unit%}
 <div class="container">
-    <div class="row" style="background-color: #0698f9">
-        <div class="col-sm-3" ><p class="text-white"><b>Jetzige Unit:</b></p></div>
-        <div class="col-sm-9"><a href="{% url 'unittest-method' pk=current_unit.id name_of_unit=current_unit%}" class="text-white"><h5>{{current_unit}}</h5></a></div>
+{%if current_unit%}
+
+     <div class="row" style="background-color: #99ddff">
+        <div class="col-sm-7" ><h3 class="text-white">Jetzige Unit:</h3></div>
+        <div class="col-sm-5">
+            <ul>
+                <li class="text-white">
+                    <a href="{% url 'unittest-method' pk=current_unit.id name_of_unit=current_unit%}" class="text-white"><h5>{{current_unit}}</h5></a>
+                </li>
+
+            </ul>
+        </div>
     </div>
-</div>
 {%endif%}
+            {%if naechste_unit%}
+            <div class="row">
+                <div style="background-color: #66ccff" class="col-sm-7 text-white"> <h3>Weiter mit nächster Unit</h3></div>
+                <div style="background-color: #66ccff" class="col-sm-5 text-white">
+                    <ul>
+                        <li>
+                             <a class="text-white" href="{% url 'unittest-method' pk=naechste_unit.id name_of_unit=naechste_unit %}">{{naechste_unit}}</a>
+                        </li>
+                    </ul>
 
-{%if not units_latest%}
-{%else%}
-<table class="table table-striped">
-  <thead class="thead-light">
-    <tr>
-      <th scope="col"><center>Deine Units</center></th>
-        <th></th>
-    </tr>
-  </thead>
-  <tbody>
-      {% for left,right in units_latest %}
-       {% if left == ' ' %}
-                <tr>
-                    <td> </td>
-                    <td><a  href="{% url 'unittest-method' pk=right.id name_of_unit=right%}">{{right}}</a></td>
-                </tr>
+                </div>
+            </div>
+            {%endif%}
+            {%if similar%}
+        <div class="row">
+            <div style="background-color: #3399ff" class="col-sm-7 text-white"><h4>Ähnliche Units</h4></div>
+            <div style="background-color: #3399ff" class="col-sm-5 text-white">
+                <ul>
+                {%for unit in similar %}
+                    <li>
+                        <a class="text-white" href="{% url 'unittest-method' pk=unit.id name_of_unit=unit %}">{{unit}}</a>
+                    </li>
+                 {%endfor%}
+                </ul>
 
-      {%elif right == ' '%}
-        <tr>
-            <td><a  href="{% url 'unittest-method' pk=left.id name_of_unit=left%}">{{left}}</a></td>
-            <td> </td>
+            </div>
+        </div>
+            {%endif%}
 
-        </tr>
-      {%else%}
-      <tr>
-          <td><a href="{% url 'unittest-method' pk=left.id name_of_unit=left%}">{{left}}</a></td>
-            <td><a href="{% url 'unittest-method' pk=right.id name_of_unit=right%}">{{right}}</a></td>
-      </tr>
-      {% endif %}
-       {% endfor %}
-
-
-
-  </tbody>
-</table>
-
-{%endif%}
-
-{%if not similar_units %}
-
-    {%if not andere_units_schule %}
-
-    {%else%}
-        <table class="table table-striped">
-          <thead class="thead-light">
-            <tr>
-              <th scope="col">Ähnliche Units für dich</th>
-              <th scope="col"></th>
-
-            </tr>
-          </thead>
-          <tbody>
-              {% for left,right in andere_units_schule %}
-              {% if right == ' ' %}
-                <tr>
-                    <td><a  href="{% url 'unittest-method' pk=left.id name_of_unit=left %}">{{left}}</a></td>
-                    <td> </td>
-                </tr>
-              {% elif left == ' ' %}
-                <tr>
-                    <td><a  href="{% url 'unittest-method' pk=right.id name_of_unit=right %}">{{right}}</a></td>
-                    <td> </td>
-                </tr>
-            {% else %}
-              <tr>
-                  <td><a href="{% url 'unittest-method' pk=left.id name_of_unit=left %}">{{left}}</a></td>
-                    <td><a href="{% url 'unittest-method' pk=right.id name_of_unit=right %}">{{right}}</a></td>
-              </tr>
-              {% endif %}
-       {% endfor %}
-
-
-
-  </tbody>
-</table>
-    {% endif %}
-{%else%}
-<table class="table table-striped">
-  <thead class="thead-light">
-    <tr>
-      <th scope="col">Ähnliche Units für dich</th>
-      <th scope="col"></th>
-
-    </tr>
-  </thead>
-  <tbody>
-      {% for left,right in similar_units %}
-       {% if left == ' ' %}
-            <tr>
-                <td><a  href="{% url 'unittest-method' pk=right.id name_of_unit=right %}">{{right}}</a></td>
-                <td></td>
-            </tr>
-      {% elif right == ' ' %}
-                <tr>
-                    <td><a  href="{% url 'unittest-method' pk=left.id name_of_unit=left %}">{{left}}</a></td>
-                    <td></td>
-                </tr>
-        {% else %}
-          <tr>
-              <td><a href="{% url 'unittest-method' pk=left.id name_of_unit=left %}">{{left}}</a></td>
-                <td><a href="{% url 'unittest-method' pk=right.id name_of_unit=right %}">{{right}}</a></td>
-          </tr>
-      {% endif %}
-       {% endfor %}
-
-
-
-  </tbody>
-</table>
-
-
-{%endif%}
-
-<h3>Alle Units</h3>
-
-{% for schule_key, schule_data in schulen_units.items %}
-
-<table class="table table-striped">
-    <thead class="thead-light" align="center">
-    <tr>
-        <th align="center">{{schule_key}}</th>
-        <th> </th>
-    </tr>
-    </thead>
-
-    <tbody>
-
-        {%for sprache_key, sprache_data in schule_data.items%}
-            <tr>
-                <td bgcolor="#4169E1", class="text-white"><b>{{sprache_key}}</b></td>
-                <td bgcolor="#66B2FF"> </td>
-                <!--<td>{{sprache_data}} </td>-->
-            </tr>
-
-            {% for units in sprache_data %}
-                <tr>
-                    {%for unit in units %}
-
-                        {% if unit == ' ' %}
-                            <td> </td>
-                        {% else %}
-                            <td> <a href="{% url 'unittest-method' pk=unit.id name_of_unit=unit %}">{{unit}}</a> </td>
-                        {% endif %}
-
+            {%if units_gemacht%}
+                <div class="row">
+            <div style="background-color: #0066ff" class="col-sm-7 text-white"><h4>Deine Units</h4></div>
+            <div style="background-color: #0066ff" class="col-sm-5 text-white">
+                <ul>
+                {%for unit, outstanding_words in units_gemacht.items %}
+                <li>
+                  <a class="text-white" href="{% url 'unittest-method' pk=unit.id name_of_unit=unit %}">{{unit}}</a>
+                {%if outstanding_words%}
+                <small class="text-white border border-white rounded" id="{{unit.id}}-button" > neue Wörter! </small>
+                <div id="{{unit.id}}-dropdown">
+                    <ul class="list-group">
+                    {%for wrd in outstanding_words%}
+                        <li class="list-group-item">
+                            <a href="{%url 'unit-words' pk=wrd.unit_name.id name_of_unit=wrd.unit_name%}#{{wrd.id}}">{{wrd.italienisch}} -- {{wrd.deutsch}}</a>
+                        </li>
                     {%endfor%}
-                </tr>
-            {%endfor%}
+                        </ul>
+                </div>
 
-        {%endfor%}
+                {%endif%}
+                <br>
+                    </li>
+                {%endfor%}
+                    </ul>
+            </div>
+        </div>
+            {%endif%}
+        {%if alle%}
+        <div class="row">
+            <div style="background-color: #3366ff; border-radius: 0px 0px 8px 8px;" class="col-sm-3 text-white"><h5 id="buttonToggle1" style="border-radius: 8px 8px 8px 8px; background-color: #99ccff"><center>Alle Units</center></h5></div>
+            <div  class="col-sm-9 "><p>Zum Aufklappen einfach auf "Alle Units" klicken</p>
+                <div id="textToggle1">
 
-    </tbody>
-</table>
-{% endfor %}
+                    {% for schule_key, schule_data in alle.items %}
+                    <table class="table table-striped">
+                        <thead class="thead-light" align="center">
+                        <tr>
+                            <th align="center">{{schule_key}}</th>
+                        </tr>
+                        </thead>
+
+
+                        <tbody>
+                            {%for sprache_key, sprache_data in schule_data.items%}
+                                <tr>
+                                    <td bgcolor="#3366ff", class="text-white"><b>{{sprache_key}}</b></td>
+                                    <td bgcolor="#3366ff"> </td>
+                                    <!--<td>{{sprache_data}} </td>-->
+                                </tr>
+
+                                {% for units in sprache_data %}
+                                    <tr>
+                                        {%for unit in units %}
+
+                                            {% if unit == ' ' %}
+                                                <td> </td>
+                                            {% else %}
+                                                <td> <a href="{% url 'unittest-method' pk=unit.id name_of_unit=unit %}">{{unit.u_name}}</a> </td>
+                                            {% endif %}
+
+                                        {%endfor%}
+                                    </tr>
+                                {%endfor%}
+
+                            {%endfor%}
+
+                        </tbody>
+                    </table>
+                    {%endfor%}
+
+
+
+
+                    </div>
+
+            </div>
+        </div>
+        </div>
+    {%endif%}
+
+
+
+
+
 
 
 {% endblock content%}

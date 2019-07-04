@@ -20,10 +20,10 @@ $(document).ready(function(){
 
 
 
-<h3 class="bg-info text-white">Hallo {{ request.user }}, du bist gerade bei {{ info }}!</h3>
+<h3 class="text-white" style="background-color: #56BB86;">Hallo {{ request.user }}, du bist gerade bei {{ info }}!</h3>
 
 <table class="table table-striped">
-  <thead class="thead text-white" style="background-color: blue; background-image: linear-gradient(to left, rgb(51, 153, 255, 0.7), blue);">
+  <thead class="thead text-white" style="background-color: #56BB86;">
     <tr>
       <th scope="col">{{info.sprache.sprache_lang}}</th>
       <th scope="col">Deutsch</th>
@@ -42,7 +42,7 @@ $(document).ready(function(){
 <h5><b>Merke dir die Wörter gut! Du wirst sie gleich geprüft!</b></h5><br> <!-- style="float: right" -->
 
 <table class="table">
-  <thead class="thead text-white" style="background-color: blue; background-image: linear-gradient(to right, rgb(51, 153, 255, 0.7), blue);">
+  <thead class="thead">
     <tr>
       <th scope="col">Karteikarten</th>
       <th scope="col">Schriftlich</th>

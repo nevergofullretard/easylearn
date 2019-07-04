@@ -1,18 +1,22 @@
-{% extends "about/header.html" %}
-{% block content %}
-
-<h3>Alle Units</h3>
-
 
 <script>
-   $(document).ready(function(){
-      $('#textToggle1').hide();
+$(document).ready(function(){
+  $('#textToggle1').hide();
 
-      $('#buttonToggle1').click(function(){
-        $('#textToggle1').slideToggle();
-        });
+  $('#buttonToggle2').click(function(){
+    $('#textToggle1').slideToggle();
+    });
 
-     {%if units_gemacht%}
+    <!--nur Spielerei das mit den Radiobuttons-->
+    <!--$('input:radio').on('click', function(e) {-->
+        <!--&lt;!&ndash;if ( $("div").hasClass("container")) {&ndash;&gt;-->
+            <!--&lt;!&ndash;$(this).hide()&ndash;&gt;-->
+        <!--console.log('schon erledigte Unit');-->
+        <!--}-->
+    <!--});-->
+
+
+    {%if units_gemacht%}
         {%for unit, outstanding_words in units_gemacht.items %}
             {%if outstanding_words%}
             $("#{{unit.id}}-dropdown").hide()
@@ -23,35 +27,17 @@
             {%endif%}
         {%endfor%}
     {%endif%}
-    });
+
+});
 </script>
 
 
 <div class="container">
-{%if current_unit%}
-
-    <div class="row" style="background-color: #99ddff">
-        <div class="col-sm-7" ><h3 class="text-white">Jetzige Unit:</h3></div>
-        <div class="col-sm-5">
-            <ul>
-                <li class="text-white">
-                    <a href="{% url 'unit-words' pk=current_unit.id name_of_unit=current_unit%}" class="text-white"><h5>{{current_unit}}</h5></a>
-                </li>
-
-            </ul>
-        </div>
-    </div>
-{%endif%}
-            {%if naechste_unit%}
+        {%if naechste_unit%}
             <div class="row">
                 <div style="background-color: #66ccff" class="col-sm-7 text-white"> <h3>Weiter mit nächster Unit</h3></div>
                 <div style="background-color: #66ccff" class="col-sm-5 text-white">
-                    <ul>
-                        <li>
-                            <a class="text-white" href="{% url 'unit-words' pk=naechste_unit.id name_of_unit=naechste_unit %}"><h5>{{naechste_unit}}</h5></a>
-                        </li>
-                    </ul>
-
+                    <input type="radio" value="{{naechste_unit.id}}" name="unit" required> {{naechste_unit}}<br>
                 </div>
             </div>
             {%endif%}
@@ -59,13 +45,9 @@
         <div class="row">
             <div style="background-color: #3399ff" class="col-sm-7 text-white"><h4>Ähnliche Units</h4></div>
             <div style="background-color: #3399ff" class="col-sm-5 text-white">
-                <ul>
                 {%for unit in similar %}
-                    <li>
-                        <a class="text-white" href="{% url 'unit-words' pk=unit.id name_of_unit=unit %}"><h5>{{unit}}</h5></a>
-                    </li>
+                       <input type="radio" value="{{unit.id}}" name="unit" required> {{unit}}<br>
                  {%endfor%}
-                </ul>
 
             </div>
         </div>
@@ -75,12 +57,10 @@
                 <div class="row">
             <div style="background-color: #0066ff" class="col-sm-7 text-white"><h4>Deine Units</h4></div>
             <div style="background-color: #0066ff" class="col-sm-5 text-white">
-                <ul>
                 {%for unit, outstanding_words in units_gemacht.items %}
-                <li>
-                    <a class="text-white" href="{% url 'unit-words' pk=unit.id name_of_unit=unit %}"><h5>{{unit}}</h5></a>
+                  <input type="radio" value="{{unit.id}}" name="unit" required> {{unit}}
                 {%if outstanding_words%}
-                <small class="text-white border border-white rounded" id="{{unit.id}}-button" > neue Wörter! </small>
+                <small class="text-white border border-white rounded" id="{{unit.id}}-button" >neue Wörter!</small>
                 <div id="{{unit.id}}-dropdown">
                     <ul class="list-group">
                     {%for wrd in outstanding_words%}
@@ -90,19 +70,19 @@
                     {%endfor%}
                         </ul>
                 </div>
-
+                {%else%}
+                <small class="text-white"> - Unit neu beginnen!</small>
                 {%endif%}
                 <br>
                     </li>
                 {%endfor%}
-                    </ul>
             </div>
         </div>
             {%endif%}
         {%if alle%}
         <div class="row">
-            <div style="background-color: #3366ff; border-radius: 0px 0px 8px 8px;" class="col-sm-3 text-white"><h5 id="buttonToggle1" style="border-radius: 8px 8px 8px 8px; background-color: #99ccff"><center>Alle Units</center></h5></div>
-            <div  class="col-sm-9" ><p>Zum Aufklappen einfach auf "Alle Units" klicken</p>
+            <div style="background-color: #3366ff; border-radius: 0px 0px 8px 8px;" class="col-sm-3 text-white"><h5 id="buttonToggle2" style="border-radius: 8px 8px 8px 8px; background-color: #99ccff"><center>Alle Units</center></h5></div>
+            <div  class="col-sm-9 "><p>Zum Aufklappen einfach auf "Alle Units" klicken</p>
                 <div id="textToggle1">
 
                     {% for schule_key, schule_data in alle.items %}
@@ -129,7 +109,7 @@
                                             {% if unit == ' ' %}
                                                 <td> </td>
                                             {% else %}
-                                                <td> <a href="{% url 'unit-words' pk=unit.id name_of_unit=unit %}">{{unit.u_name}}</a> </td>
+                                                <td>  <input type="radio" value="{{unit.id}}" name="unit" required> {{unit.u_name}}<br></td>
                                             {% endif %}
 
                                         {%endfor%}
@@ -149,55 +129,5 @@
 
             </div>
         </div>
-        </div>
     {%endif%}
-
-
-
-
-
-
-
-
-
-
-<!--{% for schule_key, schule_data in units_all.items %}-->
-
-<!--<table class="table table-striped">-->
-<!--    <thead class="thead-light" align="center">-->
-<!--    <tr>-->
-<!--        <th align="center">{{schule_key}}</th>-->
-<!--        <th> </th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-
-<!--    <tbody>-->
-
-<!--        {%for sprache_key, sprache_data in schule_data.items%}-->
-<!--            <tr>-->
-<!--                <td bgcolor="#4169E1", class="text-white"><b>{{sprache_key}}</b></td>-->
-<!--                <td bgcolor="#66B2FF"> </td>-->
-                <!--<td>{{sprache_data}} </td>-->
-<!--            </tr>-->
-
-<!--            {% for units in sprache_data %}-->
-<!--                <tr>-->
-<!--                    {%for item in units %}-->
-
-<!--                    {% if item == ' ' %}-->
-<!--                    <td> </td>-->
-<!--                    {% else %}-->
-<!--                        <td><a href="{% url 'unit-words' pk=item.id name_of_unit=item %}">{{item}}</a></td>-->
-<!--                    {% endif %}-->
-
-<!--                    {%endfor%}-->
-<!--                </tr>-->
-<!--            {%endfor%}-->
-
-<!--        {%endfor%}-->
-
-<!--    </tbody>-->
-<!--</table>-->
-<!--{% endfor %}-->
-
-{% endblock content%}
+        </div>
