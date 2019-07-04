@@ -38,6 +38,8 @@
         {%endfor%}
         </tbody>
     </table>
+ <center> <a href="{%url 'fehlertest-start-really'%}">Zurück</a> </center>
+    <br/>
 {%else%}
 
 <form method="POST"> {%  csrf_token %}

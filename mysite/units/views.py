@@ -192,37 +192,34 @@ def unitname(request, pk, name_of_unit):
 
 
 def units_all(request):
-    schulen = Unit_schule.objects.all()
+    # schulen = Unit_schule.objects.all()
 
-    schulen_units_all = schulen_units(schulen=schulen)
+    # schulen_units_all = schulen_units(schulen=schulen)
 
-    # schulen_units_all = {}
-    #
-    # for schule in schulen:
-    #     schulen_units = Unit_name.objects.filter(schule=schule)
-    #     schulen_units_all[str(schule)] = {}
-    #     sprachen_schule = []
-    #     sprachen_schule_kurz = [] # ist für die Kurzbezeichnung der Sprache, z.B. IT für Italienisch (wird später für query gebraucht)
-    #
-    #     for schule_unit in schulen_units:
-    #         schule_unit_sprache_lang = schule_unit.sprache.get_sprache_display()  # ist die lange Bezeichnung, z.B Italienisch für IT
-    #         sprachen_schule_kurz.append(schule_unit.sprache)
-    #         sprachen_schule.append(schule_unit_sprache_lang)
-    #
-    #         if sprachen_schule.count(schule_unit_sprache_lang) > 1:
-    #             sprachen_schule.remove(schule_unit_sprache_lang)
-    #         else:
-    #             pass
-    #
-    #         for sprache_schule, sprache_kurz in zip(sprachen_schule, sprachen_schule_kurz):
-    #             schulen_units_all[str(schule)][str(sprache_schule)] = split_list(
-    #                 [unit_name for unit_name in Unit_name.objects.filter(
-    #                     sprache=sprache_kurz, schule=schule
-    #                  )])
+    alle_units = Unit_name.objects.all()
+
+    alle_dict = {}
+    for schule in Unit_schule.objects.all():
+        units_schule = alle_units.filter(schule=schule)
+        schule_words = Unit_words.objects.filter(unit_name__in=units_schule)
+
+
+        if units_schule and schule_words:
+            alle_dict[str(schule)] = {}
+
+            for sprache in Unit_sprache.objects.all():
+                units_schule_sprache = units_schule.filter(sprache=sprache)
+                units_schule_sprache_all = []
+                for schule_sprache in units_schule_sprache: # ist mir egal ob da schon Wörter drinnen sind oder noch nicht, hab keine Zeit mehr!
+                    print(schule_sprache.id)
+                    if Unit_words.objects.filter(unit_name__id=schule_sprache.id):
+                        units_schule_sprache_all.append(schule_sprache)
+                        alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = units_schule_sprache_all
 
 
 
-    context = {'units_all': schulen_units_all}
+
+    context = {'alle': alle_dict}
     return render(request, 'units/units_all.html', context)
 
 @staff_member_required
@@ -277,7 +274,7 @@ def new_unit_user(request):
             values_deutsch = request.POST.getlist(str(i) + 'deutsch')
             values_sidenote = request.POST.getlist(str(i) + 'sidenote')
             for value1, value2, value3 in zip(values_fremd, values_deutsch, values_sidenote):
-                if value1 != '' and value2 != '' and value3 != '' and ';' not in value1 and ';' not in value2 and ';' not in value3:
+                if value1 != '' and value2 != '' and ';' not in value1 and ';' not in value2 and ';' not in value3:
                     all_values.append([value1, value2, value3])
                 elif ';' in value1 or ';' in value2 or ';' in value3:
                     messages.error(request, 'Sorry, aber ";" ist nicht erlaubt! Die restlichen Wörter wurden zur Anfrage geschickt.')
@@ -291,7 +288,7 @@ def new_unit_user(request):
                 Anfrage_words_user.objects.create(user=request.user, unit=unit, word_fremdsprache=value[0], word_deutsch=value[1], sidenote=value[2])
 
                 anfragen = Anfrage_words_user.objects.all()
-                max = 500
+                max = 5000
                 if anfragen.count() > max:
                     words_delete = Anfrage_words_user.objects.all()[::1][0:anfragen.count()-max]
 

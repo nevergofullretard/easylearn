@@ -232,7 +232,11 @@ def test_passt(request, test_art, von, bis, unit_ids):
 
 @login_required
 def fehlertest(request, test_art, von, bis, unit_ids):
+
     words = test_passt(request, test_art, von, bis, unit_ids)
+
+
+
     return render(request, 'usertests/fehlertest-unit.html', {'words': words, 'test_art': test_art, 'von': von, 'bis': bis, 'unit_ids': unit_ids})
 
 @login_required

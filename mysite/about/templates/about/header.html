@@ -1,4 +1,3 @@
-{% load static %}
 
 {% include "about/style.html" %}
 {% include "about/js.html" %}
@@ -35,19 +34,19 @@ $(window).scroll(determineDropDirection);
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/color/30/000000/easy.png">
 
     <title>EasyLearn</title>
 
 
 
 </head>
-<body>
+<body style="background-image: linear-gradient(to right, #e6ffff, white); ">
 <header class="site-header">
 
-
-
-
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #17A2B8; background-image: linear-gradient(to right, #17A2B8,  rgb(255, 255,0));">
+ <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #17A2B8; background-image: linear-gradient(to right, #17A2B8,  rgb(255, 255,0));">
         <div  class="container">
       <a class="navbar-brand animated bounceInLeft" href="{% url 'units' %}"><img src="https://img.icons8.com/color/30/000000/easy.png"> EasyLearn</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,23 +68,6 @@ $(window).scroll(determineDropDirection);
             </li>
             {% endif %}
 
-            <!--
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item " href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled animated bounceInLeft" href="#">Disabled</a>
-          </li>
-        -->
-
         </ul>
 
         <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}">
@@ -104,8 +86,8 @@ $(window).scroll(determineDropDirection);
             </li>
             <a class="nav-item nav-link text-alert" href="{% url 'logout' %}"><img src="https://img.icons8.com/office/30/000000/exit.png"></a>
             {% else %}
-              <a class="nav-item nav-link text-alert" href="{% url 'login' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/password.png"></a>
-              <a class="nav-item nav-link text-alert" href="{% url 'register' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/add-user-male.png"></a>
+              <a class="nav-item nav-link text-white" href="{% url 'login' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/password.png"> Login</a>
+              <a class="nav-item nav-link text-white" href="{% url 'register' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/add-user-male.png">Register</a>
             {% endif %}
             </ul>
         </form>
@@ -113,11 +95,14 @@ $(window).scroll(determineDropDirection);
       </div>
     </nav>
 
+    </nav>
+
 
 </header>
-    <div class="container" style="padding-top: 60px; background-image: linear-gradient(to right, rgb(102, 204, 255, 0), rgb(102, 204, 255, 0.3)); ">
+    <main role="main" class="container" style="padding-top: 65px; ">
         <div class="row">
-            <div class="col-sm-9">
+
+<div class="col-md-9">
                 {% if messages %}
                     {% for message in messages %}
                     <div class="alert alert-info alert-dismissable">
@@ -143,7 +128,8 @@ $(window).scroll(determineDropDirection);
 
 
             </div>
-            <div class="col-sm-3" >
+
+ <div class="col-md-3" >
                 <div class="content-section bg-info">
                     {% if user.is_authenticated %}
                         {% load confirm_email %}
@@ -169,9 +155,10 @@ $(window).scroll(determineDropDirection);
                                     </a>
 
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'new-words-start' %}">Hinzufügen - Start</a>
                                            <a  class="dropdown-item" href="{% url 'new-unit-user' %}">Neue Wörter hinzufügen</a>
                                             <a class="dropdown-item" href="{% url 'new-words-user' %}">Neue Unit hinzufügen</a>
-                                            <a class="dropdown-item" href="{% url 'new-words-start' %}">Hinzufügen - Start</a>
+
                                     </div>
                                 </div>
                             </li>
@@ -205,7 +192,7 @@ $(window).scroll(determineDropDirection);
                     {% if user.is_authenticated %}
                 {% load linked_in_post %}
                 {% linked_in_post %}
-            {%endif%}
+                {%endif%}
                     </div>
 
 
@@ -213,14 +200,12 @@ $(window).scroll(determineDropDirection);
 
             </div>
 
-</div>
-    </div>
-
+</main>
 
 <footer>
-    <div class="container" style="background-image: linear-gradient(to right, rgb(102, 204, 255, 0), rgb(102, 204, 255, 0.3));">
+    <div class="container" >
         <div class="row">
-            <div class="col-sm">
+            <div class="col">
                 <ul>
                     <small>
                         <li><a href="{%url 'users-start'%}">Was kann ich mit meinem Account machen?</a></li>

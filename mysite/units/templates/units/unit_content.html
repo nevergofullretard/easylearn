@@ -30,6 +30,10 @@ var availableColleges = [
         value: "#{{clg.id}}",
         label: "{{clg.deutsch}}--Zeile {{ forloop.counter }}"
       },
+       {
+        value: "#{{clg.id}}",
+        label: "{{clg.sidenote}}--Zeile {{ forloop.counter }}"
+      },
   {% endfor %}
   ];
 
@@ -91,9 +95,12 @@ var availableColleges = [
     </div>
     <div class="row">
         <div class="col-sm">
-
-
-
+        {%if not request.user.is_authenticated%}
+        <div class="alert alert-info alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <p class="text-muted">Du möchtest diese Wörter üben? <a href="{%url 'register'%}">Register</a></p>
+            </div>
+        {%endif%}
             <table class="table table-striped">
               <thead class="thead" style="background-color: #56BB86;">
                 <tr class="text-white">
@@ -116,6 +123,7 @@ var availableColleges = [
 
               </tbody>
             </table>
+
         </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 {% extends "about/header.html" %}
 {% block content %}
-<small>{{test_art}} Wörter</small>
+<h3>Gelernte Wörter üben - {{test_art}} Wörter</h3>
 
 {% if request.method == "POST" %}
     <table class="table">
@@ -40,6 +40,8 @@
 
         </tbody>
     </table>
+    <center> <a href="{%url 'fehlertest-start-really'%}">Zurück</a> </center>
+    <br/>
 {%else%}
 <form method="POST"> {%  csrf_token %}
             <fieldset class="form-group">

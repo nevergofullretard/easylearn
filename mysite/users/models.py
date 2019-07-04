@@ -19,7 +19,7 @@ class Profile(models.Model):
     first_voc = models.IntegerField(default=0)  # erstes Vokabel des Lerndurchgangs
     current_unit = models.IntegerField(default=0)   # das ist nicht gut, aber es zu ändern würde zu lange dauern (Änderungen in statistic.views und users.views.lernweg!
     last_voc = models.IntegerField(default=0)   # letztes Vokabel des Lerndurchgangs
-    pruefung_voc = models.IntegerField(default=2)   # so viele Vokabeln zeigt es dem User bei der Prüfung an
+    pruefung_voc = models.IntegerField(default=4)   # so viele Vokabeln zeigt es dem User bei der Prüfung an
     karteikarten_voc = models.IntegerField(default=4)
     pruefung_umgekehrt = models.BooleanField(default=False) # wenn True, kann es dem User auch Vokabeln von Deutsch auf Italienisch vorschlagen
     units_gemacht = models.ManyToManyField(Units_user, blank=True) # blank=True bedeutet, dass es nicht required ist
@@ -28,7 +28,7 @@ class Profile(models.Model):
     toleranz = models.IntegerField(default=51)
 
     ''' this CharField will be like a CSV-File (comma seperated) and will store the id's
-    of The Unit_words in the random generated order, max_length is required, so i hope it will never 
+    of The Unit_words in the random generated order, max_length is required, so i hope it will never
     come to problems with the billion or sth, IMPORTANT: never save a vocab with "," because that is used to split the list
     Further information: app: usertests/views/unittest_schriftlich or karteikarten
      '''

@@ -17,6 +17,7 @@ from blog.models import Post
 from units.models import Unit_words, Unit_name, Unit_schule, Unit_sprache # ich weiß nicht warum es mir das anzeigt, aber alles funktioniert anscheinend normal
 from usertests.models import Unit_pruefung
 from emails.views import register_success, random_confirm
+from units.views import split_list
 from emails.models import Confirm_email
 
 from .forms import UserRegisterForm, UserUpdateForm, SchriftlichPruefungItForm,\
@@ -153,6 +154,120 @@ def start(request):
 
 
 
+def units_auswahl(request, nur_volle_units=True, nur_alle=False):
+    current_unit = None
+    next = None
+    similar = None
+    alle_dict = {}
+    units_gemacht = []
+    dict_units_gemacht = {}
+
+    if not nur_alle:
+        if request.user.profile.current_unit != 0:
+            current_unit = Unit_name.objects.get(id=request.user.profile.current_unit)
+
+
+
+        for wrd in Words_user.objects.filter(user=request.user, lernweg_voc=False)[::-1]:
+            if wrd.word.unit_name not in units_gemacht:
+                units_gemacht.append(wrd.word.unit_name)
+        # units_gemacht = Units_user.objects.filter(user=request.user)[::-1]
+
+        if units_gemacht:
+            letzte_unit = units_gemacht[0]
+            real_units_gemacht = [unit.id for unit in units_gemacht]
+            naechste_untit = \
+                Unit_name.objects.filter(sprache=letzte_unit.sprache, schule=letzte_unit.schule).exclude(
+                    id__in=real_units_gemacht)
+            if naechste_untit:
+                lst_naechste_unit = []
+                # print('nächste Units')
+                # print(lst_naechste_unit)
+                if nur_volle_units:
+                    for naechste in naechste_untit:
+                        words_naechste_unit = Unit_words.objects.filter(unit_name=naechste)
+                        if words_naechste_unit:
+                            lst_naechste_unit.append(naechste)
+                else:
+                    lst_naechste_unit = naechste_untit #könnte evtl für Probleme sorgen, weil hier statt List dann Query verwendet wird
+
+                next = naechste_untit[0]
+
+                # similar = naechste_untit.exclude(id=next.id)
+                if next in lst_naechste_unit:
+                    lst_naechste_unit.remove(next)
+
+                similar = split_list(lst_naechste_unit)
+                real_units_gemacht.append(next.id)
+                if not Unit_words.objects.filter(unit_name=next):
+                    next = None
+            if similar:
+                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(id__in=[unit.id for unit in similar])
+            else:
+                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht)
+        else:
+            alle_units = Unit_name.objects.all()
+
+
+        for schule in Unit_schule.objects.all():
+            units_schule = alle_units.filter(schule=schule)
+            schule_words = Unit_words.objects.filter(unit_name__in=units_schule)
+
+            if units_schule and schule_words:
+                alle_dict[str(schule)] = {}
+
+                for sprache in Unit_sprache.objects.all():
+                    units_schule_sprache = units_schule.filter(sprache=sprache)
+                    units_schule_sprache_all = []
+                    for schule_sprache in units_schule_sprache:
+                        if nur_volle_units:
+                            if Unit_words.objects.filter(unit_name__id=schule_sprache.id):
+                                units_schule_sprache_all.append(schule_sprache)
+
+                                alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = split_list(units_schule_sprache_all)
+                        else:
+                            units_schule_sprache_all.append(schule_sprache)
+                            alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = split_list(units_schule_sprache_all)
+
+
+
+        for unit in units_gemacht:
+            words_unit = Words_user.objects.filter(user=request.user, word__unit_name=unit, lernweg_voc=False).order_by(
+                "-date")
+            outstanding_words = []
+            all_words_unit = Unit_words.objects.filter(unit_name=unit)
+            for wrd in all_words_unit:
+                if wrd not in [wrd.word for wrd in words_unit]:
+                    outstanding_words.append(wrd)
+            if outstanding_words:
+                dict_units_gemacht[unit] = outstanding_words
+            else:
+                dict_units_gemacht[unit] = None
+
+    else:
+        alle_units = Unit_name.objects.all()
+        for schule in Unit_schule.objects.all():
+            units_schule = alle_units.filter(schule=schule)
+            schule_words = Unit_words.objects.filter(unit_name__in=units_schule)
+
+            if units_schule and schule_words:
+                alle_dict[str(schule)] = {}
+
+                for sprache in Unit_sprache.objects.all():
+                    units_schule_sprache = units_schule.filter(sprache=sprache)
+                    units_schule_sprache_all = []
+                    for schule_sprache in units_schule_sprache:
+                        if nur_volle_units:
+                            if Unit_words.objects.filter(unit_name__id=schule_sprache.id):
+                                units_schule_sprache_all.append(schule_sprache)
+
+                                alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = split_list(units_schule_sprache_all)
+                        else:
+                            units_schule_sprache_all.append(schule_sprache)
+                            alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = split_list(units_schule_sprache_all)
+
+    return {'current_unit': current_unit, 'next': next, 'similiar': similar, 'alle': alle_dict, 'dict_units_gemacht': dict_units_gemacht}
+
 
 @login_required
 def lernweg(request):
@@ -187,76 +302,81 @@ def lernweg(request):
 
             return redirect('users-lernweg')
         else:
-            units_gemacht = []
-            for wrd in Words_user.objects.filter(user=request.user, lernweg_voc=False)[::-1]:
-                if wrd.word.unit_name not in units_gemacht:
-                    units_gemacht.append(wrd.word.unit_name)
-            # units_gemacht = Units_user.objects.filter(user=request.user)[::-1]
-            next = None
-            similar = None
-            if units_gemacht:
-                letzte_unit = units_gemacht[0]
-                real_units_gemacht = [unit.id for unit in units_gemacht]
-                naechste_untit = \
-                    Unit_name.objects.filter(sprache=letzte_unit.sprache, schule=letzte_unit.schule).exclude(
-                        id__in=real_units_gemacht)
-                if naechste_untit:
-                    lst_naechste_unit = []
-                    # print('nächste Units')
-                    # print(lst_naechste_unit)
-                    for naechste in naechste_untit:
-                        words_naechste_unit = Unit_words.objects.filter(unit_name=naechste)
-                        if words_naechste_unit:
-                            lst_naechste_unit.append(naechste)
-                    next = naechste_untit[0]
 
-                    # similar = naechste_untit.exclude(id=next.id)
-                    if next in lst_naechste_unit:
-                        lst_naechste_unit.remove(next)
+            # units_gemacht = []
+            # for wrd in Words_user.objects.filter(user=request.user, lernweg_voc=False)[::-1]:
+            #     if wrd.word.unit_name not in units_gemacht:
+            #         units_gemacht.append(wrd.word.unit_name)
+            # # units_gemacht = Units_user.objects.filter(user=request.user)[::-1]
+            # next = None
+            # similar = None
+            # if units_gemacht:
+            #     letzte_unit = units_gemacht[0]
+            #     real_units_gemacht = [unit.id for unit in units_gemacht]
+            #     naechste_untit = \
+            #         Unit_name.objects.filter(sprache=letzte_unit.sprache, schule=letzte_unit.schule).exclude(
+            #             id__in=real_units_gemacht)
+            #     if naechste_untit:
+            #         lst_naechste_unit = []
+            #         # print('nächste Units')
+            #         # print(lst_naechste_unit)
+            #         for naechste in naechste_untit:
+            #             words_naechste_unit = Unit_words.objects.filter(unit_name=naechste)
+            #             if words_naechste_unit:
+            #                 lst_naechste_unit.append(naechste)
+            #         next = naechste_untit[0]
 
-                    similar = lst_naechste_unit
-                    real_units_gemacht.append(next.id)
-                    if not Unit_words.objects.filter(unit_name=next):
-                        next = None
-                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(id__in=[unit.id for unit in similar])
-            else:
-                alle_units = Unit_name.objects.all()
-            alle_dict = {}
-            for schule in Unit_schule.objects.all():
-                units_schule = alle_units.filter(schule=schule)
-                schule_words = Unit_words.objects.filter(unit_name__in=units_schule)
+            #         # similar = naechste_untit.exclude(id=next.id)
+            #         if next in lst_naechste_unit:
+            #             lst_naechste_unit.remove(next)
 
-
-
-                if units_schule and schule_words:
-                    alle_dict[str(schule)] = {}
-
-                    for sprache in Unit_sprache.objects.all():
-                        units_schule_sprache = units_schule.filter(sprache=sprache)
-                        units_schule_sprache_all = []
-                        for schule_sprache in units_schule_sprache: # ist mir egal ob da schon Wörter drinnen sind oder noch nicht, hab keine Zeit mehr!
-                            print(schule_sprache.id)
-                            if Unit_words.objects.filter(unit_name__id=schule_sprache.id):
-                                units_schule_sprache_all.append(schule_sprache)
-
-                                alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = units_schule_sprache_all
-
-        dict_units_gemacht = {}
-        for unit in units_gemacht:
-            words_unit = Words_user.objects.filter(user=request.user, word__unit_name=unit, lernweg_voc=False).order_by(
-                "-date")
-            outstanding_words = []
-            all_words_unit = Unit_words.objects.filter(unit_name=unit)
-            for wrd in all_words_unit:
-                if wrd not in [wrd.word for wrd in words_unit]:
-                    outstanding_words.append(wrd)
-            if outstanding_words:
-                dict_units_gemacht[unit] = outstanding_words
-            else:
-                dict_units_gemacht[unit] = None
+            #         similar = lst_naechste_unit
+            #         real_units_gemacht.append(next.id)
+            #         if not Unit_words.objects.filter(unit_name=next):
+            #             next = None
+            #     if similar:
+            #         alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(id__in=[unit.id for unit in similar])
+            #     else:
+            #         alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht)
+            # else:
+            #     alle_units = Unit_name.objects.all()
+            # alle_dict = {}
+            # for schule in Unit_schule.objects.all():
+            #     units_schule = alle_units.filter(schule=schule)
+            #     schule_words = Unit_words.objects.filter(unit_name__in=units_schule)
 
 
-        context = {'naechste_unit': next, 'similar': similar, 'alle': alle_dict, 'units_gemacht': dict_units_gemacht}
+            #     if units_schule and schule_words:
+            #         alle_dict[str(schule)] = {}
+
+            #         for sprache in Unit_sprache.objects.all():
+            #             units_schule_sprache = units_schule.filter(sprache=sprache)
+            #             units_schule_sprache_all = []
+            #             for schule_sprache in units_schule_sprache: # ist mir egal ob da schon Wörter drinnen sind oder noch nicht, hab keine Zeit mehr!
+            #                 if Unit_words.objects.filter(unit_name__id=schule_sprache.id):
+            #                     units_schule_sprache_all.append(schule_sprache)
+
+            #                     alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = units_schule_sprache_all
+
+            # dict_units_gemacht = {}
+            # for unit in units_gemacht:
+            #     words_unit = Words_user.objects.filter(user=request.user, word__unit_name=unit, lernweg_voc=False).order_by(
+            #         "-date")
+            #     outstanding_words = []
+            #     all_words_unit = Unit_words.objects.filter(unit_name=unit)
+            #     for wrd in all_words_unit:
+            #         if wrd not in [wrd.word for wrd in words_unit]:
+            #             outstanding_words.append(wrd)
+            #     if outstanding_words:
+            #         dict_units_gemacht[unit] = outstanding_words
+            #     else:
+            #         dict_units_gemacht[unit] = None
+
+            # return {'next': next, 'similiar': similiar, 'alle': alle_dict, 'dict_units_gemacht': dict_units_gemacht}
+            # 'naechste_unit': auswahl['next'], 'similar': auswahl['similiar'], 'alle': auswahl['alle'], 'units_gemacht': auswahl['dict_units_gemacht']
+
+            auswahl = units_auswahl(request=request, nur_volle_units=True)
+        context = {'naechste_unit': auswahl['next'], 'similar': auswahl['similiar'], 'alle': auswahl['alle'], 'units_gemacht': auswahl['dict_units_gemacht']}
         return render(request, 'users/users-neuer-lernweg.html', context)
 
     else:

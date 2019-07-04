@@ -41,11 +41,11 @@ var availableColleges = [
 </script>
 
   <article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+          <img class="rounded-circle article-img" height="100" width="100" src="{{ object.author.profile.image.url }}">
     <div class="media-body">
 
       <div class="article-metadata">
-        <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+        <a class="mr-2 text-secondary" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
         <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
         {% if object.author == user %}
           <div>
@@ -75,6 +75,7 @@ var availableColleges = [
     </div>
     <!--<h2>Amadeus testa <p class="bg-success text-white"><a href="{% url "user-posts" username="maxistraif"%}">@maxistraif</a></p>maxistraif </h2>-->
   </article>
+  <hr>
 
 {%if content_form%}
 <center class="text-muted">Du wurdest markiert!</center>

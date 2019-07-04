@@ -3,43 +3,79 @@
 
 <h3>Alle Units</h3>
 
-{% for schule_key, schule_data in units_all.items %}
 
-<table class="table table-striped">
-    <thead class="thead-light" align="center">
-    <tr>
-        <th align="center">{{schule_key}}</th>
-        <th> </th>
-    </tr>
-    </thead>
+        {%if alle%}
 
-    <tbody>
+                <table  class="table" >
+                    <thead class="thead">
+                        <tr>
+                            <th>Schule</th>
+                            <th>Sprache</th>
+                            <th>Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for key1,value1 in alle.items%}
+                        <tr>
+                            <td  style="background-color: #ccffcc;"><b>{{key1}}</b></td>
+                        </tr>
+                            {%for key2,value2 in value1.items%}
+                            <tr>
+                                <td></td>
+                                <td  style="background-color: #ccffcc;">{{key2}}</td>
+                            </tr>
+                                {%for value3 in value2%}
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td  style="background-color: #ccffcc;"><a href="{% url 'unit-words' pk=value3.id name_of_unit=value3 %}">{{value3}}</a><br></td>
+                                    </tr>
+                                {%endfor%}
+                            {%endfor%}
 
-        {%for sprache_key, sprache_data in schule_data.items%}
-            <tr>
-                <td bgcolor="#4169E1", class="text-white"><b>{{sprache_key}}</b></td>
-                <td bgcolor="#66B2FF"> </td>
+                        {%endfor%}
+                    </tbody>
+                </table>
+
+    {%endif%}
+
+<!--{% for schule_key, schule_data in units_all.items %}-->
+
+<!--<table class="table table-striped">-->
+<!--    <thead class="thead-light" align="center">-->
+<!--    <tr>-->
+<!--        <th align="center">{{schule_key}}</th>-->
+<!--        <th> </th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+
+<!--    <tbody>-->
+
+<!--        {%for sprache_key, sprache_data in schule_data.items%}-->
+<!--            <tr>-->
+<!--                <td bgcolor="#4169E1", class="text-white"><b>{{sprache_key}}</b></td>-->
+<!--                <td bgcolor="#66B2FF"> </td>-->
                 <!--<td>{{sprache_data}} </td>-->
-            </tr>
+<!--            </tr>-->
 
-            {% for units in sprache_data %}
-                <tr>
-                    {%for item in units %}
+<!--            {% for units in sprache_data %}-->
+<!--                <tr>-->
+<!--                    {%for item in units %}-->
 
-                    {% if item == ' ' %}
-                    <td> </td>
-                    {% else %}
-                        <td><a href="{% url 'unit-words' pk=item.id name_of_unit=item %}">{{item}}</a></td>
-                    {% endif %}
+<!--                    {% if item == ' ' %}-->
+<!--                    <td> </td>-->
+<!--                    {% else %}-->
+<!--                        <td><a href="{% url 'unit-words' pk=item.id name_of_unit=item %}">{{item}}</a></td>-->
+<!--                    {% endif %}-->
 
-                    {%endfor%}
-                </tr>
-            {%endfor%}
+<!--                    {%endfor%}-->
+<!--                </tr>-->
+<!--            {%endfor%}-->
 
-        {%endfor%}
+<!--        {%endfor%}-->
 
-    </tbody>
-</table>
-{% endfor %}
+<!--    </tbody>-->
+<!--</table>-->
+<!--{% endfor %}-->
 
 {% endblock content%}
