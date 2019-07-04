@@ -65,14 +65,14 @@ $('#new_words').hide()
     $(document).ready(function(){
 var getLink = window.location.hash;
     if(getLink){
-       $("html, body").animate({ scrollTop: $(getLink).offset().top -60}, 1000);
+       $("html, body").animate({ scrollTop: $(getLink).offset().top -160}, 1000);
     $('#' + getLink.slice(1) + '').attr('style','border-left: 10px solid #56BB86;');
     };
 
     window.addEventListener('hashchange', function(e){
         var getLink = window.location.hash;
         if(getLink){
-           $("html, body").animate({ scrollTop: $(getLink).offset().top -60}, 1000);
+           $("html, body").animate({ scrollTop: $(getLink).offset().top -160}, 1000);
            $( ".words" ).each(function() {
               $(this).removeAttr('style')
               });
@@ -101,7 +101,7 @@ var availableColleges = [
 
                     var getLink = ui.item.value;
                 if(getLink){
-                   $("html, body").animate({ scrollTop: $(getLink).offset().top -60}, 1000);
+                   $("html, body").animate({ scrollTop: $(getLink).offset().top -160}, 1000);
                        window.location.href = ui.item.value;
                     $( ".words" ).each(function() {
                         $(this).removeAttr('style')

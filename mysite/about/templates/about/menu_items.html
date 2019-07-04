@@ -35,7 +35,7 @@ $(document).ready(function(){
             <a class="test" href="#"><button class="dropdown-item">{{sprache.sprache_lang}}</button><span class="caret"></span></a>
             <ul class="dropdown-menu">
                 {% for unit in units_list|slice:":5" %}
-              <li><a href="{%url 'unit-words' pk=unit.id name_of_unit=unit%}">{{unit}}</a></li>
+              <li><a href="{%url 'unit-words' pk=unit.id name_of_unit=unit%}">{{unit.u_name}}</a></li>
 
                 {%endfor%}
                 <li>

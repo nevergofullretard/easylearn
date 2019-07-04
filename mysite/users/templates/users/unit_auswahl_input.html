@@ -33,6 +33,16 @@ $(document).ready(function(){
 
 
 <div class="container">
+    {%if current_unit%}
+
+     <div class="row" style="background-color: #99ddff">
+        <div class="col-sm-7" ><h3 class="text-white">Jetzige Unit:</h3></div>
+        <div class="col-sm-5" class="text-white">
+            <input class="text-white" type="radio" value="{{current_unit.id}}" name="unit" required> {{current_unit}}<br>
+        </div>
+    </div>
+{%endif%}
+
         {%if naechste_unit%}
             <div class="row">
                 <div style="background-color: #66ccff" class="col-sm-7 text-white"> <h3>Weiter mit nächster Unit</h3></div>

@@ -110,29 +110,38 @@ var availableColleges = [
                 </tr>
               </thead>
               <tbody>
+                {%if words%}
+                     {% for word in words %}
 
-                 {% for word in words %}
+                        <tr id="{{word.id}}" class="words">
 
-                    <tr id="{{word.id}}" class="words">
+                            <td>{{ word }}</td>
+                            <td>{{ word.deutsch }}
+                                {%if word.sidenote%}
 
-                        <td>{{ word }}</td>
-                        <td>{{ word.deutsch }}
-                            {%if word.sidenote%}
+                           <div class="dropdown">
+                              <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Notiz
+                              </button>
+                               <div class="dropdown-menu">
+                                    <small class="text-muted">{{word.sidenote}}</small>
+                                 </div>
+                            </div>
 
-                       <div class="dropdown">
-                          <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Sidenote
-                          </button>
-                           <div class="dropdown-menu">
-                                <small class="text-muted">{{word.sidenote}}</small>
-                             </div>
-                        </div>
+                            {%endif%}
+                            </td>
 
-                        {%endif%}
-                        </td>
+                        </tr>
+                    {% endfor %}
+                {%else%}
+                <tr>
+                    <td>
+                        <a href="{%url 'new-unit-user'%}">Du kannst hier Wörter hinzufügen!</a>
+                    </td>
+                </tr>
 
-                    </tr>
-                {% endfor %}
+                {%endif%}
+
 
               </tbody>
             </table>
