@@ -1,10 +1,11 @@
 {% extends "about/header.html" %}
 
 
-
+{% block content %}
 
 <script>
 {% block jquery %}
+
 var endpoint = '/statistics/api/chart1/data/'
 var defaultData = []
 var labels = []
@@ -87,7 +88,7 @@ var myChart = new Chart(ctx2, {
         console.log("error")
         console.log(error_data)
     }
-})
+});
 
 
 
@@ -137,7 +138,7 @@ $.ajax({
         console.log("error")
         console.log(error_data)
     }
-})
+});
 
 
 
@@ -186,7 +187,7 @@ $.ajax({
         console.log("error")
         console.log(error_data)
     }
-})
+});
 
 
 
@@ -235,20 +236,16 @@ $.ajax({
         console.log("error")
         console.log(error_data)
     }
-})
+});
 
 
-})
-
-
-</script>
 
 {% endblock %}
 
+</script>
 
 
 
-{% block content %}
 <div class="row ">
 
     <div class="col-sm-12" url-endpoint="{% url 'api-data'%}">
@@ -258,7 +255,7 @@ $.ajax({
 
 
 
-            <div class="col-sm-6 border border-primary">
+            <div class="col-sm-6 border ">
 
 
 
@@ -278,7 +275,7 @@ $.ajax({
             <h6>Du hast noch keine <a href="{% url 'users-lernweg' %}">neue Unit</a> ausgewählt!</h6>
 
 
-            <div class="dropup">
+            <div class="dropdown">
               <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Meine Units
               </button>
@@ -302,7 +299,7 @@ $.ajax({
                     <canvas id="myChart5" width="400" height="400"></canvas>
 
 
-                   <div class="dropup">
+                   <div class="dropdown">
               <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Meine Units
               </button>
@@ -321,18 +318,18 @@ $.ajax({
 
         </div>
 
-            <div class="col-sm-6 border border-primary">
+            <div class="col-sm-6 border ">
                 <h3>Insgesamt</h3>
                 <canvas id="myChart" width="400" height="400"></canvas>
                 <!--<canvas id="myChart2" width="400" height="400"></canvas>-->
             </div>
 
-            <div class="col-sm-6 border border-primary">
+            <div class="col-sm-6 border ">
                 <h3>Heute</h3>
                 <canvas id="myChart3" width="400" height="400"></canvas>
             </div>
 
-            <div class="col-sm-6 border border-primary">
+            <div class="col-sm-6 border ">
                 <h3>Letzten 7 Tage</h3>
                 <canvas id="myChart4" width="400" height="400"></canvas>
             </div>
@@ -340,7 +337,7 @@ $.ajax({
     {%if posts%}
 
 
-        <div class="col-sm-12 border border-primary">
+        <div class="col-sm-12 border ">
             <h4><center>Posts von dir</center></h4>
 
 

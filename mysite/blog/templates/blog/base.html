@@ -1,6 +1,8 @@
+{% load static %}
 
 {% include "about/style.html" %}
 {% include "about/js.html" %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,11 +13,11 @@
 
     <!-- Bootstrap CSS -->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    {
 
 
-
-
-
+     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
     {% if title %}
         <title>EasyLearn - Community - {{ title }}</title>
     {% else %}
@@ -63,7 +65,7 @@
         </div>
       </nav>
     </header>
-    <main role="main" class="container"  style="padding-top: 65px;">
+    <main role="main" class="container"  >
       <div class="row">
         <div class="col-md-8">
 

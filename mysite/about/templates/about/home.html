@@ -1,16 +1,102 @@
 {% extends "about/header.html" %}
 {% block content %}
+<script>
+    $(document).ready(function(){
+    console.log( $("#img").attr('src') )
+    });
+</script>
 
-<h2>Hallo, mein Name ist Maxi!</h2>
-<p>Ich bin eigentlich nur hier um diese Website für mich persönlich zu bauen. Aber ich werde sie demnächst auf
-Pythonanywhere hochladen, um sie auch im Einsatz im realen Internet zu haben. Leider bekomme ich nur eine Subdomain,
-aber das ist für den Anfang mal nicht schlimm. Ich hoffe, später noch weitere Projekte an dieser Website durchführen
-zu können (Website übersetzern usw.). Ihr müsstet mal den source-Code sehen, er ist schrecklich! An mein Ich in 10 oder
-20 Jahren! Es tut mir leid, aber mich hats noch nicht interessiert mich an die Conventions halbwegs zu halten!
-Vielleicht wird das ja mal noch aufgeräumt, von mir jetzt jedoch nicht! ;)</p>
+<style>
+    .color-container{
+    background-color:#ff8c1a;
+     border-radius: 10px;
 
-<h4>PS: Hier ein sexy pic von mir:</h4>
-<img src="https://www.oefb.at/oefb2/images/1278650591628556536_acf386a267a80f5aef22-1,0-640x480-640x480.png" alt="Ich als Baby" > <!--width="400" height="450"-->
+    }
+
+    .color-ul{
+    background-color: #ff6600;
+     border-radius: 5px;
+     padding-bottom: 5px;
+    }
+
+    .div-padding{
+    padding: 10px;
+    }
+
+    .image-css{
+    border-radius:10px;
+    }
+</style>
+
+<div class="container text-white" style="background-color:#ffc14d; border-radius: 10px;">
+    <div class="row div-padding" >
+        <div class="col-sm-3">
+            <h1>About Easylearn</h1>
+        </div>
+        <div class="col-sm-9">
+            <article class="media content-section">
+                <img class="rounded-circle article-img" height="100" width="100" src="{{github}}" alt="Logo">
+
+                 <div class="media-body">
+                        <div class="article-metadata color-container" >
+                            <h2>Easylearn ist...</h2>
+                            <ul>
+                                <li>
+                                    <h5>eine Lernplattform</h5>
+                                </li>
+                                <li>
+                                    <h5>ein soziales Netzwerk</h5>
+                                </li>
+                            </ul>
+                        </div>
+
+                 </div>
+            </article>
+        </div>
+
+    </div>
+
+    <div class="row div-padding">
+        <div class="col-sm color-container">
+            <h4>Was kann ich machen?</h4>
+            <h5>
+                Du kannst...
+            </h5>
+            <ul class="list-group" >
+                <li class="list-group-item color-ul">
+                    Posts schreiben wie auf Facebook
+                </li>
+
+                 <li class="list-group-item color-ul">
+                    Vokabeln lernen in deinem Tempo
+                </li>
+                 <li class="list-group-item color-ul">
+                    und deine eigene Statistik erhalten
+                </li>
+
+
+
+            </ul>
+            <!--<img src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fericsteinborn.com%2Fgithub-for-cats%2Fimg%2FProfessortocat_v2.png&f=1" alt="Github" width="200" height="200">-->
+        </div>
+        <div class="col-sm">
+            <img class="image-css" src="{{github2}}" alt="Github Space" width="500" height="300">
+        </div>
+    </div>
+    <div class="row div-padding">
+        <div class="col-sm">
+            <img class="image-css" src="{{stat}}" alt="Bild von Statistik" width="400" height="250">
+        </div>
+        <div class="col-sm color-container">
+            <h4>Und so sieht das aus!</h4>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
 
 {% include "about/includes/included_1.html" %}

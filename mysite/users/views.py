@@ -21,7 +21,7 @@ from units.views import split_list
 from emails.models import Confirm_email
 
 from .forms import UserRegisterForm, UserUpdateForm, SchriftlichPruefungItForm,\
-    SchriftlichePruefungDeuForm, PruefungForm, LoginForm, ImageForm
+    SchriftlichePruefungDeuForm, PruefungForm, LoginForm, ImageForm, ToleranzForm
 from .models import Pruefung_voc
 from .models import Profile, Words_user, Units_user
 
@@ -126,12 +126,14 @@ def profile(request):
         # profile_form = UserProfileForm(request.POST, instance=request.user.profile)
         pruefung_form = PruefungForm(request.POST, instance=request.user.profile)
         image_form = ImageForm(request.POST, request.FILES, instance=request.user.profile)
+        toleranz_form = ToleranzForm(request.POST, instance=request.user.profile)
 
-        if pruefung_form.is_valid() and image_form.is_valid():
+        if pruefung_form.is_valid() and image_form.is_valid() and toleranz_form.is_valid():
             pruefung_form.save()
             image_form.save()
+            toleranz_form.save()
 
-            messages.success(request, f'Nice {request.user}, your account has been updated!')
+            messages.success(request, f'Dein Profil wurde erfolgreich geändert!')
 
         return redirect('profile')
 
@@ -140,9 +142,9 @@ def profile(request):
         # profile_form = UserProfileForm(instance=request.user)
         pruefung_form = PruefungForm(instance=request.user.profile)
         image_form = ImageForm(instance=request.user.profile)
-        print(str(request.user.password))
+        toleranz_form = ToleranzForm(instance=request.user.profile)
     context = {
-        'pruefung_form': pruefung_form, 'image_form': image_form
+        'pruefung_form': pruefung_form, 'image_form': image_form, 'toleranz_form': toleranz_form,
     }
 
     return render(request, 'users/profile.html', context)

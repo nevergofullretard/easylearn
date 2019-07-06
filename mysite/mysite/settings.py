@@ -25,7 +25,7 @@ SECRET_KEY = ')lib&+42jam=ff8hbxo6r62lhcodbcq*zkn0sk1po)e4*@@ho_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["maxlearn.pythonanywhere.com", '127.0.0.1']
+ALLOWED_HOSTS = ["maxlearn.pythonanywhere.com", '127.0.0.1' ]
 
 
 # Application definition

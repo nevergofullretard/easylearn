@@ -2,6 +2,26 @@
 {%  load crispy_forms_tags %}
 {% block content %}
 
+
+<script>
+    $(document).ready(function(){
+        $("#profilepic-div").hide()
+        $("#lernweg-div").hide()
+        $("#toleranz-div").hide()
+
+        $("#profilepic-button").click(function(){
+            $("#profilepic-div").slideToggle()
+        });
+
+        $("#lernweg-button").click(function(){
+            $("#lernweg-div").slideToggle()
+        });
+        $("#toleranz-button").click(function(){
+            $("#toleranz-div").slideToggle()
+        });
+    });
+</script>
+
    <div class="content-section">
       <div class="media">
          <img class="rounded-circle article-img" height="100" width="100" src="{{ user.profile.image.url }}" alt="Dein Profilbild">
@@ -16,8 +36,43 @@
             {%  csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Möchtest du etwas ändern? Mache es hier!</legend>
-                {{ pruefung_form|crispy }}
-                {{ image_form|crispy }}
+
+                     <div style="background-color:  #ff9933; border-radius: 8px;" class="col-sm-3 text-white">
+                        <h5 id="profilepic-button" style="border-radius: 8px; background-color: #ffb366"><center>Einstellungen zum Profilbild</center></h5>
+                    </div>
+
+
+                     <div id="profilepic-div">
+                    {{ image_form|crispy }}
+                    </div>
+
+                     <div style="background-color:  #ff9933; border-radius: 8px;" class="col-sm-3 text-white">
+                        <h5 id="lernweg-button" style="border-radius: 8px; background-color: #ffb366"><center>Einstellungen zum Lernweg</center></h5>
+                    </div>
+
+                    <div id="lernweg-div">
+                      {{ pruefung_form|crispy }}
+                </div>
+
+                      <div style="background-color:  #ff9933; border-radius: 8px;" class="col-sm-3 text-white">
+                        <h5 id="toleranz-button" style="border-radius: 8px; background-color: #ffb366"><center>Einstellungen zur Suche</center></h5>
+                    </div>
+
+                     <div id="toleranz-div">
+                         <small class="text-muted">Toleranz: "Ergebnisse anzeigen, die zu {{request.user.profile.toleranz}} % mit meiner Suche übereinstimmen"</small>
+                     {{toleranz_form|crispy}}
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">Update</button>

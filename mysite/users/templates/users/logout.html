@@ -1,12 +1,12 @@
 {% extends "about/header.html" %}
 {% block content %}
-    <h2>You have been logged out</h2>
+    <h2>Du wurdest ausgeloggt</h2>
     <div class="border-top pt-3">
         <small class="text-muted">
-            <a href="{% url 'login' %}">Log In Again</a>
+            <a href="{% url 'login' %}">Wieder einloggen</a>
         </small>
     </div>
     <div class="container">
-        <h2 class="animated hinge slower">Ciao!</h2>
+        <h2 class="animated hinge slower">Ciao {{request.user}}!</h2>
     </div>
 {% endblock content %}

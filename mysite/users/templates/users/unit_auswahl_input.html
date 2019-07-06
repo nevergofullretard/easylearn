@@ -33,6 +33,16 @@ $(document).ready(function(){
 
 
 <div class="container">
+    {%if current_unit%}
+
+     <div class="row" style="background-color: #99ddff">
+        <div class="col-sm-7" ><h3 class="text-white">Jetzige Unit:</h3></div>
+        <div class="col-sm-5" >
+            <input type="radio" value="{{current_unit.id}}" name="unit" required><span class="text-white">{{current_unit}}</span> <br>
+        </div>
+    </div>
+{%endif%}
+
         {%if naechste_unit%}
             <div class="row">
                 <div style="background-color: #66ccff" class="col-sm-7 text-white"> <h3>Weiter mit nächster Unit</h3></div>
@@ -60,7 +70,7 @@ $(document).ready(function(){
                 {%for unit, outstanding_words in units_gemacht.items %}
                   <input type="radio" value="{{unit.id}}" name="unit" required> {{unit}}
                 {%if outstanding_words%}
-                <small class="text-white border border-white rounded" id="{{unit.id}}-button" >neue Wörter!</small>
+                <span class="text-white border border-white rounded" id="{{unit.id}}-button" >neue Wörter!</span>
                 <div id="{{unit.id}}-dropdown">
                     <ul class="list-group">
                     {%for wrd in outstanding_words%}
@@ -82,25 +92,29 @@ $(document).ready(function(){
         {%if alle%}
         <div class="row">
             <div style="background-color: #3366ff; border-radius: 0px 0px 8px 8px;" class="col-sm-3 text-white"><h5 id="buttonToggle2" style="border-radius: 8px 8px 8px 8px; background-color: #99ccff"><center>Alle Units</center></h5></div>
-            <div  class="col-sm-9 "><p>Zum Aufklappen einfach auf "Alle Units" klicken</p>
+            <div  class="col-sm-9 "><p>Zum Auf/Zuklappen einfach auf "Alle Units" klicken</p>
                 <div id="textToggle1">
 
                     {% for schule_key, schule_data in alle.items %}
-                    <table class="table table-striped">
-                        <thead class="thead-light" align="center">
+                     <table class="table table-striped text-white">
+                        <thead class="thead" align="center" style="background-color:#3399ff;">
                         <tr>
                             <th align="center">{{schule_key}}</th>
                         </tr>
                         </thead>
+                    </table>
 
 
-                        <tbody>
                             {%for sprache_key, sprache_data in schule_data.items%}
+                    <table class="table">
+                        <thead class="thead text-white" align="center" style="background-color:#1a8cff;">
                                 <tr>
-                                    <td bgcolor="#3366ff", class="text-white"><b>{{sprache_key}}</b></td>
-                                    <td bgcolor="#3366ff"> </td>
+                                    <th>{{sprache_key}}</th>
+                                    <th style="background-image:linear-gradient(to right,#66b3ff, white);"></th>
                                     <!--<td>{{sprache_data}} </td>-->
                                 </tr>
+                        </thead>
+                        <tbody>
 
                                 {% for units in sprache_data %}
                                     <tr>
@@ -115,11 +129,11 @@ $(document).ready(function(){
                                         {%endfor%}
                                     </tr>
                                 {%endfor%}
-
+                                 </tbody>
+                            </table>
                             {%endfor%}
 
-                        </tbody>
-                    </table>
+
                     {%endfor%}
 
 

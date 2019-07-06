@@ -2,35 +2,7 @@
 {%  load crispy_forms_tags %}
 {% block content %}
 
-<script>
-$(document).ready(function(){
-  $('#textToggle1').hide();
 
-  $('#buttonToggle1').click(function(){
-    $('#textToggle1').slideToggle();
-    });
-
-    <!--nur Spielerei das mit den Radiobuttons-->
-    $('input:radio').on('click', function(e) {
-        if ($(this).hasClass("units_gemacht")) {
-        console.log('schon erledigte Unit');
-        }
-    });
-
-
-    {%if units_gemacht%}
-        {%for unit, outstanding_words in units_gemacht.items %}
-            {%if outstanding_words%}
-            $("#{{unit.id}}-dropdown").hide()
-
-                $("#{{unit.id}}-button").click(function(){
-                   $("#{{unit.id}}-dropdown").slideToggle()
-                });
-            {%endif%}
-        {%endfor%}
-    {%endif%}
-});
-</script>
 
 <!-- <h3>Herzlich willkommen {{ request.user }} zu deinem neuen Lernweg!</h3> -->
 

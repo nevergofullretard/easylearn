@@ -310,7 +310,7 @@ def new_unit_user(request):
     else:
         auswahl = users_views.units_auswahl(request, nur_volle_units=False, nur_alle=False)
         context = {'naechste_unit': auswahl['next'], 'similar': auswahl['similar'], 'alle': auswahl['alle'],
-                   'units_gemacht': auswahl['dict_units_gemacht'], 'range1': [x for x in range(1,15)], 'range2': [x for x in range(15, 50)]}
+                   'units_gemacht': auswahl['dict_units_gemacht'], 'current_unit':auswahl['current_unit'], 'range1': [x for x in range(1,15)], 'range2': [x for x in range(15, 50)]}
     return render(request, 'units/new-unit-user.html', context)
 @login_required
 def new_words_start(request):

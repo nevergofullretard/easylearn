@@ -6,8 +6,8 @@
 <script>
 $(document).ready(function(){
 
-    console.log($(window).width()-$("nav").width());
-    console.log($("nav").width())
+    <!--console.log($(window).width()-$("nav").width());-->
+    <!--console.log($("nav").width())-->
     {%if request.user.is_authenticated%}
         $('#toleranzinput').val({{request.user.profile.toleranz}})
     {%else%}
@@ -49,7 +49,7 @@ $(document).ready(function(){
                     $(this).addClass("hide-temporary")
                     $(this).hide()
                 };
-                    console.log($(this).text() + index)
+                    <!--console.log($(this).text() + index)-->
 
                 });
             });
@@ -61,7 +61,7 @@ $(document).ready(function(){
          } else if ($(this).val() < 0){
             $(this).val(1)
          }
-           console.log($(this).val());
+           <!--console.log($(this).val());-->
 
              $(".toleranz").each(function(){
                 <!--console.log($(this).attr("content"));-->
@@ -80,7 +80,7 @@ $(document).ready(function(){
             var button = $(this)
             var id = $(this).attr('id')
             var contentToShow = $("." + id + ".show")
-
+            <!--console.log($("h5." + id))-->
             if (contentToShow.length == 0){
                 $("h5." + id).hide()
             } else {
@@ -98,7 +98,7 @@ $(document).ready(function(){
                     $(this).addClass("hide-temporary")
                     $(this).hide()
                 };
-                    console.log($(this).text() + index)
+                    <!--console.log($(this).text() + index)-->
 
                 });
             });
@@ -112,30 +112,95 @@ $(document).ready(function(){
         });
     });
 
+    $("div.ergebnisse").each(function(){
+        <!--$("#kategorien").append("<input type='checkbox' value='" + $(this).attr('id')'>" + " " + $(this).attr('id') + "<br>")-->
+        $("#kategorien").append(' <input type="checkbox" value="' + $(this).attr('id') + '">'  + $(this).attr('id') + '<br>' )
+
+    });
+
+     $('input[type="checkbox"]').each(function(){
+        $(this).prop('checked', true);
+     });
+
+        $('input[type="checkbox"]').click(function(){
+
+            if($(this).prop("checked") == true){
+
+                $('#' + $(this).val()).slideDown()
+            }
+
+            else if($(this).prop("checked") == false){
+
+                $('#' + $(this).val()).slideUp()
+
+            }
+        });
+
+    $("#kategorien").hide()
+        $("#kategorien-button").click(function(){
+             $("#kategorien").slideToggle()
+        });
+
+     $("#toleranz-div").hide()
+      $("#toleranz-button").click(function(){
+         $("#toleranz-div").slideToggle()
+    });
     });
 </script>
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col">
             <h2>Ergebnisse für "{{input}}"</h2>
-            {%if results%}
+        </div>
+    </div>
+    <div class="row">
+
+         <div class="col-sm-3">
+            <button class="btn btn-sm btn-success" id="kategorien-button">Nach Kategorien filtern</button>
+                 <div id="kategorien">
+                <h5 class="text-muted">Nach Kategorien filtern </h5>
+                </div>
+
+
+
+            <button class="btn btn-sm btn-success mt-1" id="toleranz-button">Toleranz</button>
+            <div id="toleranz-div">
+
+
+            <div id="toleranzfield">
+            <h3 class="text-muted"><u>Toleranz <small >*</small></u></h3>
+            </div>
+            <small class="text-muted">Ergebnisse anzeigen, die zu
+            <input id="toleranzinput" type="number" min="5" max="100" style="height: 40px; width: 50px;"> % mit meiner Suche übereinstimmen</small>
+
+            <p class="text-muted" id="toleranztext">Die Toleranz bestimmt, wie viele Ergebnisse dir angezeigt werden. Jedes Ergebnis bekommt eine Wertung
+                (von 0 bis 100 % Übereinstimmung mit dem, was du eingegeben hast). Hier kannst du entscheiden, bis zu welcher %-Zahl dir
+                Ergebnisse angezeigt werden.</p>
+        </div>
+
+        </div>
+
+        <div class="col-sm-9">
+
+
 
 
 
                 {%for key, result in results.items%}
-
+                    <div class="ergebnisse" id="-{{key}}">
                     <h5 class="text-muted {{key}}">Ergebnisse in {{key}}</h5>
                     {%if key == 'words'%}
-                         <ul class="list-group" >
+                         <ul class="list-group">
                         {%if request.user.is_authenticated%}
                             {%for value, probability in result.items%}
                                 {%for prob, query in probability.items%}
                                     <li content="{{prob}}" class="list-group-item toleranz {{key}}" >
-                                        <span class="bg-warning">{{value.italienisch}} - {{value.deutsch}}</span>
-                                        (<a
-                                        href="{%url 'unit-words' pk=value.unit_name.id name_of_unit=value.unit_name%}"> in {{value.unit_name}}</a> |
-                                            <a href="{%url 'unit-words' pk=value.unit_name.id name_of_unit=value.unit_name%}#{{value.id}}">zum Wort</a>)
+                                        <span class="bg-warning">
+                                            <a href="{%url 'unit-words' pk=value.unit_name.id name_of_unit=value.unit_name%}#{{value.id}}">
+                                                {{value.italienisch}} - {{value.deutsch}}</a></span>
+
+
 
 
                                     {%if query%}
@@ -144,12 +209,12 @@ $(document).ready(function(){
                                          <small>Dieses Wort hast du gelernt!</small>
                                                 {%if val.right == True%}
                                                         <a href="{%url 'statistic-units' pk=val.word.unit_name.id name_of_unit=val.word.unit_name%}#{{val.id}}" style="background-color:green; border-radius:5px;" class="text-white">
-                                                            zum Wort
+                                                           {{val.word.italienisch}} - {{val.word.deutsch}}
                                                         </a>
 
                                                 {%else%}
                                                      <a href="{%url 'statistic-units' pk=val.word.unit_name.id name_of_unit=val.word.unit_name%}#{{val.id}}" style="background-color:red; border-radius:5px;" class="text-white">
-                                                        zum Wort
+                                                         {{val.word.italienisch}} - {{val.word.deutsch}}
                                                      </a>
 
                                                 {%endif%}
@@ -175,7 +240,7 @@ $(document).ready(function(){
                         {%endif%}
                          </ul>
                     {%elif key == 'units'%}
-                        <ul class="list-group" >
+                        <ul class="list-group">
                         {%if request.user.is_authenticated%}
                             {%for value, probability in result.items%}
                                  {%for prob, query in probability.items%}
@@ -231,14 +296,14 @@ $(document).ready(function(){
                         <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success" >Alle anzeigen</button></center></li>
                     </ul>
                     {%elif key == 'sprache'%}
-                     <ul class="list-group" >
+                     <ul class="list-group " >
                         {%for value, probability in result.items%}
                             <li class="list-group-item toleranz {{key}}" content="{{probability}}">
                                  <a href="{%url 'schule_sprache_units' schule_pk=0 sprache_pk=value.id%}">{{value.sprache_lang}}</a>
                             </li>
                         {%endfor%}
                         <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success">Alle anzeigen</button></center></li>
-                          <ul class="list-group" >
+                          <ul class="list-group ">
                     {%elif key == 'schule'%}
                         {%for value, probability in result.items%}
                             <li class="list-group-item toleranz {{key}}" content="{{probability}}">
@@ -249,7 +314,7 @@ $(document).ready(function(){
                           </ul>
                     {%endif%}
 
-
+                </div>
                 {%endfor%}
 
 
@@ -257,19 +322,9 @@ $(document).ready(function(){
 
 
         </div>
-        <div class="col-sm-3">
-            <div id="toleranzfield">
-            <h3 class="text-muted">Toleranz <small >*</small></h3>
-            </div>
-            <input id="toleranzinput" type="number" min="5" max="100" style="height: 40px; width: 50px;"> %
-            <p class="text-muted" id="toleranztext">Die Toleranz bestimmt, wie viele Ergebnisse dir angezeigt werden. Jedes Ergebnis bekommt eine Wertung
-                (von 0 bis 100 % Übereinstimmung mit dem, was du eingegeben hast). Hier kannst du entscheiden, bis zu welcher %-Zahl dir
-                Ergebnisse angezeigt werden. (Auswahl: von 5-100 %)</p>
-             {%else%}
-                <p>Suche zu ungenau, gib mehr als einen Buchstaben an</p>
-             {%endif%}
 
-        </div>
+
+
     </div>
 
 </div>

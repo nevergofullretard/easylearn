@@ -47,7 +47,7 @@
             <ul>
 
         {%for unit, words in units.items%}
-             <li><input type="checkbox" name="units" value="{{unit.id}}"> Wörter von {{unit}}, <b id="{{unit.id}}-button">Wörter dazu -> hier klicken</b></li>
+             <li><input type="checkbox" name="units" value="{{unit.id}}"> Wörter von {{unit}}, <b id="{{unit.id}}-button">Wörter dazu -> hier klicken zum Auf/Zuklappen</b></li>
 
                 <ul class="list-group" id="{{unit.id}}-words">
                     {%for word in words%}

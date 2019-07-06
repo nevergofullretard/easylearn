@@ -78,7 +78,7 @@
                 <li>
                   <a class="text-white" href="{% url 'unittest-method' pk=unit.id name_of_unit=unit %}">{{unit}}</a>
                 {%if outstanding_words%}
-                <small class="text-white border border-white rounded" id="{{unit.id}}-button" > neue Wörter! </small>
+                <span class="text-white border border-white rounded" id="{{unit.id}}-button" > neue Wörter! </span>
                 <div id="{{unit.id}}-dropdown">
                     <ul class="list-group">
                     {%for wrd in outstanding_words%}
@@ -97,28 +97,32 @@
             </div>
         </div>
             {%endif%}
+
         {%if alle%}
         <div class="row">
             <div style="background-color: #3366ff; border-radius: 0px 0px 8px 8px;" class="col-sm-3 text-white"><h5 id="buttonToggle1" style="border-radius: 8px 8px 8px 8px; background-color: #99ccff"><center>Alle Units</center></h5></div>
-            <div  class="col-sm-9 "><p>Zum Aufklappen einfach auf "Alle Units" klicken</p>
+            <div  class="col-sm-9 "><p>Zum Auf/Zuklappen einfach auf "Alle Units" klicken</p>
                 <div id="textToggle1">
 
                     {% for schule_key, schule_data in alle.items %}
-                    <table class="table table-striped">
-                        <thead class="thead-light" align="center">
+                    <table class="table ">
+                        <thead class="thead text-white" align="center" style="background-color:#1a8cff;">
                         <tr>
                             <th align="center">{{schule_key}}</th>
                         </tr>
                         </thead>
+                    </table>
 
-
-                        <tbody>
                             {%for sprache_key, sprache_data in schule_data.items%}
+                     <table class="table text-white">
+                        <thead  class="thead" align="center" style="background-color:#66b3ff;">
                                 <tr>
-                                    <td bgcolor="#3366ff", class="text-white"><b>{{sprache_key}}</b></td>
-                                    <td bgcolor="#3366ff"> </td>
+                                    <th class="text-white">{{sprache_key}}</th>
+                                    <th style="background-image:linear-gradient(to right,#66b3ff, white);"></th>
                                     <!--<td>{{sprache_data}} </td>-->
                                 </tr>
+                        </thead>
+                            <tbody>
 
                                 {% for units in sprache_data %}
                                     <tr>
@@ -133,11 +137,11 @@
                                         {%endfor%}
                                     </tr>
                                 {%endfor%}
-
+                              </tbody>
+                        </table>
                             {%endfor%}
 
-                        </tbody>
-                    </table>
+
                     {%endfor%}
 
 

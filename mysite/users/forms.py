@@ -47,17 +47,24 @@ class PruefungForm(forms.ModelForm):    # eigene Form für Prüfung, weil nicht 
     pruefung_voc = forms.IntegerField(label='Größe der Worthäppchen, die du geprüft wirst (1-12)', max_value=12, min_value=1)
     karteikarten_voc = forms.IntegerField( label='Auswahl, die du bei der Karteikarten-Methode hast (3-12)', max_value=12, min_value=3)
     pruefung_umgekehrt = forms.BooleanField(label='auch Wörter von Fremdsprache auf Deutsch prüfen', required=False)
-    toleranz = forms.IntegerField(label='Toleranz bei der Suche (z.B: 50%)', min_value=1, max_value=100)
+
 
     class Meta:
         model = Profile
-        fields = ['voc_bits', 'pruefung_voc',  'karteikarten_voc', 'pruefung_umgekehrt', 'toleranz']
+        fields = ['voc_bits', 'pruefung_voc',  'karteikarten_voc', 'pruefung_umgekehrt']
 
 class ImageForm(forms.ModelForm):
 
     class Meta:
         model = Profile
         fields = ['image']
+
+class ToleranzForm(forms.ModelForm):
+    toleranz = forms.IntegerField(label='Toleranz bei der Suche (z.B: 50%)', min_value=1, max_value=100)
+
+    class Meta:
+        model = Profile
+        fields = ['toleranz']
 
 # class CurrentUnitForm(forms.ModelForm):
 #     unit_list = []
