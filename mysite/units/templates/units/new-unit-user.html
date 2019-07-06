@@ -4,12 +4,12 @@
 
 <script>
 $(document).ready(function(){
-  $('#textToggle1').hide();
+  $('#textToggle3').hide();
   $('#unit-auswahl').hide();
 
 
-  $('#buttonToggle1').click(function(){
-    $('#textToggle1').slideToggle();
+  $('#buttonToggle3').click(function(){
+    $('#textToggle3').slideToggle();
     });
  $('#choose-unit').click(function(){
     $('#unit-auswahl').slideToggle();
@@ -82,9 +82,9 @@ $(document).ready(function(){
                             </div>
                         </div>
                         {%endfor%}
-                        <small  id="buttonToggle1">Mehr</small>
+                        <small  id="buttonToggle3">Mehr</small>
 
-                        <div id="textToggle1">
+                        <div id="textToggle3">
                             {%for x in range2%}
                             <hr>
                             <div class="row">

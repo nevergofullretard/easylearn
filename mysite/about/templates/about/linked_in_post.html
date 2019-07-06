@@ -36,13 +36,13 @@ $(document).ready(function(){
 
 
             {%if all_posts%}
-                <small  id="buttonToggle1" class="text-white"><center>Alle Posts</center></small>
+                <small  id="buttonToggle1" class="text-white" ><center><span style="border-width:3px; border-style: solid;"> Alle Posts </span></center></small>
 
             <div id="all_posts">
             {%for post in all_posts%}
             <div  style="border-radius: 8px 8px 8px 8px; background-color: #66ff66">
                 <div class="article-metadata">
-                   <a class="text-secondary" href="{% url 'user-posts' post.author.username %}"><b>{{ post.author }}</b> - </a>
+                   <a href="{% url 'user-posts' post.author.username %}"><b>{{ post.author }}</b> - </a>
                   <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
                 </div>
                 <p><a class="article-title text-secondary" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></p>

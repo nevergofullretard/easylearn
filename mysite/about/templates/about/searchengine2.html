@@ -189,7 +189,10 @@ $(document).ready(function(){
 
                 {%for key, result in results.items%}
                     <div class="ergebnisse" id="-{{key}}">
-                    <h5 class="text-muted {{key}}">Ergebnisse in {{key}}</h5>
+                        {%if key == "posts" and not request.user.is_authenticated%}
+                        {%else%}
+                            <h5 class="text-muted {{key}}">Ergebnisse in {{key}}</h5>
+                        {%endif%}
                     {%if key == 'words'%}
                          <ul class="list-group">
                         {%if request.user.is_authenticated%}
@@ -271,30 +274,32 @@ $(document).ready(function(){
                         {%endif%}
                         </ul>
                     {%elif key == 'posts'%}
-                    <ul class="list-group" >
-                        {%for post, probability in result.items%}
-                            <li class="list-group-item toleranz {{key}}" content="{{probability}}">
-                                  <div style="background-image: linear-gradient(to right, white, rgb(102, 204, 255)); ;border-color:#66ff33; border-width: 2px; border-radius: 8px 8px 8px 8px; ">
-                                       <article class="media content-section">
-                                          <img class="rounded-circle article-img" height="100" width="100" src="{{ post.author.profile.image.url }}">
-                                          <div class="media-body">
-                                            <div class="article-metadata">
-                                              <a class="mr-2 text-secondary" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-                                              <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                    {%if request.user.is_authenticated%}
+                        <ul class="list-group" >
+                            {%for post, probability in result.items%}
+                                <li class="list-group-item toleranz {{key}}" content="{{probability}}">
+                                      <div style="background-image: linear-gradient(to right, white, rgb(102, 204, 255)); ;border-color:#66ff33; border-width: 2px; border-radius: 8px 8px 8px 8px; ">
+                                           <article class="media content-section">
+                                              <img class="rounded-circle article-img" height="100" width="100" src="{{ post.author.profile.image.url }}">
+                                              <div class="media-body">
+                                                <div class="article-metadata">
+                                                  <a class="mr-2 text-secondary" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                                                  <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                                                </div>
+                                                <h5><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
+                                                  {%if post.author.is_staff%}
+                                                <p class="article-content">{{ post.content|safe }}</p>
+                                                  {%else%}
+                                                  <p class="article-content">{{ post.content }}</p>
+                                                  {%endif%}
+                                              </div>
+                                            </article>
                                             </div>
-                                            <h5><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
-                                              {%if post.author.is_staff%}
-                                            <p class="article-content">{{ post.content|safe }}</p>
-                                              {%else%}
-                                              <p class="article-content">{{ post.content }}</p>
-                                              {%endif%}
-                                          </div>
-                                        </article>
-                                        </div>
-                            </li>
-                        {%endfor%}
-                        <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success" >Alle anzeigen</button></center></li>
-                    </ul>
+                                </li>
+                            {%endfor%}
+                            <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success" >Alle anzeigen</button></center></li>
+                        </ul>
+                    {%endif%}
                     {%elif key == 'sprache'%}
                      <ul class="list-group " >
                         {%for value, probability in result.items%}
