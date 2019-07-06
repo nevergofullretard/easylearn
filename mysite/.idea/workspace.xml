@@ -2,30 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b722be9a-dcbf-43e8-8d97-02a6b180498f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/about/templates/about/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/about/templates/about/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/about/templates/about/menu_items.html" beforeDir="false" afterPath="$PROJECT_DIR$/about/templates/about/menu_items.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/about/templates/about/searchengine2.html" beforeDir="false" afterPath="$PROJECT_DIR$/about/templates/about/searchengine2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/about/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/about/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/templates/blog/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/blog/templates/blog/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/templates/blog/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/blog/templates/blog/home.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/profile_pics/IMG_20190330_081100_BURST001_COVER.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/units/templates/units/new-unit-user.html" beforeDir="false" afterPath="$PROJECT_DIR$/units/templates/units/new-unit-user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/units/templates/units/unit_content.html" beforeDir="false" afterPath="$PROJECT_DIR$/units/templates/units/unit_content.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/units/templates/units/units_all.html" beforeDir="false" afterPath="$PROJECT_DIR$/units/templates/units/units_all.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/units/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/units/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/templates/users/logout.html" beforeDir="false" afterPath="$PROJECT_DIR$/users/templates/users/logout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/templates/users/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/users/templates/users/profile.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/users/templates/users/unit_auswahl_input.html" beforeDir="false" afterPath="$PROJECT_DIR$/users/templates/users/unit_auswahl_input.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/templates/users/users-lernweg-start.html" beforeDir="false" afterPath="$PROJECT_DIR$/users/templates/users/users-lernweg-start.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/templates/users/users-neuer-lernweg.html" beforeDir="false" afterPath="$PROJECT_DIR$/users/templates/users/users-neuer-lernweg.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userstatistics/templates/userstatistics/statistics-start.html" beforeDir="false" afterPath="$PROJECT_DIR$/userstatistics/templates/userstatistics/statistics-start.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userstatistics/templates/userstatistics/units-start.html" beforeDir="false" afterPath="$PROJECT_DIR$/userstatistics/templates/userstatistics/units-start.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/usertests/templates/usertests/test-zwischenschritt.html" beforeDir="false" afterPath="$PROJECT_DIR$/usertests/templates/usertests/test-zwischenschritt.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/usertests/templates/usertests/unittest-start.html" beforeDir="false" afterPath="$PROJECT_DIR$/usertests/templates/usertests/unittest-start.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -151,13 +131,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="5516" />
+          <entry key="html" value="5578" />
           <entry key="py" value="1235" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="5516" />
+          <entry key="HTML" value="5578" />
           <entry key="Python" value="1235" />
         </counts>
       </usages-collector>
@@ -177,20 +157,19 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/about/templates/about/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="85" column="42" selection-start-line="85" selection-start-column="42" selection-end-line="85" selection-end-column="42" />
+            <state relative-caret-position="661">
+              <caret line="65" column="8" lean-forward="true" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/about/templates/about/header.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="289">
@@ -264,7 +243,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>date</find>
       <find>timezone</find>
       <find>anfragen</find>
       <find>Zusätzlich</find>
@@ -294,6 +272,7 @@
       <find>document</find>
       <find>border-prim</find>
       <find>})</find>
+      <find>Was kann</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -1037,16 +1016,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/about/templates/about/header.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="38" column="62" lean-forward="true" selection-start-line="38" selection-start-column="62" selection-end-line="38" selection-end-column="62" />
-          <folding>
-            <element signature="n#style#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/about/templates/about/searchengine2.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -1098,11 +1067,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/about/templates/about/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="85" column="42" selection-start-line="85" selection-start-column="42" selection-end-line="85" selection-end-column="42" />
+        <state relative-caret-position="661">
+          <caret line="65" column="8" lean-forward="true" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/about/templates/about/header.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="38" column="62" lean-forward="true" selection-start-line="38" selection-start-column="62" selection-end-line="38" selection-end-column="62" />
+          <folding>
+            <element signature="n#style#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
