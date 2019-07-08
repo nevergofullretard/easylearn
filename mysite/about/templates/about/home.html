@@ -26,6 +26,16 @@
     .image-css{
     border-radius:5%;
     padding-top:10px;
+    width: 100%;
+    height: auto;
+    }
+
+    .centered-text{
+    position: relative;
+    float: left;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     }
 </style>
 
@@ -81,7 +91,7 @@
             <!--<img src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fericsteinborn.com%2Fgithub-for-cats%2Fimg%2FProfessortocat_v2.png&f=1" alt="Github" width="200" height="200">-->
         </div>
         <div class="col-sm">
-            <img class="image-css" src="{{github2}}" alt="Github Space" style="width: 100%; height: auto;">
+            <img class="image-css" src="{{github2}}" alt="Github Space" >
 
         </div>
     </div>
@@ -94,13 +104,27 @@
     </div>
     <div class="row div-padding">
         <div class="col-sm">
-            <img class="image-css" src="{{stat}}" alt="Bild von Statistik" style="width: 100%; height: auto;">
+            <img class="image-css" src="{{lernweg}}" alt="Lernweg" >
         </div>
         <div class="col-sm color-container">
-            <h5>Du erhältest deine eigene Statistik</h5>
+            <h5 class="centered-text"> <center>Der Lernweg, auf dein Tempo zugeschnitten</center></h5>
+
         </div>
 
     </div>
+
+     <div class="row div-padding">
+
+            <div class="col-sm color-container">
+                <h5 class="centered-text"><center>Beim Profil kannst du verschiedenste Einstellungen zum Lernweg & Co ändern</center></h5>
+            </div>
+
+            <div class="col-sm">
+                <img class="image-css" src="{{profile}}" alt="Profil">
+            </div>
+
+     </div>
+
 </div>
 
 

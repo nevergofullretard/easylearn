@@ -175,8 +175,12 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
                 units_gemacht.append(wrd.word.unit_name)
         # units_gemacht = Units_user.objects.filter(user=request.user)[::-1]
 
-        if units_gemacht:
+        if units_gemacht and not current_unit:
             letzte_unit = units_gemacht[0]
+        elif units_gemacht and current_unit:
+            letzte_unit = current_unit
+
+        if units_gemacht:
             real_units_gemacht = [unit.id for unit in units_gemacht]
             naechste_untit = \
                 Unit_name.objects.filter(sprache=letzte_unit.sprache, schule=letzte_unit.schule).exclude(
@@ -192,13 +196,15 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
                             lst_naechste_unit.append(naechste)
                 else:
                     lst_naechste_unit = [unit for unit in naechste_untit]
+                print('nächste Units')
+                print(lst_naechste_unit)
 
                 if not current_unit:
                     next = naechste_untit[0]
                     # if nur_volle_units == False:
                     #     lst_naechste_unit.append(naechste_untit[1])
                 else:
-                    next = naechste_untit[1]
+                    next = None
                     # if nur_volle_units == False:
                     #     lst_naechste_unit.append(naechste_untit[1])
 
@@ -210,11 +216,15 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
                     lst_naechste_unit.remove(next)
                 if current_unit in lst_naechste_unit:
                     lst_naechste_unit.remove(current_unit)
+
+
                 # print(lst_naechste_unit)
                 # if lst_naechste_unit:
-                similar = lst_naechste_unit
 
-                real_units_gemacht.append(next.id)
+                similar = lst_naechste_unit
+                if next:
+                    real_units_gemacht.append(next.id)
+
                 if nur_volle_units == True:
                     if not Unit_words.objects.filter(unit_name=next):
                         next = None
@@ -238,22 +248,30 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
         for schule in Unit_schule.objects.all():
             units_schule = alle_units.filter(schule=schule)
             schule_words = Unit_words.objects.filter(unit_name__in=units_schule)
+            if nur_volle_units:
+                if units_schule and schule_words:
+                    alle_dict[schule] = {}
 
-            if units_schule and schule_words:
-                alle_dict[str(schule)] = {}
+                    for sprache in Unit_sprache.objects.all():
+                        units_schule_sprache = units_schule.filter(sprache=sprache)
+                        units_schule_sprache_all = []
+                        for schule_sprache in units_schule_sprache:
 
-                for sprache in Unit_sprache.objects.all():
-                    units_schule_sprache = units_schule.filter(sprache=sprache)
-                    units_schule_sprache_all = []
-                    for schule_sprache in units_schule_sprache:
-                        if nur_volle_units:
                             if Unit_words.objects.filter(unit_name__id=schule_sprache.id):
                                 units_schule_sprache_all.append(schule_sprache)
 
-                                alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = split_list(units_schule_sprache_all)
-                        else:
+                                alle_dict[schule][schule_sprache.sprache] = split_list(units_schule_sprache_all)
+
+            else:
+                if units_schule:
+                    alle_dict[schule] = {}
+                    for sprache in Unit_sprache.objects.all():
+                        units_schule_sprache = units_schule.filter(sprache=sprache)
+                        units_schule_sprache_all = []
+                        for schule_sprache in units_schule_sprache:
+                            print('auch leere Units erlaubt')
                             units_schule_sprache_all.append(schule_sprache)
-                            alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = split_list(units_schule_sprache_all)
+                            alle_dict[schule][schule_sprache.sprache] = split_list(units_schule_sprache_all)
 
 
 
@@ -271,15 +289,15 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
                 dict_units_gemacht[unit] = None
 
 
-
     else:
         alle_units = Unit_name.objects.all()
+
         for schule in Unit_schule.objects.all():
             units_schule = alle_units.filter(schule=schule)
             schule_words = Unit_words.objects.filter(unit_name__in=units_schule)
 
             if units_schule and schule_words:
-                alle_dict[str(schule)] = {}
+                alle_dict[schule] = {}
 
                 for sprache in Unit_sprache.objects.all():
                     units_schule_sprache = units_schule.filter(sprache=sprache)
@@ -289,19 +307,24 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
                             if Unit_words.objects.filter(unit_name__id=schule_sprache.id):
                                 units_schule_sprache_all.append(schule_sprache)
 
-                                alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = split_list(units_schule_sprache_all)
+                                alle_dict[schule][schule_sprache.sprache] = split_list(units_schule_sprache_all)
                         else:
                             units_schule_sprache_all.append(schule_sprache)
-                            alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = split_list(units_schule_sprache_all)
+                            alle_dict[schule][schule_sprache.sprache] = split_list(units_schule_sprache_all)
 
-    if nur_volle_units == False:
-        if similar:
-            if next:
-                similar.append(next)
-                next = None
+    # if nur_volle_units == False:
+        # if similar:
+        #     similar = split_list(similar)
 
 
+    # if dict_units_gemacht:
+    #     dict_units_gemacht = split_list(dict_units_gemacht)
 
+
+    # if similar:
+        #     print(similar)
+        # similar = split_list(similar)
+    print(alle_units)
 
     return {'current_unit': current_unit, 'next': next, 'similar': similar, 'alle': alle_dict, 'dict_units_gemacht': dict_units_gemacht}
 
