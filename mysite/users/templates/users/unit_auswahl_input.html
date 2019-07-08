@@ -32,27 +32,36 @@ $(document).ready(function(){
 </script>
 
 
-<div class="container">
-    {%if current_unit%}
+
+
+
+
+
+
+
+
+
+
+
+    <div class="container">
+{%if current_unit%}
 
      <div class="row" style="background-color: #99ddff">
         <div class="col-sm-7" ><h3 class="text-white">Jetzige Unit:</h3></div>
-<<<<<<< HEAD
-        <div class="col-sm-5" >
-            <input type="radio" value="{{current_unit.id}}" name="unit" required><span class="text-white">{{current_unit}}</span> <br>
-=======
-        <div class="col-sm-5" class="text-white">
-            <input class="text-white" type="radio" value="{{current_unit.id}}" name="unit" required> {{current_unit}}<br>
->>>>>>> 2426dcbac0499b7a1517ca705bb03231c2c17220
+        <div class="col-sm-5">
+
+                   <input type="radio" value="{{current_unit.id}}" name="unit" required><span class="text-white"> {{current_unit}}</span> <br>
+
         </div>
     </div>
 {%endif%}
-
-        {%if naechste_unit%}
+            {%if naechste_unit%}
             <div class="row">
                 <div style="background-color: #66ccff" class="col-sm-7 text-white"> <h3>Weiter mit nächster Unit</h3></div>
                 <div style="background-color: #66ccff" class="col-sm-5 text-white">
-                    <input type="radio" value="{{naechste_unit.id}}" name="unit" required> {{naechste_unit}}<br>
+
+                             <input type="radio" value="{{naechste_unit.id}}" name="unit" required> {{naechste_unit}}<br>
+
                 </div>
             </div>
             {%endif%}
@@ -60,9 +69,13 @@ $(document).ready(function(){
         <div class="row">
             <div style="background-color: #3399ff" class="col-sm-7 text-white"><h4>Ähnliche Units</h4></div>
             <div style="background-color: #3399ff" class="col-sm-5 text-white">
+
                 {%for unit in similar %}
-                       <input type="radio" value="{{unit.id}}" name="unit" required> {{unit}}<br>
+
+                        <input type="radio" value="{{unit.id}}" name="unit" required> {{unit}}<br>
+
                  {%endfor%}
+
 
             </div>
         </div>
@@ -72,10 +85,12 @@ $(document).ready(function(){
                 <div class="row">
             <div style="background-color: #0066ff" class="col-sm-7 text-white"><h4>Deine Units</h4></div>
             <div style="background-color: #0066ff" class="col-sm-5 text-white">
+
                 {%for unit, outstanding_words in units_gemacht.items %}
-                  <input type="radio" value="{{unit.id}}" name="unit" required> {{unit}}
+
+                 <input type="radio" value="{{unit.id}}" name="unit" required> {{unit}}
                 {%if outstanding_words%}
-                <span class="text-white border border-white rounded" id="{{unit.id}}-button" >neue Wörter!</span>
+                <span class="text-white border border-white rounded" id="{{unit.id}}-button" > neue Wörter! </span>
                 <div id="{{unit.id}}-dropdown">
                     <ul class="list-group">
                     {%for wrd in outstanding_words%}
@@ -85,15 +100,16 @@ $(document).ready(function(){
                     {%endfor%}
                         </ul>
                 </div>
-                {%else%}
-                <small class="text-white"> - Unit neu beginnen!</small>
+
                 {%endif%}
                 <br>
-                    </li>
+
                 {%endfor%}
+
             </div>
         </div>
             {%endif%}
+
         {%if alle%}
         <div class="row">
             <div style="background-color: #3366ff; border-radius: 0px 0px 8px 8px;" class="col-sm-3 text-white"><h5 id="buttonToggle2" style="border-radius: 8px 8px 8px 8px; background-color: #99ccff"><center>Alle Units</center></h5></div>
@@ -101,26 +117,24 @@ $(document).ready(function(){
                 <div id="textToggle1">
 
                     {% for schule_key, schule_data in alle.items %}
-                     <table class="table table-striped text-white">
-                        <thead class="thead" align="center" style="background-color:#3399ff;">
+                    <table class="table ">
+                        <thead class="thead text-white" align="center" style="background-color:#1a8cff;">
                         <tr>
                             <th align="center">{{schule_key}}</th>
                         </tr>
                         </thead>
                     </table>
 
-
                             {%for sprache_key, sprache_data in schule_data.items%}
-                    <table class="table">
-                         <thead class="thead text-white" align="center" style="background-color:#66b3ff;">
+                     <table class="table ">
+                        <thead  class="thead" align="center" style="background-color:#66b3ff;">
                                 <tr>
-                                    <th>{{sprache_key}}</th>
+                                    <th class="text-white">{{sprache_key}}</th>
                                     <th style="background-image:linear-gradient(to right,#66b3ff, white);"></th>
                                     <!--<td>{{sprache_data}} </td>-->
                                 </tr>
                         </thead>
-
-                        <tbody>
+                            <tbody>
 
                                 {% for units in sprache_data %}
                                     <tr>
@@ -129,14 +143,14 @@ $(document).ready(function(){
                                             {% if unit == ' ' %}
                                                 <td> </td>
                                             {% else %}
-                                                <td>  <input type="radio" value="{{unit.id}}" name="unit" required> {{unit.u_name}}<br></td>
+                                                <td>  <input type="radio" value="{{unit.id}}" name="unit" required> {{unit.u_name}}<br> </td>
                                             {% endif %}
 
                                         {%endfor%}
                                     </tr>
                                 {%endfor%}
-                                 </tbody>
-                            </table>
+                              </tbody>
+                        </table>
                             {%endfor%}
 
 
@@ -149,5 +163,6 @@ $(document).ready(function(){
 
             </div>
         </div>
+
     {%endif%}
-        </div>
+</div>

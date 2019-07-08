@@ -189,10 +189,9 @@ $(document).ready(function(){
 
                 {%for key, result in results.items%}
                     <div class="ergebnisse" id="-{{key}}">
-                        {%if key == "posts" and not request.user.is_authenticated%}
-                        {%else%}
+
                             <h5 class="text-muted {{key}}">Ergebnisse in {{key}}</h5>
-                        {%endif%}
+
                     {%if key == 'words'%}
                          <ul class="list-group">
                         {%if request.user.is_authenticated%}
@@ -201,7 +200,10 @@ $(document).ready(function(){
                                     <li content="{{prob}}" class="list-group-item toleranz {{key}}" >
                                         <span class="bg-warning">
                                             <a href="{%url 'unit-words' pk=value.unit_name.id name_of_unit=value.unit_name%}#{{value.id}}">
-                                                {{value.italienisch}} - {{value.deutsch}}</a></span>
+                                                {{value.italienisch}} - {{value.deutsch}}</a>
+                                            </span>
+                                        | in
+                                        <a href="{%url 'unit-words' pk=value.unit_name.id name_of_unit=value.unit_name%}">{{value.unit_name}}</a>
 
 
 
@@ -212,12 +214,12 @@ $(document).ready(function(){
                                          <small>Dieses Wort hast du gelernt!</small>
                                                 {%if val.right == True%}
                                                         <a href="{%url 'statistic-units' pk=val.word.unit_name.id name_of_unit=val.word.unit_name%}#{{val.id}}" style="background-color:green; border-radius:5px;" class="text-white">
-                                                           {{val.word.italienisch}} - {{val.word.deutsch}}
+                                                           zur Statistik
                                                         </a>
 
                                                 {%else%}
                                                      <a href="{%url 'statistic-units' pk=val.word.unit_name.id name_of_unit=val.word.unit_name%}#{{val.id}}" style="background-color:red; border-radius:5px;" class="text-white">
-                                                         {{val.word.italienisch}} - {{val.word.deutsch}}
+                                                         zur Statistik
                                                      </a>
 
                                                 {%endif%}
@@ -299,6 +301,9 @@ $(document).ready(function(){
                             {%endfor%}
                             <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success" >Alle anzeigen</button></center></li>
                         </ul>
+                        {%else%}
+                        <a href="{%url 'login'%}">Melde dich an</a> oder <a href="{%url 'register'%}">registriere dich</a> um die Posts zu sehen
+
                     {%endif%}
                     {%elif key == 'sprache'%}
                      <ul class="list-group " >

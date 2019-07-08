@@ -28,7 +28,7 @@
       document.getElementById("diese_woche").href = "{%url 'test-zwischenschritt' test_art='alle' von=this_week bis=today unit_ids='-'%}"
       document.getElementById("dieser_monat").href = "{%url 'test-zwischenschritt' test_art='alle' von=this_month bis=today unit_ids='-'%}"
       {%if current_unit%}
-             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='alle' von='0' bis='0' unit_ids=current_unit%}"
+             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='alle' von='0' bis='0' unit_ids=current_unit.id%}"
        {%endif%}
 
         {%for key, unit in units.items%}
@@ -43,7 +43,7 @@
       document.getElementById("diese_woche").href= "{%url 'test-zwischenschritt' test_art='falsche' von=this_week bis=today unit_ids='-'%}"
       document.getElementById("dieser_monat").href= "{%url 'test-zwischenschritt' test_art='falsche' von=this_month bis=today unit_ids='-'%}"
 {%if current_unit%}
-             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='falsche' von='0' bis='0' unit_ids=current_unit%}"
+             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='falsche' von='0' bis='0' unit_ids=current_unit.id%}"
        {%endif%}
        {%for key, unit in units.items%}
             document.getElementById("{{key}}").href = "{%url 'fehlertest-start' test_art='falsche' von='0' bis='0' unit_ids=unit.id %}"
@@ -57,7 +57,7 @@
       document.getElementById("diese_woche").href= "{%url 'test-zwischenschritt' test_art='richtige' von=this_week bis=today unit_ids='-'%}"
       document.getElementById("dieser_monat").href= "{%url 'test-zwischenschritt' test_art='richtige' von=this_month bis=today unit_ids='-'%}"
 {%if current_unit%}
-             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='richtige' von='0' bis='0' unit_ids=current_unit%}"
+             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='richtige' von='0' bis='0' unit_ids=current_unit.id%}"
        {%endif%}
              {%for key, unit in units.items%}
             document.getElementById("{{key}}").href = "{%url 'fehlertest-start' test_art='richtige' von='0' bis='0' unit_ids=unit.id %}"
@@ -75,7 +75,7 @@
       document.getElementById("diese_woche").href= "{%url 'test-zwischenschritt' test_art='alle' von=this_week bis=today unit_ids='-'%}"
       document.getElementById("dieser_monat").href= "{%url 'test-zwischenschritt' test_art='alle' von=this_month bis=today unit_ids='-'%}"
 {%if current_unit%}
-             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='alle' von='0' bis='0' unit_ids=current_unit%}"
+             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='alle' von='0' bis='0' unit_ids=current_unit.id%}"
        {%endif%}
         {%for key, unit in units.items%}
             document.getElementById("{{key}}").href = "{%url 'fehlertest-start' test_art='alle' von='0' bis='0' unit_ids=unit.id %}"
@@ -91,7 +91,7 @@
       document.getElementById("diese_woche").href= "{%url 'test-zwischenschritt' test_art='falsche' von=this_week bis=today unit_ids='-'%}"
       document.getElementById("dieser_monat").href= "{%url 'test-zwischenschritt' test_art='falsche' von=this_month bis=today unit_ids='-'%}"
 {%if current_unit%}
-             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='falsche' von='0' bis='0' unit_ids=current_unit%}"
+             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='falsche' von='0' bis='0' unit_ids=current_unit.id%}"
        {%endif%}
              {%for key, unit in units.items%}
             document.getElementById("{{key}}").href = "{%url 'fehlertest-start' test_art='falsche' von='0' bis='0' unit_ids=unit.id %}"
@@ -105,7 +105,7 @@
       document.getElementById("diese_woche").href= "{%url 'test-zwischenschritt' test_art='richtige' von=this_week bis=today unit_ids='-'%}"
       document.getElementById("dieser_monat").href= "{%url 'test-zwischenschritt' test_art='richtige' von=this_month bis=today unit_ids='-'%}"
 {%if current_unit%}
-             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='richtige' von='0' bis='0' unit_ids=current_unit%}"
+             document.getElementById("jetzige_unit").href = "{%url 'fehlertest-start' test_art='richtige' von='0' bis='0' unit_ids=current_unit.id%}"
        {%endif%}      {%for key, unit in units.items%}
             document.getElementById("{{key}}").href = "{%url 'fehlertest-start' test_art='richtige' von='0' bis='0' unit_ids=unit.id %}"
         {%endfor%}
@@ -142,7 +142,7 @@
             <h4 style="background-color:#00ccff; border-radius:5px;" id="heading">Alle Wörter</h4>
 
             {%if units%}
-            <h5>Erledigte Units</h5>
+            <h5>Meine Units</h5>
             <ul>
              {%for key, unit in units.items%}
                 {%if forloop.counter < 5%}
@@ -166,13 +166,14 @@
                 <button class="btn btn-outline-info" type="submit" name="alle" id="button" value="alle">Abschicken</button>
             </form>
             <ul class="list-group">
+                {%if current_unit%}
+                <li class="list-group-item" ><a href="{%url 'fehlertest-start' test_art='alle' von='0' bis='0' unit_ids=current_unit.id %}" id="jetzige_unit">Jetzige Unit</a></li>
+                {%endif%}
                 <li class="list-group-item" ><a href="{%url 'test-zwischenschritt' test_art='alle' von=today bis=today unit_ids='-'%}" id="heute">Heute</a></li>
                 <li class="list-group-item" ><a href="{%url 'test-zwischenschritt' test_art='alle' von=yesterday bis=yesterday unit_ids='-'%}" id="gestern">Gestern</a></li>
                 <li class="list-group-item" ><a href="%{url 'fehlertest-start' test_art='alle' von=this_week bis=today unit_ids='-'%}" id="diese_woche"> Diese Woche</a></li>
                 <li class="list-group-item" ><a href="{%url 'fehlertest-start' test_art='alle' von=this_month bis=today unit_ids='-'%}" id="dieser_monat">Dieser Monat</a></li>
-                {%if current_unit%}
-                <li class="list-group-item" ><a href="{%url 'fehlertest-start' test_art='alle' von='0' bis='0' unit_ids=current_unit%}" id="jetzige_unit">Jetzige Unit</a></li>
-                {%endif%}
+
             </ul>
             <br>
 

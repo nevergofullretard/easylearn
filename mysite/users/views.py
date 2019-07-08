@@ -165,8 +165,8 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
     dict_units_gemacht = {}
 
     if not nur_alle:
-        if request.user.profile.current_unit != 0:
-            current_unit = Unit_name.objects.get(id=request.user.profile.current_unit)
+        if request.user.profile.current_unit2:
+            current_unit = request.user.profile.current_unit2
 
 
 
@@ -195,28 +195,44 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
 
                 if not current_unit:
                     next = naechste_untit[0]
+                    # if nur_volle_units == False:
+                    #     lst_naechste_unit.append(naechste_untit[1])
                 else:
                     next = naechste_untit[1]
-                print(next)
+                    # if nur_volle_units == False:
+                    #     lst_naechste_unit.append(naechste_untit[1])
+
+
+                print('next: ' + str(next))
 
                 # similar = naechste_untit.exclude(id=next.id)
                 if next in lst_naechste_unit:
                     lst_naechste_unit.remove(next)
                 if current_unit in lst_naechste_unit:
                     lst_naechste_unit.remove(current_unit)
-                print(lst_naechste_unit)
+                # print(lst_naechste_unit)
                 # if lst_naechste_unit:
                 similar = lst_naechste_unit
 
                 real_units_gemacht.append(next.id)
-                if not Unit_words.objects.filter(unit_name=next):
-                    next = None
-            if similar:
-                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(id__in=[unit.id for unit in similar])
+                if nur_volle_units == True:
+                    if not Unit_words.objects.filter(unit_name=next):
+                        next = None
+            if similar and current_unit:
+                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(id__in=[unit.id for unit in similar]).exclude(id=current_unit.id)
+            elif similar:
+                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(
+                    id__in=[unit.id for unit in similar])
+            elif current_unit:
+                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(id=current_unit.id)
             else:
                 alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht)
+
+
         else:
             alle_units = Unit_name.objects.all()
+
+        print(alle_units)
 
 
         for schule in Unit_schule.objects.all():
@@ -278,15 +294,21 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
                             units_schule_sprache_all.append(schule_sprache)
                             alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = split_list(units_schule_sprache_all)
 
+    if nur_volle_units == False:
+        similar.append(next)
+        next = None
+
+
+
 
     return {'current_unit': current_unit, 'next': next, 'similar': similar, 'alle': alle_dict, 'dict_units_gemacht': dict_units_gemacht}
 
 
 @login_required
 def lernweg(request):
-    current_u = request.user.profile.current_unit
+    current_u = request.user.profile.current_unit2
 
-    if current_u == 0:
+    if not current_u:
         if request.method == 'POST':
             new_unit = request.POST.get('unit')
             real_new_unit = Unit_name.objects.get(id=new_unit)
@@ -307,149 +329,35 @@ def lernweg(request):
 
             unit_update = request.user.profile
             unit_update.current_unit = new_unit
+            unit_update.current_unit2 = real_new_unit
             unit_update.save()
 
 
 
             return redirect('users-lernweg')
+
         else:
-
-            # units_gemacht = []
-            # for wrd in Words_user.objects.filter(user=request.user, lernweg_voc=False)[::-1]:
-            #     if wrd.word.unit_name not in units_gemacht:
-            #         units_gemacht.append(wrd.word.unit_name)
-            # # units_gemacht = Units_user.objects.filter(user=request.user)[::-1]
-            # next = None
-            # similar = None
-            # if units_gemacht:
-            #     letzte_unit = units_gemacht[0]
-            #     real_units_gemacht = [unit.id for unit in units_gemacht]
-            #     naechste_untit = \
-            #         Unit_name.objects.filter(sprache=letzte_unit.sprache, schule=letzte_unit.schule).exclude(
-            #             id__in=real_units_gemacht)
-            #     if naechste_untit:
-            #         lst_naechste_unit = []
-            #         # print('nächste Units')
-            #         # print(lst_naechste_unit)
-            #         for naechste in naechste_untit:
-            #             words_naechste_unit = Unit_words.objects.filter(unit_name=naechste)
-            #             if words_naechste_unit:
-            #                 lst_naechste_unit.append(naechste)
-            #         next = naechste_untit[0]
-
-            #         # similar = naechste_untit.exclude(id=next.id)
-            #         if next in lst_naechste_unit:
-            #             lst_naechste_unit.remove(next)
-
-            #         similar = lst_naechste_unit
-            #         real_units_gemacht.append(next.id)
-            #         if not Unit_words.objects.filter(unit_name=next):
-            #             next = None
-            #     if similar:
-            #         alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(id__in=[unit.id for unit in similar])
-            #     else:
-            #         alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht)
-            # else:
-            #     alle_units = Unit_name.objects.all()
-            # alle_dict = {}
-            # for schule in Unit_schule.objects.all():
-            #     units_schule = alle_units.filter(schule=schule)
-            #     schule_words = Unit_words.objects.filter(unit_name__in=units_schule)
-
-
-            #     if units_schule and schule_words:
-            #         alle_dict[str(schule)] = {}
-
-            #         for sprache in Unit_sprache.objects.all():
-            #             units_schule_sprache = units_schule.filter(sprache=sprache)
-            #             units_schule_sprache_all = []
-            #             for schule_sprache in units_schule_sprache: # ist mir egal ob da schon Wörter drinnen sind oder noch nicht, hab keine Zeit mehr!
-            #                 if Unit_words.objects.filter(unit_name__id=schule_sprache.id):
-            #                     units_schule_sprache_all.append(schule_sprache)
-
-            #                     alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = units_schule_sprache_all
-
-            # dict_units_gemacht = {}
-            # for unit in units_gemacht:
-            #     words_unit = Words_user.objects.filter(user=request.user, word__unit_name=unit, lernweg_voc=False).order_by(
-            #         "-date")
-            #     outstanding_words = []
-            #     all_words_unit = Unit_words.objects.filter(unit_name=unit)
-            #     for wrd in all_words_unit:
-            #         if wrd not in [wrd.word for wrd in words_unit]:
-            #             outstanding_words.append(wrd)
-            #     if outstanding_words:
-            #         dict_units_gemacht[unit] = outstanding_words
-            #     else:
-            #         dict_units_gemacht[unit] = None
-
-            # return {'next': next, 'similiar': similiar, 'alle': alle_dict, 'dict_units_gemacht': dict_units_gemacht}
-            # 'naechste_unit': auswahl['next'], 'similar': auswahl['similiar'], 'alle': auswahl['alle'], 'units_gemacht': auswahl['dict_units_gemacht']
-
             auswahl = units_auswahl(request=request, nur_volle_units=True)
         context = {'naechste_unit': auswahl['next'], 'similar': auswahl['similar'], 'alle': auswahl['alle'], 'units_gemacht': auswahl['dict_units_gemacht']}
         return render(request, 'users/users-neuer-lernweg.html', context)
 
     else:
-        current_unit = Unit_name.objects.get(id=current_u)
+        current_unit = current_u
 
         voc_bits = request.user.profile.voc_bits
         first_voc = request.user.profile.first_voc
         last_voc = request.user.profile.last_voc
 
 
-        # words_old = Words_user.objects.filter(user=request.user, lernweg_voc=True)
-        # if not words_old:
-        #     print('keine lernweg vocs mehr')
-        #     words_neu = Unit_words.objects.filter(unit_name_id=current_u)[first_voc + voc_bits:last_voc + voc_bits * 2]
-        #     print(words)
-        #     if not words:
-        #
-        #         print('unit fertig')
-        #         current_unit_real = Unit_name.objects.get(id=current_u)
-        #         Units_user.objects.create(user=request.user, unit=current_unit_real)
-        #         messages.success(request,
-        #                          f'Du bist fertig mit {current_unit_real}! <a href="{reverse("statistic-units", args=[Units_user.objects.get(user=request.user, unit=current_unit_real).id, current_unit_real])}">Zur Statistik</a>')
-        #         unit_update = request.user.profile
-        #         unit_update.current_unit = 0
-        #         unit_update.first_voc = 0
-        #         unit_update.last_voc = 0
-        #         unit_update.save()
-        #     # else:
-            #     profile_update = request.user.profile
-            #     profile_update.first_voc = first_voc + voc_bits
-            #     profile_update.last_voc = last_voc + voc_bits
-            #     profile_update.save()
-
-
-
         #z.B.: <QuerySet [<Unit_words: la casa>]>
         qry = Words_user.objects.filter(user=request.user, lernweg_voc=True)
 
         new_words_or_unit_finished(request, qry, current_u)
-        # words = Unit_words.objects.filter(unit_name_id=current_u)[
-        #         first_voc:last_voc + voc_bits].filter()  # die range, wie weit er Vocabeln zählt
+
 
 
         words = [word.word for word in Words_user.objects.filter(user=request.user, lernweg_voc=True)]
-        #
-        # words_now = Words_user.objects.filter(user=request.user, word__unit_name=current_unit)
-        # if not words_now:
-        #     for wrd in words:
-        #         Words_user.objects.create(user=request.user, word=wrd)
-        #
-        # words_now = Words_user.objects.filter(user=request.user, word__unit_name=current_unit) # alle Wörter eines Users von einer bestimmten Unit
-        # all_words = []
-        # if not qry: #dann wissen wir: es sind alle Words_user -Wörter abgefragt worden
-        #     print('not qry')
-        #     # words_neu = Unit_words.objects.filter(unit_name_id=current_u)[first_voc + voc_bits:last_voc + voc_bits * 2]
-        #     for wrd in words:
-        #         if wrd not in [word.word for word in words_now]:    #wenn die Wörter des nächsten Abschnitts nicht in den Wörtern eines Users von einer besetimmten Unit sind
-        #             Words_user.objects.create(user=request.user, word=wrd)
-        #             all_words.append(wrd)
-        #
-        # if not all_words:
-        #     all_words = [word for word in words]
+
 
         context = {'info': current_unit, 'words': words,
                    'voc_bits': voc_bits}
@@ -460,27 +368,32 @@ def new_words_or_unit_finished(request, words_user, current_u):
     voc_bits = request.user.profile.voc_bits
     first_voc = request.user.profile.first_voc
     last_voc = request.user.profile.last_voc
+    group_number = request.user.profile.group_number
+    print(group_number)
     try:
-        current_unit = Unit_name.objects.get(id=current_u)
+        current_unit = current_u
     except:  # wenn current_u beim profile = 0
         return redirect('users-lernweg')
 
-    words = Unit_words.objects.filter(unit_name_id=current_u)[
-            first_voc:last_voc]
+
     #.exclude(id__in=[word_user.id for word_user in Words_user.objects.filter(user=request.user, word__unit_name=current_unit)])
-    print('hier kommen die Wörter:')
-    print(words)
+    # print('hier kommen die Wörter:')
+    # print(words)
+    words = Unit_words.objects.filter(unit_name=current_u)
 
     words_now = Words_user.objects.filter(user=request.user, word__unit_name=current_unit)
     if not words_now:   #wenn noch gar keine Voc von Unit in Words_user sind
-        for wrd in words:
-            Words_user.objects.create(user=request.user, word=wrd)
+        user_profile = request.user.profile
+        user_profile.group_number = group_number + 1
+        user_profile.save()
+        for wrd in words[:voc_bits]:
+            Words_user.objects.create(user=request.user, word=wrd, group=group_number +1)
 
 
     if not words_user:  #=lernweg_voc=True
         print('keine Wörter')
         # if first_voc == 0 and last_voc == 0:
-        words_neu = Unit_words.objects.filter(unit_name_id=current_u).exclude(id__in=[word.word.id for word in words_now])[:voc_bits]
+        words_neu = Unit_words.objects.filter(unit_name=current_u).exclude(id__in=[word.word.id for word in words_now])[:voc_bits]
         # print(words_new)
         # print(len(words_new))
         # print(len(Unit_words.objects.filter(unit_name_id=current_u)))
@@ -501,6 +414,7 @@ def new_words_or_unit_finished(request, words_user, current_u):
                              f'Du bist fertig mit {current_unit}! <a href="{reverse("statistic-units", args=[current_unit.id, current_unit])}">Zur Statistik</a>')
             unit_update = request.user.profile
             unit_update.current_unit = 0
+            unit_update.current_unit2 = None
             unit_update.first_voc = 0
             unit_update.last_voc = 0
             unit_update.save()
@@ -510,27 +424,35 @@ def new_words_or_unit_finished(request, words_user, current_u):
             profile_update = request.user.profile
             profile_update.first_voc = last_voc
             profile_update.last_voc = last_voc + voc_bits
+            profile_update.group_number = group_number + 1
             profile_update.save()
             # if not Words_user.objects.filter(user=request.user, word__in=words):
             for wrd in words_neu:
-                Words_user.objects.create(user=request.user, word=wrd)
+                Words_user.objects.create(user=request.user, word=wrd, group=group_number+1)
 
         all_words = []
-        for word in words: # negative indexing not supported
-            print(word)
-            real = Words_user.objects.get(user=request.user, word=word)
-            all_words.append(real)
+
+        # for word in words: # negative indexing not supported
+        #     print(word)
+        #     print(request.user.profile.group_number)
+        #     print(group_number)
+        #     real = Words_user.objects.get(user=request.user, word=word, group=group_number)
+        #     all_words.append(real)
+
+        all_words = Words_user.objects.filter(user=request.user, word__in=words, group=group_number)
         print('all words: ' + str(all_words))
+
+
         return all_words
 
 @login_required
 def method_karteikarten(request):
-    current_u = request.user.profile.current_unit
+    current_u = request.user.profile.current_unit2
     words = Words_user.objects.filter(user=request.user, lernweg_voc=True)
 
-    if current_u == 0:  # das soll feststellen, dass wir von vorne anfangen
+    if not current_u:  # das soll feststellen, dass wir von vorne anfangen
         return redirect('users-lernweg')
-    if current_u != 0:
+    else:
         words_right_false = None
 
 
@@ -553,7 +475,7 @@ def method_karteikarten(request):
 
 @login_required
 def method_schriftlich(request):
-    current_u = request.user.profile.current_unit
+    current_u = request.user.profile.current_unit2
     words_right_false = None
 
     words = Words_user.objects.filter(user=request.user, lernweg_voc=True)
@@ -569,9 +491,9 @@ def method_schriftlich(request):
 
 
     else:
-        if current_u == 0:  # hier konnte man ein redirect einbauen
+        if not current_u:  # hier konnte man ein redirect einbauen
             return redirect('users-lernweg')
-        if current_u != 0:
+        else:
             lernweg = LernwegGet(request, words, request.user.profile.pruefung_voc)
             words_right_false = lernweg.mix_schriftlich()
 
@@ -601,11 +523,11 @@ class AccountDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 @login_required
 def cancel_unit(request):
-    current_unit = request.user.profile.current_unit
-    if current_unit == 0:  # dont know if this is necessary
+    current_unit = request.user.profile.current_unit2
+    if not current_unit:  # dont know if this is necessary
         return redirect('users-lernweg')
     else:
-        current_unit_real = Unit_name.objects.get(id=current_unit)
+        current_unit_real = current_unit
 
         if request.method == 'POST':
             for word in Words_user.objects.filter(user=request.user, word__unit_name=current_unit_real):
@@ -613,6 +535,7 @@ def cancel_unit(request):
             user_profile = request.user.profile
             user_profile.current_unit = 0
             user_profile.first_voc = 0
+            user_profile.current_unit2 = None
             user_profile.last_voc = 0
             user_profile.save()
             messages.error(request, f'Unit {current_unit_real} wurde abgebrochen.')

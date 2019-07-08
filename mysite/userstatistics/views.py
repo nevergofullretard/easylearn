@@ -29,7 +29,10 @@ from units.views import split_list, unit_exists
 
 @login_required
 def user_statistics(request):
-    current_unit = request.user.profile.current_unit
+    if request.user.profile.current_unit2:
+        current_unit = request.user.profile.current_unit2
+    else:
+        current_unit = 0
     # units_gemacht_all = Units_user.objects.filter(user=request.user)[::-1]
     units_gemacht_all = []
     for wrd in Words_user.objects.filter(user=request.user, lernweg_voc=False)[::-1]:
@@ -49,8 +52,7 @@ def user_statistics(request):
     # print(units_gemacht_list)
     # units_all = Unit_name.objects.all().count()
 
-    if current_unit != 0:
-        current_unit = Unit_name.objects.get(id=request.user.profile.current_unit)
+
     posts_user = Post.objects.filter(author=request.user)
     if posts_user:
         posts = ['zum Community-Profil']
@@ -182,8 +184,8 @@ class ChartData5(APIView):
 
     def get(self, request, format=None):
         print(date.today)
-        words_unit_right = Words_user.objects.filter(user=self.request.user, word__unit_name=request.user.profile.current_unit, lernweg_voc=False, right=True, date=date.today()) #das wird nur in userer Zeitzone gelten
-        words_unit_false = Words_user.objects.filter(user=self.request.user, word__unit_name=request.user.profile.current_unit, lernweg_voc=False, right=False, date=date.today())
+        words_unit_right = Words_user.objects.filter(user=self.request.user, word__unit_name=request.user.profile.current_unit2, lernweg_voc=False, right=True, date=date.today()) #das wird nur in userer Zeitzone gelten
+        words_unit_false = Words_user.objects.filter(user=self.request.user, word__unit_name=request.user.profile.current_unit2, lernweg_voc=False, right=False, date=date.today())
 
         labels = ["Richtig", "Falsch"]
         default = [len(words_unit_right), len(words_unit_false)]
@@ -210,8 +212,8 @@ def statistics_unit(request, pk, name_of_unit):
             outstanding_words.append(wrd)
 
     current_unit = ""
-    if request.user.profile.current_unit != 0:
-        current_unit = Unit_name.objects.get(id=request.user.profile.current_unit)
+    if request.user.profile.current_unit2:
+        current_unit = request.user.profile.current_unit2
 
     context = {'name_of_unit': obj, 'pk': obj.id, 'words': words_unit, 'all_words': all_words_unit, 'outstanding_words': outstanding_words, 'current_unit': current_unit}
     return render(request, 'userstatistics/units-start.html', context)
@@ -243,12 +245,13 @@ def delete_unit(request, pk, name_of_unit):
         words = Words_user.objects.filter(user=request.user, word__unit_name=obj)
         # units = Units_user.objects.filter(user=request.user, unit=obj.unit)
         print(words)
-        if request.user.profile.current_unit != 0:
-            current_unit = Unit_name.objects.get(id=request.user.profile.current_unit)
+        if request.user.profile.current_unit2:
+            current_unit = request.user.profile.current_unit2
 
             if obj == current_unit:
                 profile = request.user.profile
                 profile.current_unit = 0
+                profile.current_unit2 = None
                 profile.save()
         if words:
             for word in words:

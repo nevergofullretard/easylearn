@@ -19,8 +19,8 @@ class People(models.Model):
 class Unit_words(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, default=date.today, null=True)
     unit_name = models.ForeignKey('Unit_name', on_delete=models.CASCADE,)
-    italienisch = models.CharField(max_length=200)
-    deutsch = models.CharField(max_length=200)
+    italienisch = models.CharField(max_length=500)
+    deutsch = models.CharField(max_length=500)
     sidenote = models.CharField(max_length=1000, blank=True)
 
 

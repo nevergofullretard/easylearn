@@ -143,8 +143,8 @@ def units(request):
     this_week = today - timedelta(7)
 
     if request.user.is_authenticated:
-        if request.user.profile.current_unit != 0:
-            diese_unit = Unit_name.objects.get(id=request.user.profile.current_unit)
+        if request.user.profile.current_unit2:
+            diese_unit = request.user.profile.current_unit2
 
         words_today = Words_user.objects.filter(user=request.user, date=today, lernweg_voc=False) #hier dropdown zwischen alle, falsche und richtige
         words_yesterday = Words_user.objects.filter(user=request.user, date=yesterday, lernweg_voc=False) ##hier dropdown zwischen alle, falsche und richtige

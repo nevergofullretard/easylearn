@@ -1,6 +1,7 @@
 {% extends "about/header.html" %}
 {% block content %}
 
+<h3 class="text-white" style="background-color: #56BB86;">Lernweg - {{ request.user.profile.current_unit2 }}</h3>
 
 
 {% if request.method == "POST" %}
@@ -13,17 +14,26 @@
         {% for key, item in words_right_false.items %}
             {%for key2, value in item.items%}
                 {%if key2 == 'False'%}
-                {%if value == 'right'%}
-                    <tr class="table-success">
-                        <td>{{key.word.deutsch}}</td>
-                        <td>{{key.word.italienisch}}</td>
-                    </tr>
-                {%else%}
-                    <tr class="table-danger">
-                        <td>{{key.word.deutsch}}</td>
-                        <td>{{key.word.italienisch}}</td>
-                    </tr>
-                {%endif%}
+                    {%if value == 'right'%}
+                        <tr class="table-success">
+                            <td>{{key.word.deutsch}}</td>
+                            <td>{{key.word.italienisch}}</td>
+                        </tr>
+                    {%else%}
+                        <tr class="table-danger">
+                            <td>{{key.word.deutsch}}</td>
+                            <td>{{key.word.italienisch}}
+                                <div class="dropdown">
+                              <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Eingabe
+                              </button>
+                               <div class="dropdown-menu">
+                                    <small class="text-muted">{{key.eingabe}}</small>
+                                 </div>
+                            </div>
+                            </td>
+                        </tr>
+                    {%endif%}
             {%else%}
                 {%if value == 'right'%}
                     <tr class="table-success">
@@ -33,7 +43,16 @@
                 {%else%}
                     <tr class="table-danger">
                         <td>{{key.word.italienisch}}</td>
-                        <td>{{key.word.deutsch}}</td>
+                        <td>{{key.word.deutsch}}
+                            <div class="dropdown">
+                              <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Eingabe
+                              </button>
+                               <div class="dropdown-menu">
+                                    <small class="text-muted">{{key.eingabe}}</small>
+                                 </div>
+                            </div>
+                        </td>
                     </tr>
                 {%endif%}
             {%endif%}
@@ -61,7 +80,10 @@
                             {%else%}
                                  <tr class="table-danger">
                                <td><center>{{word.word.deutsch}}</center></td>
-                                <td><center>{{word.word.italienisch}}</center></td>
+                                <td><center>{{word.word.italienisch}}
+                                </center>
+
+                                </td>
                             </tr>
                             {%endif%}
                         {%endfor%}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Unit_sprache(models.Model):
 
     sprache_lang = models.CharField(max_length=20, default='Englisch')

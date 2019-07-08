@@ -14,7 +14,7 @@
     });
 </script>
 
-<h3 class="bg-info text-white">Unit-Test: {{unit}} - Schriftlich</h3>
+<h3 class=" text-white" style="background-color:#56BB86;">Unit-Test: {{unit}} - Schriftlich</h3>
 
 {% if request.method == "POST" %}
  <table class="table">
@@ -26,8 +26,10 @@
         <tbody>
                 {% for key, item in words_right_false.items %}
             {%for key2, value in item.items%}
+                {%for right_false,eingabe in value.items%}
                 {%if key2 == 'False'%}
-                {%if value == 'right'%}
+
+                {%if right_false == 'right'%}
                     <tr class="table-success">
                         <td>{{key.deutsch}}</td>
                         <td>{{key.italienisch}}</td>
@@ -35,11 +37,20 @@
                 {%else%}
                     <tr class="table-danger">
                         <td>{{key.deutsch}}</td>
-                        <td>{{key.italienisch}}</td>
+                        <td>{{key.italienisch}}
+                            <div class="dropdown">
+                                  <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Eingabe
+                                  </button>
+                                   <div class="dropdown-menu">
+                                        <small class="text-muted">{{eingabe}}</small>
+                                 </div>
+                            </div>
+                        </td>
                     </tr>
                 {%endif%}
             {%else%}
-                {%if value == 'right'%}
+                {%if right_false == 'right'%}
                     <tr class="table-success">
                         <td>{{key.italienisch}}</td>
                         <td>{{key.deutsch}}</td>
@@ -47,12 +58,22 @@
                 {%else%}
                     <tr class="table-danger">
                         <td>{{key.italienisch}}</td>
-                        <td>{{key.deutsch}}</td>
+                        <td>{{key.deutsch}}
+                            <div class="dropdown">
+                                  <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Eingabe
+                                  </button>
+                                   <div class="dropdown-menu">
+                                        <small class="text-muted">{{eingabe}}</small>
+                                 </div>
+                            </div>
+                        </td>
                     </tr>
                 {%endif%}
             {%endif%}
 
             {%endfor%}
+        {%endfor%}
 
         {%endfor%}
 

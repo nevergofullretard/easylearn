@@ -73,7 +73,7 @@ class LernwegGet(LoginRequiredMixin):
             if self.lernweg == True:
                 if len(selection) < self.user.profile.karteikarten_voc:
                     if self.lernweg == True:
-                        other_words = Unit_words.objects.filter(unit_name_id=self.user.profile.current_unit)[
+                        other_words = Unit_words.objects.filter(unit_name=self.user.profile.current_unit2)[
                 self.user.profile.first_voc:self.user.profile.last_voc].filter()
                         for wrd in other_words:
                             if wrd.id not in selection:
@@ -140,21 +140,36 @@ class LernwegPost(LoginRequiredMixin):
             for key, value in values.items(): # der zweite key hat nur Bedeutung bei schriftlich, da dort geschaut wird ob auch umgekehrt geprüft wird
                 #   (von Fremdsprache auf Deutsch), hier ist er nur zur Vereinheitlichung des Inputs da, weil hier nur die IDs verglichen werden
                 if self.save:
+                    print(value)
                     if str(self.words.get(id=int(keys)).word.id) == value:
                         self.words_right_false[word_database] = {key: 'right'}
                         word_database.right = True
                     else:
                         self.words_right_false[word_database] = {key: 'false'}
                         word_database.right = False
+                    print('das Wort')
+                    print(Unit_words.objects.get(id=int(value)))
+
+                    if key == "False":
+                        # word_database.eingabe =
+                        word_database.eingabe = Unit_words.objects.get(id=int(value)).italienisch
+                    else:
+                        word_database.eingabe = Unit_words.objects.get(id=int(value)).deutsch
 
                     word_database.date = date.today()
                     word_database.lernweg_voc = False
                     word_database.save()
                 else:   #wenn es nicht gespeichert werden soll, z.B. Unit-Test
-                    if keys == value:
-                        self.words_right_false[word_database] = {key: 'right'}
+                    if key == "False":
+                        if keys == value:
+                            self.words_right_false[word_database] = {key: {'right': Unit_words.objects.get(id=int(value)).italienisch}}
+                        else:
+                            self.words_right_false[word_database] = {key: {'false': Unit_words.objects.get(id=int(value)).italienisch}}
                     else:
-                        self.words_right_false[word_database] = {key: 'false'}
+                        if keys == value:
+                            self.words_right_false[word_database] = {key: {'right': Unit_words.objects.get(id=int(value)).deutsch}}
+                        else:
+                            self.words_right_false[word_database] = {key: {'false': Unit_words.objects.get(id=int(value)).deutsch}}
 
         return self.words_right_false
 
@@ -187,6 +202,9 @@ class LernwegPost(LoginRequiredMixin):
                             self.words_right_false[word_database] = {key: 'false'}
                             word_database.right = False
 
+                    print('value')
+                    print(value)
+                    word_database.eingabe = value
                     word_database.date = date.today()
                     word_database.lernweg_voc = False
                     word_database.save()
@@ -194,13 +212,13 @@ class LernwegPost(LoginRequiredMixin):
                 else:   #wenn Words nicht gespeichert werden, braucht man nicht Words_user_instance, sondern Words_unit inststance
                     if key == 'False':
                         if str(word_database.italienisch).upper() == value.upper():
-                            self.words_right_false[word_database] = {key: 'right'}
+                            self.words_right_false[word_database] = {key: {'right': value}}
                         else:
-                            self.words_right_false[word_database] = {key: 'false'}
+                            self.words_right_false[word_database] = {key: {'false': value}}
                     else:
                         if str(word_database.deutsch).upper() == value.upper():
-                            self.words_right_false[word_database] = {key: 'right'}
+                            self.words_right_false[word_database] = {key: {'right': value}}
                         else:
-                            self.words_right_false[word_database] = {key: 'false'}
+                            self.words_right_false[word_database] = {key: {'false': value}}
 
         return self.words_right_false

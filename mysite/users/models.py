@@ -26,6 +26,8 @@ class Profile(models.Model):
     image = models.ImageField(default='default.png', upload_to='profile_pics')
     newsletter = models.BooleanField(default=True)
     toleranz = models.IntegerField(default=51)
+    group_number = models.IntegerField(default=1)
+    current_unit2 = models.ForeignKey(Unit_name, null=True, on_delete=models.SET_NULL)
 
     ''' this CharField will be like a CSV-File (comma seperated) and will store the id's
     of The Unit_words in the random generated order, max_length is required, so i hope it will never
@@ -68,6 +70,8 @@ class Words_user(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, default=date.today)
     pruefung_reihung = models.IntegerField(default=0)
     fehlertest = models.BooleanField(default=False)
+    group = models.IntegerField(default=1)
+    eingabe = models.CharField(blank=True, max_length=500)
 
     def __str__(self):
         return f'{self.word.italienisch}'

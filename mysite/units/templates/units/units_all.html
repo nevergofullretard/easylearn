@@ -1,7 +1,7 @@
 {% extends "about/header.html" %}
 {% block content %}
 
-<h3>Alle Units</h3>
+
 
 
 <script>
@@ -27,7 +27,8 @@
 </script>
 
 
-<div class="container">
+<div class="container" >
+    <h3>Alle Units</h3>
 {%if current_unit%}
 
     <div class="row" style="background-color: #99ddff">
@@ -42,6 +43,17 @@
         </div>
     </div>
 {%endif%}
+    {%if naechste_unit%}
+            <div class="row">
+                <div style="background-color: #66ccff" class="col-sm-7 text-white"> <h4>Nächste Unit</h4></div>
+                <div style="background-color: #66ccff" class="col-sm-5 text-white">
+                    <ul>
+                        <li><a class="text-white" href="{%url 'unit-words' pk=naechste_unit.id name_of_unit=naechste_unit%}">{{naechste_unit}}</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            {%endif%}
 
             {%if similar%}
         <div class="row">
@@ -50,7 +62,7 @@
                 <ul>
                 {%for unit in similar %}
                     <li>
-                        <a class="text-white" href="{% url 'unit-words' pk=unit.id name_of_unit=unit %}"><h5>{{unit}}</h5></a>
+                        <a class="text-white" href="{% url 'unit-words' pk=unit.id name_of_unit=unit %}">{{unit}}</a>
                     </li>
                  {%endfor%}
                 </ul>
@@ -66,7 +78,7 @@
                 <ul>
                 {%for unit, outstanding_words in units_gemacht.items %}
                 <li>
-                    <a class="text-white" href="{% url 'unit-words' pk=unit.id name_of_unit=unit %}"><h5>{{unit}}</h5></a>
+                    <a class="text-white" href="{% url 'unit-words' pk=unit.id name_of_unit=unit %}">{{unit}}</a>
                 {%if outstanding_words%}
                 <span class="text-white border border-white rounded" id="{{unit.id}}-button" > neue Wörter! </span>
                 <div id="{{unit.id}}-dropdown">
@@ -87,6 +99,8 @@
             </div>
         </div>
             {%endif%}
+
+
 
         {%if alle%}
         <div class="row">
@@ -141,8 +155,9 @@
 
             </div>
         </div>
-        </div>
     {%endif%}
+        </div>
+
 
 
 

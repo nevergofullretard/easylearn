@@ -1,7 +1,7 @@
 {% extends "about/header.html" %}
 {%  load crispy_forms_tags %}
 {% block content %}
-
+<h3 class="text-white" style="background-color: #56BB86;">Lernweg - {{ request.user.profile.current_unit2 }}</h3>
 
     {% if request.method == "POST" %}
 {% if to_learnweg_start %}
@@ -21,7 +21,16 @@
                 {%else%}
                     <tr class="table-danger">
                         <td>{{key.word.deutsch}}</td>
-                        <td>{{key.word.italienisch}}</td>
+                        <td>{{key.word.italienisch}}
+                        <div class="dropdown">
+                              <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Eingabe
+                              </button>
+                               <div class="dropdown-menu">
+                                    <small class="text-muted">{{key.eingabe}}</small>
+                                 </div>
+                            </div>
+                        </td>
                     </tr>
                 {%endif%}
             {%else%}
@@ -33,7 +42,16 @@
                 {%else%}
                     <tr class="table-danger">
                         <td>{{key.word.italienisch}}</td>
-                        <td>{{key.word.deutsch}}</td>
+                        <td>{{key.word.deutsch}}
+                        <div class="dropdown">
+                              <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Eingabe
+                              </button>
+                               <div class="dropdown-menu">
+                                    <small class="text-muted">{{key.eingabe}}</small>
+                                 </div>
+                            </div>
+                        </td>
                     </tr>
                 {%endif%}
             {%endif%}
@@ -62,7 +80,8 @@
                             {%else%}
                                  <tr class="table-danger">
                                 <td><center>{{word.word.deutsch}}</center></td>
-                                <td><center>{{word.word.italienisch}}</center></td>
+                                <td><center>{{word.word.italienisch}}
+                                </center></td>
                             </tr>
                             {%endif%}
                         {%endfor%}
