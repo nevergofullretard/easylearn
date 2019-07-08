@@ -141,115 +141,38 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="html" value="90" />
-          <entry key="py" value="50" />
+          <entry key="py" value="52" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="HTML" value="90" />
-          <entry key="Python" value="50" />
+          <entry key="Python" value="52" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="6565" />
-          <entry key="py" value="3205" />
+          <entry key="py" value="3228" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="6565" />
-          <entry key="Python" value="3205" />
+          <entry key="Python" value="3228" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/users/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="298" column="19" selection-start-line="298" selection-start-column="19" selection-end-line="298" selection-end-column="19" />
+            <state relative-caret-position="442">
+              <caret line="298" column="20" lean-forward="true" selection-start-line="298" selection-start-column="20" selection-end-line="298" selection-end-column="20" />
               <folding>
                 <element signature="e#0#88#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/units/templates/units/new-unit-user.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="821">
-              <caret line="54" column="157" selection-start-line="54" selection-start-column="157" selection-end-line="54" selection-end-column="157" />
-              <folding>
-                <element signature="n#style#0;n#p#0;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/usertests/templates/usertests/unittest-start.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="132" column="54" selection-start-line="132" selection-start-column="54" selection-end-line="132" selection-end-column="54" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#thead#0;n#table#0;n#div#0;n#div#1;n#div#4;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#thead#0;n#table#1;n#div#0;n#div#1;n#div#4;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#1;n#div#0;n#div#1;n#div#4;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/users/templates/users/users-method-karteikarten.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-              <folding>
-                <element signature="n#style#0;n#h3#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/users/templates/users/users-method-schriftlich.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="113" lean-forward="true" selection-start-line="3" selection-end-line="4" />
-              <folding>
-                <element signature="n#style#0;n#h3#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/users/templates/users/users-lernweg-start.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="22" selection-start-line="22" selection-end-line="22" selection-end-column="83" />
-              <folding>
-                <element signature="n#style#0;n#h3#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#thead#0;n#table#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/usertests/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="205" column="89" selection-start-line="205" selection-start-column="89" selection-end-line="205" selection-end-column="89" />
-              <folding>
-                <element signature="e#0#25#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -259,19 +182,10 @@
         <entry file="file://$PROJECT_DIR$/units/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="221">
-              <caret line="222" column="38" selection-start-line="222" selection-start-column="38" selection-end-line="222" selection-end-column="38" />
+              <caret line="222" column="34" lean-forward="true" selection-start-line="222" selection-start-column="34" selection-end-line="222" selection-end-column="34" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/userstatistics/templates/userstatistics/statistics-start.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="302" column="115" selection-start-line="302" selection-start-column="115" selection-end-line="302" selection-end-column="115" />
             </state>
           </provider>
         </entry>
@@ -312,12 +226,12 @@
       <find>Abschnit</find>
       <find>new_words</find>
       <find>Unit_schule</find>
-      <find>auswahl</find>
       <find>Ähnliche</find>
       <find>naechste</find>
-      <find>current_unit</find>
       <find>gemacht</find>
       <find>current</find>
+      <find>auswahl</find>
+      <find>current_unit</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -373,10 +287,10 @@
         <option value="$PROJECT_DIR$/usertests/templates/usertests/fehlertest-start.html" />
         <option value="$PROJECT_DIR$/usertests/views.py" />
         <option value="$PROJECT_DIR$/about/templates/about/home.html" />
-        <option value="$PROJECT_DIR$/users/views.py" />
         <option value="$PROJECT_DIR$/users/templates/users/unit_auswahl_input.html" />
         <option value="$PROJECT_DIR$/users/templates/users/users-method-schriftlich.html" />
         <option value="$PROJECT_DIR$/users/templates/users/users-method-karteikarten.html" />
+        <option value="$PROJECT_DIR$/users/views.py" />
       </list>
     </option>
   </component>
@@ -1013,13 +927,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/userstatistics/templates/userstatistics/statistics-start.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="302" column="115" selection-start-line="302" selection-start-column="115" selection-end-line="302" selection-end-column="115" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/userstatistics/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
@@ -1076,36 +983,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/units/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="222" column="38" selection-start-line="222" selection-start-column="38" selection-end-line="222" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/users/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="298" column="19" selection-start-line="298" selection-start-column="19" selection-end-line="298" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#88#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/usertests/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="205" column="89" selection-start-line="205" selection-start-column="89" selection-end-line="205" selection-end-column="89" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/users/templates/users/unit_auswahl_input.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1119,12 +996,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/units/templates/units/new-unit-user.html">
+    <entry file="file://$PROJECT_DIR$/users/templates/users/users-method-karteikarten.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="821">
-          <caret line="54" column="157" selection-start-line="54" selection-start-column="157" selection-end-line="54" selection-end-column="157" />
+        <state relative-caret-position="85">
+          <caret line="50" column="58" lean-forward="true" selection-start-line="50" selection-start-column="58" selection-end-line="50" selection-end-column="58" />
           <folding>
-            <element signature="n#style#0;n#p#0;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1143,10 +1020,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/units/templates/units/new-unit-user.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="821">
+          <caret line="54" column="157" selection-start-line="54" selection-start-column="157" selection-end-line="54" selection-end-column="157" />
+          <folding>
+            <element signature="n#style#0;n#p#0;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/users/templates/users/users-method-schriftlich.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="19" lean-forward="true" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+          <folding>
+            <element signature="n#style#0;n#h3#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/users/templates/users/users-lernweg-start.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="22" selection-start-line="22" selection-end-line="22" selection-end-column="83" />
+        <state relative-caret-position="40">
+          <caret line="14" column="20" lean-forward="true" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
           <folding>
             <element signature="n#style#0;n#h3#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#thead#0;n#table#0;n#!!top" expanded="true" />
@@ -1154,22 +1051,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/users/templates/users/users-method-schriftlich.html">
+    <entry file="file://$PROJECT_DIR$/usertests/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="113" lean-forward="true" selection-start-line="3" selection-end-line="4" />
+        <state relative-caret-position="20">
+          <caret line="205" column="89" selection-start-line="205" selection-start-column="89" selection-end-line="205" selection-end-column="89" />
           <folding>
-            <element signature="n#style#0;n#h3#0;n#!!top" expanded="true" />
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/users/templates/users/users-method-karteikarten.html">
+    <entry file="file://$PROJECT_DIR$/userstatistics/templates/userstatistics/statistics-start.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        <state relative-caret-position="408">
+          <caret line="302" column="115" selection-start-line="302" selection-start-column="115" selection-end-line="302" selection-end-column="115" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/units/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="222" column="34" lean-forward="true" selection-start-line="222" selection-start-column="34" selection-end-line="222" selection-end-column="34" />
           <folding>
-            <element signature="n#style#0;n#h3#0;n#!!top" expanded="true" />
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/users/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="298" column="20" lean-forward="true" selection-start-line="298" selection-start-column="20" selection-end-line="298" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#88#0" expanded="true" />
           </folding>
         </state>
       </provider>

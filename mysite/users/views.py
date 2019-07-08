@@ -295,8 +295,10 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
                             alle_dict[str(schule)][str(schule_sprache.sprache.sprache_lang)] = split_list(units_schule_sprache_all)
 
     if nur_volle_units == False:
-        similar.append(next)
-        next = None
+        if similar:
+            if next:
+                similar.append(next)
+                next = None
 
 
 
