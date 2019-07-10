@@ -11,12 +11,12 @@ def about(request):
     # my_logo = f'http://{request.META["HTTP_HOST"]}/media/pictures/me.png'
     github2 = f'http://{request.META["HTTP_HOST"]}/media/pictures/github2.jpg'
     stat = f'http://{request.META["HTTP_HOST"]}/media/pictures/statistics2.png'
-    add_unit = f'http://{request.META["HTTP_HOST"]}/media/pictures/add_unit.png'
-    all_units = f'http://{request.META["HTTP_HOST"]}/media/pictures/all_units.png'
-    gelernte_woerter = f'http://{request.META["HTTP_HOST"]}/media/pictures/gelernte_woerter.png'
-    profile = f'http://{request.META["HTTP_HOST"]}/media/pictures/profile.png'
-    suche = f'http://{request.META["HTTP_HOST"]}/media/pictures/suche.png'
-    lernweg = f'http://{request.META["HTTP_HOST"]}/media/pictures/lernweg.png'
+    add_unit = f'http://{request.META["HTTP_HOST"]}/media/pictures/add_unit.PNG'
+    all_units = f'http://{request.META["HTTP_HOST"]}/media/pictures/all_units.PNG'
+    gelernte_woerter = f'http://{request.META["HTTP_HOST"]}/media/pictures/gelernte_woerter.PNG'
+    profile = f'http://{request.META["HTTP_HOST"]}/media/pictures/profile.PNG'
+    suche = f'http://{request.META["HTTP_HOST"]}/media/pictures/suche.PNG'
+    lernweg = f'http://{request.META["HTTP_HOST"]}/media/pictures/lernweg.PNG'
     context = {'pic_me': pic_me, 'github': my_logo, 'github2': github2, 'stat': stat, 'suche': suche, 'profile': profile,
                'gelernte_woerter': gelernte_woerter, 'all_units': all_units, 'add_unit': add_unit, 'lernweg': lernweg}
     return render(request, 'about/home.html', context)
