@@ -44,6 +44,8 @@ def fehlertest_start(request):
     this_month = today - timedelta(30)
 
     current_unit = request.user.profile.current_unit2
+    if not Words_user.objects.filter(user=request.user, word__unit_name=current_unit, lernweg_voc=False):
+        current_unit = None
 
 
 

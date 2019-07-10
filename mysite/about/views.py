@@ -17,6 +17,8 @@ def about(request):
     profile = f'http://{request.META["HTTP_HOST"]}/media/pictures/profile.PNG'
     suche = f'http://{request.META["HTTP_HOST"]}/media/pictures/suche.PNG'
     lernweg = f'http://{request.META["HTTP_HOST"]}/media/pictures/lernweg.PNG'
+    statistic = f'http://{request.META["HTTP_HOST"]}/media/pictures/statistics2.PNG'
     context = {'pic_me': pic_me, 'github': my_logo, 'github2': github2, 'stat': stat, 'suche': suche, 'profile': profile,
-               'gelernte_woerter': gelernte_woerter, 'all_units': all_units, 'add_unit': add_unit, 'lernweg': lernweg}
+               'gelernte_woerter': gelernte_woerter, 'all_units': all_units, 'add_unit': add_unit, 'lernweg': lernweg,
+               'statistic': statistic}
     return render(request, 'about/home.html', context)

@@ -93,8 +93,8 @@ class Anfrage_unit(models.Model):
 class Anfrage_words_user(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     unit = models.ForeignKey(Unit_name, on_delete=models.CASCADE)
-    word_fremdsprache = models.CharField(max_length=1000)
-    word_deutsch = models.CharField(max_length=10000, default='')
+    word_fremdsprache = models.CharField(max_length=500)
+    word_deutsch = models.CharField(max_length=500, default='')
     sidenote = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):

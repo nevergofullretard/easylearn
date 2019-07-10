@@ -302,7 +302,30 @@ $(document).ready(function(){
                             <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success" >Alle anzeigen</button></center></li>
                         </ul>
                         {%else%}
-                        <a href="{%url 'login'%}">Melde dich an</a> oder <a href="{%url 'register'%}">registriere dich</a> um die Posts zu sehen
+                            <ul class="list-group" >
+                                {%for post, probability in result.items%}
+                                    <li class="list-group-item toleranz {{key}}" content="{{probability}}">
+                                          <div style="background-image: linear-gradient(to right, white, rgb(102, 204, 255)); ;border-color:#66ff33; border-width: 2px; border-radius: 8px 8px 8px 8px; ">
+                                               <article class="media content-section">
+                                                  <img class="rounded-circle article-img" height="100" width="100" src="{{ post.author.profile.image.url }}">
+                                                  <div class="media-body">
+                                                    <div class="article-metadata">
+                                                      <a class="mr-2 text-secondary" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                                                      <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                                                    </div>
+                                                    <h5><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
+                                                       <a href="{%url 'login'%}">Melde dich an</a> oder <a href="{%url 'register'%}">registriere dich</a> um diesen Post zu sehen
+                                                  </div>
+                                                </article>
+                                                </div>
+                                    </li>
+                                {%endfor%}
+                                <li class="list-group-item alle-anzeigen " id="{{key}}"><center><button class="btn btn-success" >Alle anzeigen</button></center></li>
+                            </ul>
+
+
+
+
 
                     {%endif%}
                     {%elif key == 'sprache'%}

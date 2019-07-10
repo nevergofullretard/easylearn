@@ -274,6 +274,8 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
                             alle_dict[schule][schule_sprache.sprache] = split_list(units_schule_sprache_all)
 
 
+        if current_unit in units_gemacht:
+            units_gemacht.remove(current_unit)
 
         for unit in units_gemacht:
             words_unit = Words_user.objects.filter(user=request.user, word__unit_name=unit, lernweg_voc=False).order_by(
@@ -375,13 +377,13 @@ def lernweg(request):
 
 
         #z.B.: <QuerySet [<Unit_words: la casa>]>
-        qry = Words_user.objects.filter(user=request.user, lernweg_voc=True)
+        qry = Words_user.objects.filter(user=request.user, lernweg_voc=True, word__unit_name=current_unit)
 
         new_words_or_unit_finished(request, qry, current_u)
 
 
 
-        words = [word.word for word in Words_user.objects.filter(user=request.user, lernweg_voc=True)]
+        words = [word.word for word in qry]
 
 
         context = {'info': current_unit, 'words': words,
@@ -473,7 +475,7 @@ def new_words_or_unit_finished(request, words_user, current_u):
 @login_required
 def method_karteikarten(request):
     current_u = request.user.profile.current_unit2
-    words = Words_user.objects.filter(user=request.user, lernweg_voc=True)
+    words = Words_user.objects.filter(user=request.user, lernweg_voc=True, word__unit_name=current_u)
 
     if not current_u:  # das soll feststellen, dass wir von vorne anfangen
         return redirect('users-lernweg')
@@ -503,7 +505,7 @@ def method_schriftlich(request):
     current_u = request.user.profile.current_unit2
     words_right_false = None
 
-    words = Words_user.objects.filter(user=request.user, lernweg_voc=True)
+    words = Words_user.objects.filter(user=request.user, lernweg_voc=True, word__unit_name=current_u)
 
 
     if request.method == 'POST':
@@ -555,15 +557,15 @@ def cancel_unit(request):
         current_unit_real = current_unit
 
         if request.method == 'POST':
-            for word in Words_user.objects.filter(user=request.user, word__unit_name=current_unit_real):
-                word.delete()
+            # for word in Words_user.objects.filter(user=request.user, word__unit_name=current_unit_real):
+            #     word.delete()
             user_profile = request.user.profile
             user_profile.current_unit = 0
             user_profile.first_voc = 0
             user_profile.current_unit2 = None
             user_profile.last_voc = 0
             user_profile.save()
-            messages.error(request, f'Unit {current_unit_real} wurde abgebrochen.')
+            messages.error(request, f'Unit {current_unit_real} wurde abgebrochen. Du kannst sie später wieder weitermachen')
             return redirect('users-lernweg')
 
 

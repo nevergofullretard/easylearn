@@ -90,7 +90,8 @@ $(document).ready(function(){
 
                  <input type="radio" value="{{unit.id}}" name="unit" required> {{unit}}
                 {%if outstanding_words%}
-                <span class="text-white border border-white rounded" id="{{unit.id}}-button" > neue Wörter! </span>
+                <small>weitermachen</small>
+                <span class="text-white border border-white rounded" id="{{unit.id}}-button" > ausstehende Wörter! </span>
                 <div id="{{unit.id}}-dropdown">
                     <ul class="list-group">
                     {%for wrd in outstanding_words%}
@@ -102,6 +103,8 @@ $(document).ready(function(){
                 </div>
 
 
+                {%else%}
+                <small>neu beginnen!</small>
                 {%endif%}
                 <br>
 

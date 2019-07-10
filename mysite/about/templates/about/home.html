@@ -2,7 +2,20 @@
 {% block content %}
 <script>
     $(document).ready(function(){
-    console.log( $("#img").attr('src') )
+
+
+    <!--var divs = $('.lernweg, .profile');-->
+    <!--$(window).scroll(function(){-->
+       <!--if($(window).scrollTop() <10 ){-->
+        <!--console.log('show');-->
+             <!--&lt;!&ndash;divs.stop(true,true).fadeIn("fast");&ndash;&gt;-->
+             <!--divs-->
+       <!--} else {-->
+             <!--&lt;!&ndash;divs.stop(true,true).fadeOut("fast");&ndash;&gt;-->
+             <!--console.log('hide');-->
+       <!--}-->
+    <!--})-->
+
     });
 </script>
 
@@ -85,8 +98,6 @@
                     und deine eigene Statistik erhalten
                 </li>
 
-
-
             </ul>
             <!--<img src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fericsteinborn.com%2Fgithub-for-cats%2Fimg%2FProfessortocat_v2.png&f=1" alt="Github" width="200" height="200">-->
         </div>
@@ -98,11 +109,11 @@
     <div class="row div-padding">
          <div class="col-sm color-container">
             <center>
-                <h3>Und so sieht das aus!</h3>
+                <h3>So sieht das aus!</h3>
             </center>
         </div>
     </div>
-    <div class="row div-padding">
+    <div class="row div-padding lernweg">
         <div class="col-sm">
 
             <img class="image-css" src="{{lernweg}}" alt="Lernweg" >
@@ -114,7 +125,7 @@
 
     </div>
 
-     <div class="row div-padding">
+     <div class="row div-padding profile">
 
             <div class="col-sm color-container">
                 <h5 class="centered-text"><center>Beim Profil kannst du verschiedenste Einstellungen zum Lernweg & Co ändern</center></h5>
@@ -123,6 +134,64 @@
             <div class="col-sm">
                 <img class="image-css" src="{{profile}}" alt="Profil">
             </div>
+
+     </div>
+
+
+
+
+
+    <div class="row div-padding profile">
+       <div class="col-sm">
+            <img class="image-css" src="{{statistic}}" alt="Statistik">
+        </div>
+
+            <div class="col-sm color-container">
+                <h5 class="centered-text"><center>Du erhältst eine umfangreiche Statistik</center></h5>
+            </div>
+
+     </div>
+
+         <div class="row div-padding profile">
+
+            <div class="col-sm color-container">
+                <center class="centered-text">
+                    <h5>Bereits gelernte Wörter kannst du weiterhin üben, sortiert nach...</h5>
+                     <ul class="list-group" >
+                        <li class="list-group-item color-ul">
+                            Art (alle, richtig, falsch)
+                        </li>
+
+                         <li class="list-group-item color-ul">
+                            Unit
+                        </li>
+                         <li class="list-group-item color-ul">
+                            oder Datum
+                        </li>
+
+                    </ul>
+                </center>
+
+            </div>
+
+            <div class="col-sm">
+                <img class="image-css" src="{{gelernte_woerter}}" alt="Gelernte Wörter">
+            </div>
+
+     </div>
+
+
+      <div class="row div-padding profile">
+
+          <div class="col-sm">
+                <img class="image-css" src="{{suche}}" alt="Suche">
+            </div>
+
+            <div class="col-sm color-container">
+                <h5 class="centered-text"><center>Eine intelligente Suchfunktion ermöglicht es dir, alles was du suchst zu finden</center></h5>
+            </div>
+
+
 
      </div>
 
