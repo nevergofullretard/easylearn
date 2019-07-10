@@ -128,9 +128,15 @@ def suchen(request, input):
             elif key == 'posts':
                 prob2 = SequenceMatcher(None, input.upper(), str(value.author).upper()).ratio()
                 prob3 = SequenceMatcher(None, input.upper(), str(value.content).upper()).ratio()
-
+                prob4 = 0
+                lst_prob4 = []
                 for user in value.linked.all():
                     prob4 = SequenceMatcher(None, input, str(user)).ratio()
+                    lst_prob4.append(prob4)
+
+                if lst_prob4:
+                    prob4 = max(lst_prob4)
+                   
                 maximum_prob = max(prob, prob2, prob3, prob4)
 
 
