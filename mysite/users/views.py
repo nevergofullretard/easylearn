@@ -149,10 +149,13 @@ def profile(request):
 
     return render(request, 'users/profile.html', context)
 
-@login_required
+
 def start(request):
-    context = {'username': request.user}
-    return render(request, 'users/users-start.html', context)
+    if request.user.is_authenticated:
+        context = {'username': request.user}
+        return render(request, 'users/users-start.html', context)
+    else:
+        return redirect('about')
 
 
 
