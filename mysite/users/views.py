@@ -51,7 +51,7 @@ def login_view(request):
             try:
                 new_user = authenticate(username=username, password=password, )
                 login(request, new_user)
-                return redirect('/')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
 
             except AttributeError:
                 messages.error(request, f"Sorry {username}, aber diese Daten stimmen nicht, versuche es nochmal!")
