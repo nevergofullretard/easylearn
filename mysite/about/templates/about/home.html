@@ -3,9 +3,29 @@
 <script>
     $(document).ready(function(){
 
+     $('.fadeAnimation').each(function(){
+        $(this).hide()
+     });
 
    $(window).scroll(function () {
     console.log($(window).scrollTop());
+
+        <!--$(".fadeAnimation").each(function(){-->
+            <!--var topDivHeight = $(this).height();-->
+            <!--var viewPortSize = $(window).height();-->
+
+            <!--var triggerAt = 150;-->
+            <!--var triggerHeight = (topDivHeight - viewPortSize) + triggerAt;-->
+
+
+             <!--if ($(window).scrollTop() >= triggerHeight) {-->
+                <!--console.log('jetzt');-->
+                <!--$(this).slideDown();-->
+                <!--$(this).off('scroll');-->
+            <!--}-->
+        <!--});-->
+
+
     var topDivHeight = $(".lernweg").height();
     var viewPortSize = $(window).height();
 
@@ -13,10 +33,28 @@
     var triggerHeight = (topDivHeight - viewPortSize) + triggerAt;
 
     if ($(window).scrollTop() >= triggerHeight) {
-        $('.fadethisdiv').css('visibility', 'visible').hide().fadeIn();
+        console.log('jetzt');
+        $('.lernweg').slideDown();
         $(this).off('scroll');
     }
-});
+
+
+
+
+     });
+
+    <!--var topDivHeight = $(".lernweg").height();-->
+    <!--var viewPortSize = $(window).height();-->
+
+    <!--var triggerAt = 150;-->
+    <!--var triggerHeight = (topDivHeight - viewPortSize) + triggerAt;-->
+
+    <!--if ($(window).scrollTop() >= triggerHeight) {-->
+        <!--console.log('jetzt');-->
+        <!--$('.lernweg').slideDown();-->
+        <!--$(this).off('scroll');-->
+    <!--}-->
+
     });
 </script>
 
@@ -114,7 +152,7 @@
             </center>
         </div>
     </div>
-    <div class="row div-padding lernweg">
+    <div class="row div-padding fadeAnimation lernweg">
         <div class="col-sm">
 
             <img class="image-css" src="{{lernweg}}" alt="Lernweg" >
@@ -126,7 +164,7 @@
 
     </div>
 
-     <div class="row div-padding profile">
+     <div class="row div-padding fadeAnimation profile">
 
             <div class="col-sm color-container">
                 <h5 class="centered-text"><center>Beim Profil kannst du verschiedenste Einstellungen zum Lernweg & Co ändern</center></h5>
@@ -142,7 +180,7 @@
 
 
 
-    <div class="row div-padding profile">
+    <div class="row div-padding fadeAnimation statistik">
        <div class="col-sm">
             <img class="image-css" src="{{statistic}}" alt="Statistik">
         </div>
@@ -153,7 +191,7 @@
 
      </div>
 
-         <div class="row div-padding profile">
+         <div class="row div-padding fadeAnimation gelernt">
 
             <div class="col-sm color-container">
                 <center class="centered-text">
@@ -182,7 +220,7 @@
      </div>
 
 
-      <div class="row div-padding profile">
+      <div class="row div-padding fadeAnimation suche">
 
           <div class="col-sm">
                 <img class="image-css" src="{{suche}}" alt="Suche">
@@ -195,7 +233,7 @@
      </div>
 
 
-     <div class="row div-padding profile">
+     <div class="row div-padding fadeAnimation mitgestalten">
 
             <div class="col-sm color-container">
 
@@ -219,7 +257,7 @@
 
      </div>
 
-      <div class="row div-padding profile">
+      <div class="row div-padding fadeAnimation post">
 
           <div class="col-sm">
                 <img class="image-css" src="{{post}}" alt="Post">

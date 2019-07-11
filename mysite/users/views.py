@@ -8,7 +8,7 @@ from django.views.generic import DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login # für automatischen Login nach Register und beim Login
-from django.shortcuts import render, redirect, HttpResponse, reverse
+from django.shortcuts import render, redirect, HttpResponse, reverse, HttpResponseRedirect
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 
@@ -51,7 +51,7 @@ def login_view(request):
             try:
                 new_user = authenticate(username=username, password=password, )
                 login(request, new_user)
-                return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+                return redirect('/')
 
             except AttributeError:
                 messages.error(request, f"Sorry {username}, aber diese Daten stimmen nicht, versuche es nochmal!")
