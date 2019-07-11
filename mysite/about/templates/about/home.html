@@ -3,12 +3,12 @@
 <script>
     $(document).ready(function(){
 
-     $('.fadeAnimation').each(function(){
-        $(this).hide()
-     });
+    //  $('.fadeAnimation').each(function(){
+    //     $(this).hide()
+    //  });
 
-   $(window).scroll(function () {
-    console.log($(window).scrollTop());
+//   $(window).scroll(function () {
+//     console.log($(window).scrollTop());
 
         <!--$(".fadeAnimation").each(function(){-->
             <!--var topDivHeight = $(this).height();-->
@@ -26,34 +26,34 @@
         <!--});-->
 
 
-    var topDivHeight = $(".lernweg").height();
-    var viewPortSize = $(window).height();
+    // var topDivHeight = $(".statistik").height();
+    // var viewPortSize = $(window).height();
 
-    var triggerAt = 150;
-    var triggerHeight = (topDivHeight - viewPortSize) + triggerAt;
+    // var triggerAt = 300;
+    // var triggerHeight = (topDivHeight - viewPortSize) + triggerAt;
 
-    if ($(window).scrollTop() >= triggerHeight) {
-        console.log('jetzt');
-        $('.lernweg').slideDown();
-        $(this).off('scroll');
-    }
-
-
+    // if ($(window).scrollTop() >= triggerHeight) {
+    //     console.log('jetzt');
+    //     $('.statistik').slideDown();
+    //     $(this).off('scroll');
+    // }
 
 
-     });
+    //  var topDivHeight = $(".profile").height();
+    //     var viewPortSize = $(window).height();
 
-    <!--var topDivHeight = $(".lernweg").height();-->
-    <!--var viewPortSize = $(window).height();-->
+    //     var triggerAt = 150;
+    //     var triggerHeight = (topDivHeight - viewPortSize) + triggerAt;
 
-    <!--var triggerAt = 150;-->
-    <!--var triggerHeight = (topDivHeight - viewPortSize) + triggerAt;-->
+    //     if ($(window).scrollTop() >= triggerHeight) {
+    //         console.log('jetzt');
+    //         $('.profile').slideDown();
+    //         $(this).off('scroll');
+        // }
 
-    <!--if ($(window).scrollTop() >= triggerHeight) {-->
-        <!--console.log('jetzt');-->
-        <!--$('.lernweg').slideDown();-->
-        <!--$(this).off('scroll');-->
-    <!--}-->
+    //  });
+
+
 
     });
 </script>
@@ -152,7 +152,7 @@
             </center>
         </div>
     </div>
-    <div class="row div-padding fadeAnimation lernweg">
+    <div class="row div-padding  lernweg">
         <div class="col-sm">
 
             <img class="image-css" src="{{lernweg}}" alt="Lernweg" >
@@ -164,7 +164,7 @@
 
     </div>
 
-     <div class="row div-padding fadeAnimation profile">
+     <div class="row div-padding  profile">
 
             <div class="col-sm color-container">
                 <h5 class="centered-text"><center>Beim Profil kannst du verschiedenste Einstellungen zum Lernweg & Co ändern</center></h5>
