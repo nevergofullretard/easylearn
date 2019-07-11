@@ -136,7 +136,7 @@ def suchen(request, input):
 
                 if lst_prob4:
                     prob4 = max(lst_prob4)
-                   
+
                 maximum_prob = max(prob, prob2, prob3, prob4)
 
 
