@@ -26,10 +26,10 @@ $(document).ready(function(){
 
               <div  style="border-radius: 8px 8px 8px 8px; background-color: #66ff66">
                 <div class="article-metadata">
-                  <a class="text" href="{% url 'user-posts' post.author.username %}"><b class="text-dark">{{ post.author }}</b></a>
+                  <a class="text-secondary"  href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
                   <small class="text-muted">  -  {{ post.date_posted|date:"F d, Y" }}</small>
                 </div>
-                <p><a class="article-title text-secondary" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></p>
+                <p><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></p>
               </div>
 
         {%endfor%}
@@ -42,10 +42,10 @@ $(document).ready(function(){
             {%for post in all_posts%}
             <div  style="border-radius: 8px 8px 8px 8px; background-color: #66ff66">
                 <div class="article-metadata">
-                   <a href="{% url 'user-posts' post.author.username %}"><b class="text-dark">{{ post.author }}</b> - </a>
+                   <a class="text-secondary" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
                   <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
                 </div>
-                <p><a class="article-title text-secondary" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></p>
+                <p><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></p>
               </div>
             {%endfor%}
                 </div>

@@ -7,6 +7,15 @@
 
     {% endfor %}
     {% endfor %}
+<div style="padding-bottom:10px;">
+    <center>
+        <a href="{%url 'post-create'%}">
+
+            <button class="btn btn-success">Post schreiben</button>
+        </a>
+    </center>
+</div>
+
     {% for post in posts %}
         <article class="media content-section">
           <img class="rounded-circle article-img" height="100" width="100" src="{{ post.author.profile.image.url }}">
@@ -16,11 +25,7 @@
               <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
             </div>
             <h4><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
-            {%if post.author.is_staff%}
-                    <p class="article-content">{{ post.content|safe }}</p>
-              {%else%}
-                    <p class="article-content">{{ post.content }}</p>
-              {%endif%}
+
           </div>
         </article>
 

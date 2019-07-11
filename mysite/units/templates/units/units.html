@@ -157,11 +157,6 @@
             </div>
            <a class="article-title text-dark" href="{% url 'post-detail' post.id %}">
              <h4>{{ post.title }}</h4>
-             {%if post.author.is_staff%}
-                    <p class="article-content">{{ post.content|safe }}</p>
-              {%else%}
-                    <p class="article-content">{{ post.content }}</p>
-              {%endif%}
             </a>
 
           </div>
@@ -181,11 +176,7 @@
               <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
             </div>
             <h4><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
-             {%if post.author.is_staff%}
-                    <p class="article-content">{{ post.content|safe }}</p>
-              {%else%}
-                    <p class="article-content">{{ post.content }}</p>
-              {%endif%}
+
           </div>
         </article>
         </div>
@@ -222,10 +213,12 @@
               <a class="mr-2 text-secondary" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
               <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
             </div>
-           <a class="article-title text-dark" href="{% url 'post-detail' post.id %}">
+            <a class="article-title text-dark" href="{% url 'post-detail' post.id %}">
              <h4>{{ post.title }}</h4>
-             <a href="{%url 'login'%}">Melde dich an</a> oder <a href="{%url 'register'%}">registriere dich</a> um diesen Post zu sehen
             </a>
+
+             <a href="{%url 'login'%}">Melde dich an</a> oder <a href="{%url 'register'%}">registriere dich</a> um diesen Post zu sehen
+
 
           </div>
         </article>
@@ -243,7 +236,9 @@
               <a class="mr-2 text-secondary" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
               <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
             </div>
-            <h4><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
+            <a class="article-title text-dark" href="{% url 'post-detail' post.id %}">
+             <h4>{{ post.title }}</h4>
+            </a>
              <a href="{%url 'login'%}">Melde dich an</a> oder <a href="{%url 'register'%}">registriere dich</a> um diesen Post zu sehen
           </div>
         </article>

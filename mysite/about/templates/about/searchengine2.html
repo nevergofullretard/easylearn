@@ -289,11 +289,7 @@ $(document).ready(function(){
                                                   <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
                                                 </div>
                                                 <h5><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
-                                                  {%if post.author.is_staff%}
-                                                <p class="article-content">{{ post.content|safe }}</p>
-                                                  {%else%}
-                                                  <p class="article-content">{{ post.content }}</p>
-                                                  {%endif%}
+
                                               </div>
                                             </article>
                                             </div>
