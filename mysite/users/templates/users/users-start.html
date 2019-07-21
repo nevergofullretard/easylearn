@@ -56,9 +56,22 @@
     transform: translate(-50%, -50%);
     }
 
+.fixed {
+        position: fixed;
+        width: 25%;
+}
 
-
+.scrollit {
+        float: right;
+        width: 71%
+}
 </style>
+
+
+
+
+
+
 
 <div class="container text-white" style="background-color:#ffc14d; border-radius: 10px;">
 {%if request.user.is_authenticated%}
@@ -69,6 +82,25 @@
 <h2 class="text-dark">Was du mit deinem Account machen kannst...</h2>
 <hr>
 
+  <!--<div class="row">-->
+
+        <!--<div class="col-sm-3 fixed">-->
+            <!--<center style="padding:10px;">-->
+                <!--<a href="{%url 'register'%}"><button  class="btn btn-success"><b>Jetzt registrieren!</b></button></a>-->
+            <!--</center>-->
+        <!--</div>-->
+
+        <!--<div class="col-sm-9">-->
+            <!--<p>Content</p>-->
+
+
+        <!--</div>-->
+
+    <!--</div>-->
+            <center style="padding:10px;" class="fixed">
+                <a href="{%url 'register'%}"><button  class="btn btn-success"><b>Jetzt registrieren!</b></button></a>
+            </center>
+
 
     <div class="row div-padding color-farbverlauf-bottom">
         <div class="col">
@@ -78,7 +110,7 @@
         </div>
          <div class="container">
         <div class="row div-padding">
-                <div class"col-md">
+                <div class="col-md">
                     <div class="color-container">
                         <h4>Beim Lernweg kannst du in deinem eigenen Tempo lernen</h4>
                         <h5>das heißt, du kannst...</h5>
@@ -116,7 +148,7 @@
         <div class="container">
 
             <div class="row div-padding">
-            <div class"col">
+            <div class="col">
 
                  <div class="color-container">
                      <h4>Hier kannst du...</h4>
@@ -165,7 +197,7 @@
          <div class="container">
 
             <div class="row div-padding">
-            <div class"col">
+            <div class="col">
 
                  <div class="color-container">
                      <h4>Hier siehst du...</h4>
@@ -198,7 +230,7 @@
             <div class="container">
 
             <div class="row div-padding">
-            <div class"col">
+            <div class="col">
 
                  <div class="color-container">
                      <h4>Alle Wörter, die du gelernt hast, kannst du auch wiederholen!</h4>
@@ -238,7 +270,7 @@
         <div class="container">
 
             <div class="row div-padding">
-            <div class"col">
+            <div class="col">
 
                  <div class="color-container">
                      <h4>Ein soziales Netzwerk!</h4>
@@ -275,7 +307,7 @@
          <div class="container">
 
             <div class="row div-padding">
-            <div class"col">
+            <div class="col">
                 <div class="color-container">
                      <h4>Indem du...</h4>
 
@@ -313,7 +345,7 @@
              <div class="container">
 
             <div class="row div-padding">
-            <div class"col">
+            <div class="col">
 
                 <div class="color-container">
                      <h4>Das intelligente Herzstück der Website</h4>
@@ -349,6 +381,12 @@
     </div>
 
 </div>
+{%if not request.user.is_authenticated%}
+<center style="padding:10px;">
+    <a href="{%url 'register'%}"><button  class="btn btn-success"><b>Jetzt registrieren!</b></button></a>
+</center>
+{%endif%}
+
 </div>
 
 

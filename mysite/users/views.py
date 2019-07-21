@@ -153,11 +153,8 @@ def profile(request):
 
 
 def start(request):
-    if request.user.is_authenticated:
-        context = {'username': request.user}
-        return render(request, 'users/users-start.html', context)
-    else:
-        return redirect('about')
+    context = {'username': request.user}
+    return render(request, 'users/users-start.html', context)
 
 
 
