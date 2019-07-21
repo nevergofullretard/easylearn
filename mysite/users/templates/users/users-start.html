@@ -3,11 +3,13 @@
 
 
 <style>
-    .color-container-links{
+    .color-container{
     background-color:#ff8c1a;
-     border-radius: 0px 10px 10px 0px;
+     border-radius: 8px;
 
     }
+
+
 
      .color-container-rechts{
         background-color:#ff8c1a;
@@ -16,11 +18,17 @@
 
 
     .color-farbverlauf-links{
-        background-image: linear-gradient(to right, transparent,  #ff8c1a);
+        background-image: linear-gradient(to right, #ffc14d,  #ff8c1a);
     }
 
     .color-farbverlauf-rechts{
-        background-image: linear-gradient(to left, transparent,  #ff8c1a);
+        background-image: linear-gradient(to left ,#ffc14d,  #ff8c1a);
+    }
+
+
+     .color-farbverlauf-bottom{
+        background-image: linear-gradient(to bottom, #ffc14d,  #ff8c1a);
+        border-radius: 10px;
     }
 
     .color-ul{
@@ -47,48 +55,301 @@
     left: 50%;
     transform: translate(-50%, -50%);
     }
+
+
+
 </style>
 
-
+<div class="container text-white" style="background-color:#ffc14d; border-radius: 10px;">
 {%if request.user.is_authenticated%}
 <h1 class="animated slow tada">Hallo, {{ username }}!</h1> <!-- filter: |upper -->
 <h2 class="animated slow rollIn">Schön, dich zu sehen!</h2>
 {%endif%}
 
-<div class="container text-white" style="background-color:#ffc14d; border-radius: 10px;">
-    <ol>
+<h2 class="text-dark">Was du mit deinem Account machen kannst...</h2>
+<hr>
 
+
+    <div class="row div-padding color-farbverlauf-bottom">
+        <div class="col">
+            <span style="float:left; font-size:35px;">1.</span>
+            <span style="font-size:30px; float:right;"><b>Dein Lernweg</b></span>
+            <br>
+        </div>
+         <div class="container">
+        <div class="row div-padding">
+                <div class"col-md">
+                    <div class="color-container">
+                        <h4>Beim Lernweg kannst du in deinem eigenen Tempo lernen</h4>
+                        <h5>das heißt, du kannst...</h5>
+                    </div>
+
+                     <ul class="list-group" >
+                        <li class="list-group-item color-ul">
+                            einstellen, wie viele Wörter du in einem Zug lernen willst
+                        </li>
+
+                         <li class="list-group-item color-ul">
+                            einstellen, wie viele Wörter du geprüft werden willst
+                        </li>
+                         <li class="list-group-item color-ul">
+                            einstellen, wie viele Wörter dir bei der Karteikarten-Methode (siehe Bild) zur Auswahl stehen
+                        </li>
+                        <li class="list-group-item color-ul">
+                            eine Unit abbrechen und eine neue beginnen, ohne den Fortschritt zu verlieren
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            </div>
+    </div>
+
+
+    <div class="row div-padding color-farbverlauf-bottom">
+        <div class="col">
+            <span style="font-size:30px; float:left;"><b>Dein Profil</b></span>
+            <span style="float:right; font-size:35px;">2.</span>
+            <br>
+        </div>
+
+        <div class="container">
 
             <div class="row div-padding">
+            <div class"col">
 
-            <div class="col-sm-1 color-farbverlauf-links">
-                <h2><li></li></h2>
+                 <div class="color-container">
+                     <h4>Hier kannst du...</h4>
+                </div>
+
+                <ul class="list-group" >
+                    <li class="list-group-item color-ul">
+                        alle Einstellungen zum Lernweg managen
+                    </li>
+
+                     <li class="list-group-item color-ul">
+                        dein Profilbild ändern
+                    </li>
+                     <li class="list-group-item color-ul">
+                        deine Suche optimieren
+                    </li>
+                     <li class="list-group-item color-ul">
+                        dein Passwort ändern
+                    </li>
+                     <li class="list-group-item color-ul">
+                        und deinen Account auch wieder löschen
+                    </li>
+                </ul>
 
             </div>
+        </div>
 
-            <div class="col-sm-11 color-container-links">
-                <h3>Dein Lernweg</h3>
+        </div>
+
+
+
+
+
+
+        </div>
+
+
+
+
+     <div class="row div-padding color-farbverlauf-bottom">
+        <div class="col">
+            <span style="float:left; font-size:35px;">3.</span>
+            <span style="font-size:30px; float:right;"><b>Deine Statistik</b></span>
+        </div>
+
+         <div class="container">
+
+            <div class="row div-padding">
+            <div class"col">
+
+                 <div class="color-container">
+                     <h4>Hier siehst du...</h4>
+                </div>
+
+                <ul class="list-group" >
+                    <li class="list-group-item color-ul">
+                        wie du dich insgesamt machst
+                    </li>
+
+                     <li class="list-group-item color-ul">
+                        wie du dich heute bzw. diese Woche geschlagen hast
+                    </li>
+                     <li class="list-group-item color-ul">
+                        für jede gelernte Unit eine eigene Statistik (siehe Bild)
+                </ul>
+
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+    <div class="row div-padding color-farbverlauf-bottom">
+        <div class="col">
+            <span style="font-size:30px; float:left;"><b>Wiederholen</b></span>
+            <span style="float:right; font-size:35px;">4.</span>
+        </div>
+
+            <div class="container">
+
+            <div class="row div-padding">
+            <div class"col">
+
+                 <div class="color-container">
+                     <h4>Alle Wörter, die du gelernt hast, kannst du auch wiederholen!</h4>
+                     <h5>Sortiert nach...</h5>
+                </div>
+
+                <ul class="list-group" >
+                    <li class="list-group-item color-ul">
+                        der Art (alle Wörter, nur richtige, nur falsche Wörter)
+                    </li>
+
+                     <li class="list-group-item color-ul">
+                        dem Datum: Hier...
+                        <ul>
+                            <li>gibt es vorgeschlagene Zeiträume (heute, diese Woche,...)</li>
+                            <li>kannst du auch selbst einen Zeitraum auswählen</li>
+                        </ul>
+                    </li>
+                     <li class="list-group-item color-ul">
+                        einzelne Units
+                    </li>
+
+                </ul>
+                <h5>und du kannst dich jederzeit ganze Untis testen lassen</h5>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+     <div class="row div-padding color-farbverlauf-bottom">
+        <div class="col">
+            <span style="float:left; font-size:35px;">5.</span>
+            <span style="font-size:28px; float:right;"><b>Die Community</b></span>
+        </div>
+
+        <div class="container">
+
+            <div class="row div-padding">
+            <div class"col">
+
+                 <div class="color-container">
+                     <h4>Ein soziales Netzwerk!</h4>
+                     <h5>Du kannst...</h5>
+                </div>
+
+                <ul class="list-group" >
+                    <li class="list-group-item color-ul">
+                        Posts schreiben
+                    </li>
+                    <li class="list-group-item color-ul">
+                        dabei andere User markieren
+                    </li>
+                    <li class="list-group-item color-ul">
+                        sehen, wenn dich jemand markiert hat und ihm direkt zurückschreiben
+                    </li>
+
+
+
+                </ul>
+
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+    <div class="row div-padding color-farbverlauf-bottom">
+        <div class="col">
+            <span style="font-size:30px; float:left;"><b>Mitgestalten</b></span>
+            <span style="float:right; font-size:35px;">6.</span>
+        </div>
+
+         <div class="container">
+
+            <div class="row div-padding">
+            <div class"col">
+                <div class="color-container">
+                     <h4>Indem du...</h4>
+
+                </div>
+
+                        <ul class="list-group" >
+                            <li class="list-group-item color-ul">
+                                Wörter online und offline hinzufügen kannst
+                            </li>
+                            <li class="list-group-item color-ul">
+                                neue Units hinzufügen kannst
+                            </li>
+                            <li class="list-group-item color-ul">
+                                neue Schulen anfragen kannst
+                            </li>
+                            <li class="list-group-item color-ul">
+                                neue Sprachen anfragen kannst
+                            </li>
+
+                        </ul>
+
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+
+     <div class="row div-padding color-farbverlauf-bottom">
+        <div class="col">
+            <span style="float:left; font-size:35px;">7.</span>
+            <span style="font-size:28px; float:right;"><b>Die Suchfunktion</b></span>
+        </div>
+
+             <div class="container">
+
+            <div class="row div-padding">
+            <div class"col">
+
+                <div class="color-container">
+                     <h4>Das intelligente Herzstück der Website</h4>
+                     <h5>Es werden dir alle relevanten Ergebnisse zu deiner Suche angezeigt,
+                     die du dann dynamisch filtern kannst nach... </h5>
+                </div>
+
+                <ul class="list-group" >
+                    <li class="list-group-item color-ul">
+                        Kategorien
+                        <ul>
+                            <li>Wörter</li>
+                            <li>Units</li>
+                            <li>Posts</li>
+                            <li>Schulen</li>
+                            <li>Sprachen</li>
+                            <li>Usern</li>
+                        </ul>
+
+                    </li>
+                    <li class="list-group-item color-ul">
+                        und Toleranz: Übereinstimmung der Ergebnisse mit deiner Suche in %
+                    </li>
+
+
+
+                </ul>
+
             </div>
         </div>
 
 
-          <div class="row div-padding">
-
-            <div class="col-sm-11 color-container-rechts">
-                <h3>Dein Profil</h3>
-            </div>
-
-              <div class="col-sm-1 color-farbverlauf-rechts">
-                <h2><li></li></h2>
-
-            </div>
-        </div>
-
-
-    </ol>
+    </div>
 
 </div>
-
+</div>
 
 
 
