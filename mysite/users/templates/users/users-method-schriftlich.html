@@ -1,12 +1,24 @@
 {% extends "about/header.html" %}
 {%  load crispy_forms_tags %}
 {% block content %}
+
+
+
+
+
+{%if request.user.profile.current_unit2%}
 <h3 class="text-white" style="background-color: #56BB86;">Lernweg - {{ request.user.profile.current_unit2 }}</h3>
+{%else%}
+<h3 class="text-white" style="background-color: #56BB86;">Lernweg</h3>
+{%endif%}
 <a href="{%url 'users-lernweg'%}"><button class="btn btn-sm btn-success">Zu den Wörtern</button></a>
     {% if request.method == "POST" %}
-{% if to_learnweg_start %}
-    <h3>Du bist fertig mit diesem Abschnitt!</h3>
-{%endif%}
+
+
+
+        {% if to_learnweg_start %}
+            <h3>Du bist fertig mit diesem Abschnitt!</h3>
+        {%endif%}
 
     <table class="table">
         <tbody>
@@ -64,7 +76,9 @@
         </tbody>
     </table>
 
-        {% if to_learnweg_start %}
+
+
+{% if to_learnweg_start %}
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
@@ -74,14 +88,16 @@
                         {%for word in to_learnweg_start%}
                             {%if word.right == True%}
                         <tr class="table-success">
-                                <td><center>{{word.word.deutsch}}</center></td>
+                               <td><center>{{word.word.deutsch}}</center></td>
                                 <td><center>{{word.word.italienisch}}</center></td>
                             </tr>
                             {%else%}
                                  <tr class="table-danger">
-                                <td><center>{{word.word.deutsch}}</center></td>
+                               <td><center>{{word.word.deutsch}}</center></td>
                                 <td><center>{{word.word.italienisch}}
-                                </center></td>
+                                </center>
+
+                                </td>
                             </tr>
                             {%endif%}
                         {%endfor%}
@@ -90,7 +106,35 @@
             </div>
         </div>
     </div>
+
             <a href="{% url 'users-lernweg' %}"> <button class="btn btn-outline-success" >Weiter zum Lernweg!</button> </a>
+
+    <!--<div class="container">-->
+        <!--<div class="row">-->
+            <!--<div class="col-sm-6">-->
+                <!--<h5>Abschnitt gesamt</h5>-->
+                <!--<table class="table">-->
+                    <!--<tbody>-->
+                        <!--{%for word in to_learnweg_start%}-->
+                            <!--{%if word.right == True%}-->
+                        <!--<tr class="table-success">-->
+                                <!--<td><center>{{word.word.deutsch}}</center></td>-->
+                                <!--<td><center>{{word.word.italienisch}}</center></td>-->
+                            <!--</tr>-->
+                            <!--{%else%}-->
+                                 <!--<tr class="table-danger">-->
+                                <!--<td><center>{{word.word.deutsch}}</center></td>-->
+                                <!--<td><center>{{word.word.italienisch}}-->
+                                <!--</center></td>-->
+                            <!--</tr>-->
+                            <!--{%endif%}-->
+                        <!--{%endfor%}-->
+                    <!--</tbody>-->
+                <!--</table>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+            <!--<a href="{% url 'users-lernweg' %}"> <button class="btn btn-outline-success" >Weiter zum Lernweg!</button> </a>-->
         {% else %}
             <a href="{% url 'method-schriftlich' %}"> <button class="btn btn-outline-info" >Weiter</button> </a>
         {% endif %}

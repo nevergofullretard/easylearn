@@ -66,13 +66,15 @@ var availableColleges = [
         {%endfor%}
 
       </h4>
-            {%if object.author.is_staff%}
-                    <div class="article-content" id="post-content">{{object.content|safe}}</div>
+ {%if object.author.is_staff%}
+                    {{object.content|safe}}
               {%else%}
-                    <div class="article-content" id="post-content">{{object.content}}</div>
+                    {{object.content}}
               {%endif%}
 
     </div>
+
+
     <!--<h2>Amadeus testa <p class="bg-success text-white"><a href="{% url "user-posts" username="maxistraif"%}">@maxistraif</a></p>maxistraif </h2>-->
   </article>
 

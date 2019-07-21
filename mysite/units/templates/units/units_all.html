@@ -61,7 +61,7 @@
                 <ul>
                 {%for unit in similar %}
                     <li>
-                        <a class="text-white" href="{% url 'unit-words' pk=unit.id name_of_unit=unit %}">{{unit}}</a>
+                        <a class="text-white" href="{% url 'unit-words' pk=unit.id name_of_unit=unit %}">{{unit.u_name}}</a>
                     </li>
                  {%endfor%}
                 </ul>

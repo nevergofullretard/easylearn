@@ -1,7 +1,10 @@
 {% extends "about/header.html" %}
 {% block content %}
-
+{%if request.user.profile.current_unit2%}
 <h3 class="text-white" style="background-color: #56BB86;">Lernweg - {{ request.user.profile.current_unit2 }}</h3>
+{%else%}
+<h3 class="text-white" style="background-color: #56BB86;">Lernweg</h3>
+{%endif%}
 <a href="{%url 'users-lernweg'%}"><button class="btn btn-sm btn-success">Zu den Wörtern</button></a>
 
 {% if request.method == "POST" %}

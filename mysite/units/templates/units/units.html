@@ -67,13 +67,13 @@
                 Wörter von gestern üben
               </button>
                <div class="dropdown-menu" style="background-image: linear-gradient(to right,rgb(51, 102, 255),rgb(51, 204, 255));">
-                <a class="dropdown-item" style="background-image: linear-gradient(to right,rgb(51, 102, 255),rgb(51, 204, 255));"  href="{%url 'test-zwischenschritt' test_art='alle' von=yesterday_date bis=today_date unit_ids='-'%}">
+                <a class="dropdown-item" style="background-image: linear-gradient(to right,rgb(51, 102, 255),rgb(51, 204, 255));"  href="{%url 'test-zwischenschritt' test_art='alle' von=yesterday_date bis=yesterday_date unit_ids='-'%}">
                 <button class="btn btn-info .btn-primary-outline">Alle Wörter</button>
             </a>
-            <a class="dropdown-item" style="background-image: linear-gradient(to right,rgb(51, 102, 255),rgb(51, 204, 255));" href="{%url 'test-zwischenschritt' test_art='falsche' von=yesterday_date bis=today_date unit_ids='-'%}">
+            <a class="dropdown-item" style="background-image: linear-gradient(to right,rgb(51, 102, 255),rgb(51, 204, 255));" href="{%url 'test-zwischenschritt' test_art='falsche' von=yesterday_date bis=yesterday_date unit_ids='-'%}">
                 <button class="btn btn-info .btn-primary-outline">Nur falsche Wörter</button>
             </a>
-        <a class="dropdown-item" style="background-image: linear-gradient(to right,rgb(51, 102, 255),rgb(51, 204, 255));" href="{%url 'test-zwischenschritt' test_art='richtige' von=yesterday_date bis=today_date unit_ids='-'%}">
+        <a class="dropdown-item" style="background-image: linear-gradient(to right,rgb(51, 102, 255),rgb(51, 204, 255));" href="{%url 'test-zwischenschritt' test_art='richtige' von=yesterday_date bis=yesterday_date unit_ids='-'%}">
                 <button class="btn btn-info .btn-primary-outline">Nur richtige Wörter</button>
             </a>
 

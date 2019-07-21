@@ -173,12 +173,14 @@ var availableColleges = [
                 <tr id="{{word.id}}" class="words">
                     {% if word.right == True %}
                             <td><a href="{%url 'test-zwischenschritt' test_art='richtige' von=word.date bis=word.date unit_ids='0'%}">{{word.date|date:"M d, Y"}}</a></td>
-                            <td class="table-success">{{ word.word.deutsch}}</td>
                             <td class="table-success">{{ word.word.italienisch }}</td>
+                            <td class="table-success">{{ word.word.deutsch}}</td>
+
                     {% else %}
                             <td><a href="{%url 'test-zwischenschritt' test_art='falsche' von=word.date bis=word.date unit_ids='0'%}">{{word.date|date:"M d, Y"}}</a></td>
-                            <td  class="table-danger">{{ word.word.deutsch}}</td>
                             <td  class="table-danger">{{ word.word.italienisch }}</td>
+                            <td  class="table-danger">{{ word.word.deutsch}}</td>
+
                     {% endif %}
                </tr>
             {% endfor %}

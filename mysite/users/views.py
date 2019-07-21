@@ -515,9 +515,6 @@ def method_schriftlich(request):
         words_right_false = lernweg_post.handle_schriftlich()
         print(words_right_false)
 
-        words = Words_user.objects.filter(user=request.user, lernweg_voc=True)
-        print(words)
-
 
     else:
         if not current_u:  # hier konnte man ein redirect einbauen
@@ -526,10 +523,12 @@ def method_schriftlich(request):
             lernweg = LernwegGet(request, words, request.user.profile.pruefung_voc)
             words_right_false = lernweg.mix_schriftlich()
 
-    to_learnweg_start = new_words_or_unit_finished(request, words, current_u)
-    print(to_learnweg_start)
 
-    context = {'words_right_false': words_right_false, 'to_learnweg_start': to_learnweg_start}
+    to_learnweg_start = new_words_or_unit_finished(request, words, current_u)
+    print('lernweg')
+    print('lernweg:' + str(to_learnweg_start))
+
+    context = {'to_learnweg_start': to_learnweg_start, 'words_right_false': words_right_false, }
 
     return render(request, 'users/users-method-schriftlich.html', context)
 

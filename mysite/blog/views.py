@@ -67,6 +67,8 @@ class PostCreateView(LoginRequiredMixin ,CreateView):
 def post_create(request):
     users = User.objects.all()
     linked = []
+    title = ""
+    content = ""
     if request.method == 'POST':
         content_form = PostCreate(request.POST)
         if content_form.is_valid():
@@ -90,7 +92,8 @@ def post_create(request):
 @login_required
 def update_post(request, pk):
     blogpost = get_object_or_404(Post, id=pk)
-
+    title = ""
+    content = ""
     if request.user == blogpost.author:
         users = User.objects.all()
         linked = []

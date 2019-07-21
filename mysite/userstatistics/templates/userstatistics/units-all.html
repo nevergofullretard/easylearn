@@ -9,7 +9,7 @@
 
 
 {% for unit in units_all %}
-    <div class="row border border-primary">
+    <div class="row border ">
         <div class="col-sm"><a href="{%url 'unit-words' pk=unit.id name_of_unit=unit %}" target="_blank">{{unit}}</a></div>
         <div class="col-sm"><a href="{%url 'statistic-units' pk=unit.id name_of_unit=unit %}"><button class="btn btn-success">Zur Statistik</button></a></div>
         <div class="col-sm"><a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'delete-unit' pk=unit.id name_of_unit=unit %}">Unit löschen</a></div>
