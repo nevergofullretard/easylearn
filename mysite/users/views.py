@@ -89,16 +89,18 @@ def register(request):
             user = request.user
             subject = 'Willkommen im Club, ' + str(user) + '!'
             recipient_list = [user.email]
-            image = 'https://pngimage.net/wp-content/uploads/2018/06/step-by-step-png-2.png'
+            print(f'http://{request.META["HTTP_HOST"]}/media/pictures/email-leiter.jpg')
+            image = 'https://workingnation.com/wp-content/uploads/2018/08/shutterstock_1046505673-1.jpg'  #f'http://{request.META["HTTP_HOST"]}/media/pictures/email-leiter.jpg'
             header = 'Hey ' + str(user) + '!'
             zeilen = ['Danke dass du dich registriert hast!', 'Sei gespannt auf kommende Neuigkeiten!']
             body_bold = 'Starte durch'
             body_small = 'und besuche die Website!'
             confirm_code = random_confirm()
-            link1 = f'http://{request.META["HTTP_HOST"]}{reverse("confirm-email", args=[user.id, confirm_code])}'
+            link1 = f'https://{request.META["HTTP_HOST"]}{reverse("confirm-email", args=[user.id, confirm_code])}'
             links = {link1: 'E-Mail bestätigen'}
             # print(request.get_path())
-            register_success(subject, recipient_list, image, header, zeilen, body_bold, body_small, links, plain_message=f'Hallo {user}! Danke dass du dich registriert hast! Zum Bestätigen deiner E-Mail, klicke auf diesen Link: {link1}, '
+            register_success(subject, recipient_list, image, header, zeilen, body_bold, body_small, links, body_bgcolor='#72bdc2', text_color='#ffffff',
+                              plain_message=f'Hallo {user}! Danke dass du dich registriert hast! Zum Bestätigen deiner E-Mail, klicke auf diesen Link: {link1} , '
                              f'oder schiebe diese E-Mail aus dem Spam-Ordner in den Posteingang')
 
 

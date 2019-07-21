@@ -45,7 +45,7 @@ var availableColleges = [
     <div class="media-body">
 
       <div class="article-metadata">
-        <a class="mr-2 text-secondary" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+        <a class="mr-2 text-secondary" href="{% url 'user-posts' object.author.username %}"><b>{{object.author}}</b></a>
         <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
         {% if object.author == user %}
           <div>

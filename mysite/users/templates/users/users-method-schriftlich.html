@@ -2,7 +2,7 @@
 {%  load crispy_forms_tags %}
 {% block content %}
 <h3 class="text-white" style="background-color: #56BB86;">Lernweg - {{ request.user.profile.current_unit2 }}</h3>
-
+<a href="{%url 'users-lernweg'%}"><button class="btn btn-sm btn-success">Zu den Wörtern</button></a>
     {% if request.method == "POST" %}
 {% if to_learnweg_start %}
     <h3>Du bist fertig mit diesem Abschnitt!</h3>

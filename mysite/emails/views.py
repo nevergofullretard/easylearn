@@ -117,17 +117,19 @@ def send_confirmation(request):
 
     subject = 'Step By Step, ' + str(user) + '!'
     recipient_list = [user.email]
-    image = 'https://workingnation.com/wp-content/uploads/2018/08/shutterstock_1046505673-1.jpg'
+
+    image = 'https://pngimage.net/wp-content/uploads/2018/06/step-by-step-png-2.png' #f'http://{request.META["HTTP_HOST"]}/media/pictures/email-treppe.png'
+    print(image)
     header = 'Hey ' + str(user) + '!'
     zeilen = ['Du stehst am Anfang deiner Leiter', 'Bleib dran!']
-    body_bold = 'Klicke'
+    body_bold = 'Klicke auf den Button'
     body_small = 'und bestätige deine E-Mail-Adresse!'
     # confirm_code = Confirm_email.objects.get(user=request.user)
-    link1 = f'http://{request.META["HTTP_HOST"]}{reverse("confirm-email", args=[user.id, code])}'
+    link1 = f'https://{request.META["HTTP_HOST"]}{reverse("confirm-email", args=[user.id, code])}'
     links = {link1: 'E-Mail bestätigen'}
     # print(request.get_path())
-    register_success(subject, recipient_list, image, header, zeilen, body_bold, body_small, links, body_bgcolor='#72bdc2', text_color='#ffffff',
-                     plain_message=f'Zum Bestätigen deiner E-Mail, klicke auf diesen Link: {link1}, oder schiebe diese E-Mail aus dem Spam-Ordner in den Posteingang')
+    register_success(subject, recipient_list, image, header, zeilen, body_bold, body_small, links,
+                     plain_message=f'Zum Bestätigen deiner E-Mail, klicke auf diesen Link: {link1} , oder schiebe diese E-Mail aus dem Spam-Ordner in den Posteingang')
 
     messages.success(request,
                      f'Die Bestätigungs-Email wurde versandt! <small class="text-muted">Email nicht erhalten? <a href="{reverse("confirm-start")}">Erneut versuchen </a></small>')
@@ -152,10 +154,10 @@ def password_forgot(request):
         zeilen = ['Hier ist dein Code', 'zum Zurücksetzen deines Passwortes']
         body_bold = 'Der Button'
         body_small = 'ist der Schlüssel zu deinem Glück! ;)'
-        link1 = f'http://{request.META["HTTP_HOST"]}{reverse("password-reset", args=[user.id, confirm_code])}'
+        link1 = f'https://{request.META["HTTP_HOST"]}{reverse("password-reset", args=[user.id, confirm_code])}'
         links = {link1: 'Passwort zurücksetzen'}
         register_success(subject, recipient_list, image, header, zeilen, body_bold, body_small, links,
-                         plain_message=f'Dein Code fürs Passwort Zurücksetzen bei EasyLearn (Schreck dich nicht, er ist ziemlich lang): {link1}.Falls diese E-Mail in deinem Spam-Ornder ist, kannst du sie in das normale Postfach verschieben.')
+                         plain_message=f'Dein Code fürs Passwort Zurücksetzen bei EasyLearn (Schreck dich nicht, er ist ziemlich lang): {link1} .Falls diese E-Mail in deinem Spam-Ornder ist, kannst du sie in das normale Postfach verschieben.')
 
         messages.success(request,
                         f'Die E-Mail wurde versandt. <a href="{reverse("password-forgot")}">Nicht erhalten? </a>')

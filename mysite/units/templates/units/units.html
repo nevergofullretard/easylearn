@@ -287,11 +287,19 @@
                       </thead>
                       <tbody>
                         {% for wrd in word %}
-                            <tr>
-                                <td>{{ wrd }}</td>
-                                <td>{{ wrd.deutsch }}</td>
-                            </tr>
+                            {%if forloop.counter < 10%}
+                                <tr>
+                                    <td>{{ wrd }}</td>
+                                    <td>{{ wrd.deutsch }}</td>
+                                </tr>
+                            {%endif%}
                         {% endfor %}
+                      {%if word|length > 9%}
+                         <tr>
+                             <td><a href="{%url 'unit-words' pk=unit.id name_of_unit=unit%}"><button class="btn btn-success btn-sm">Alle neuen Wörter</button></a></td>
+                              <td><a href="{%url 'unit-words' pk=unit.id name_of_unit=unit%}"><button class="btn btn-success btn-sm">Alle neuen Wörter</button></a></td>
+                        </tr>
+                      {%endif%}
                       </tbody>
                     </table>
                 </div>
@@ -307,11 +315,17 @@
                       </thead>
                       <tbody>
                         {% for wrd in word %}
-                            <tr>
-                                <td>{{ wrd }}</td>
-                                <td>{{ wrd.deutsch }}</td>
-                            </tr>
+                             {%if forloop.counter < 10%}
+                                <tr>
+                                    <td>{{ wrd }}</td>
+                                    <td>{{ wrd.deutsch }}</td>
+                                </tr>
+                            {%endif%}
                         {% endfor %}
+                       <tr>
+                             <td><a href="{%url 'unit-words' pk=unit.id name_of_unit=unit%}"><button class="btn btn-success btn-sm">Alle neuen Wörter</button></a></td>
+                              <td><a href="{%url 'unit-words' pk=unit.id name_of_unit=unit%}"><button class="btn btn-success btn-sm">Alle neuen Wörter</button></a></td>
+                        </tr>
                       </tbody>
                     </table>
                 </div>

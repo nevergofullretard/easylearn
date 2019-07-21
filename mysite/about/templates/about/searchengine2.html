@@ -151,7 +151,7 @@ $(document).ready(function(){
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2>Ergebnisse für "{{input}}"</h2>
+            <h3> <span class="text-muted">Ergebnisse für</span> "{{input}}" </h3>
         </div>
     </div>
     <div class="row">
@@ -289,8 +289,17 @@ $(document).ready(function(){
                                                   <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
                                                 </div>
                                                 <h5><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
-
+                                            {%if post.author.is_staff%}
+                                                  {{post.content|safe}}
+                                              {%else%}
+                                                    {{post.content}}
+                                              {%endif%}
                                               </div>
+
+
+
+
+
                                             </article>
                                             </div>
                                 </li>

@@ -37,7 +37,7 @@ class PostListView(LoginRequiredMixin, ListView):
     paginate_by = 5 #das heißt, dass nach dem 2. Post eine neue Seite kommt
 
 
-class UserPostListView(ListView, LoginRequiredMixin):
+class UserPostListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'blog/user_posts.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'

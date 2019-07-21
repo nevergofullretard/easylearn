@@ -15,11 +15,11 @@ class Units_user(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    voc_bits = models.IntegerField(default=8)   # so viele Vokabeln zeigt es dem User in einem Lerndurchgang an
+    voc_bits = models.IntegerField(default=6)   # so viele Vokabeln zeigt es dem User in einem Lerndurchgang an
     first_voc = models.IntegerField(default=0)  # erstes Vokabel des Lerndurchgangs
     current_unit = models.IntegerField(default=0)   # das ist nicht gut, aber es zu ändern würde zu lange dauern (Änderungen in statistic.views und users.views.lernweg!
     last_voc = models.IntegerField(default=0)   # letztes Vokabel des Lerndurchgangs
-    pruefung_voc = models.IntegerField(default=4)   # so viele Vokabeln zeigt es dem User bei der Prüfung an
+    pruefung_voc = models.IntegerField(default=3)   # so viele Vokabeln zeigt es dem User bei der Prüfung an
     karteikarten_voc = models.IntegerField(default=4)
     pruefung_umgekehrt = models.BooleanField(default=False) # wenn True, kann es dem User auch Vokabeln von Deutsch auf Italienisch vorschlagen
     units_gemacht = models.ManyToManyField(Units_user, blank=True) # blank=True bedeutet, dass es nicht required ist

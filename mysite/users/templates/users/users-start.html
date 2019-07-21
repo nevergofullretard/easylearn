@@ -2,30 +2,117 @@
 {% block content %}
 
 
+<style>
+    .color-container-links{
+    background-color:#ff8c1a;
+     border-radius: 0px 10px 10px 0px;
 
+    }
+
+     .color-container-rechts{
+        background-color:#ff8c1a;
+        border-radius: 10px 0px 0px 10px;
+    }
+
+
+    .color-farbverlauf-links{
+        background-image: linear-gradient(to right, transparent,  #ff8c1a);
+    }
+
+    .color-farbverlauf-rechts{
+        background-image: linear-gradient(to left, transparent,  #ff8c1a);
+    }
+
+    .color-ul{
+    background-color: #ff6600;
+     border-radius: 5px;
+     padding-bottom: 5px;
+    }
+
+    .div-padding{
+    padding: 10px;
+    }
+
+    .image-css{
+    border-radius:5%;
+    /*padding-top:10px;*/
+    width: 100%;
+    height: auto;
+    }
+
+    .centered-text{
+    position: relative;
+    float: left;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+</style>
+
+
+{%if request.user.is_authenticated%}
 <h1 class="animated slow tada">Hallo, {{ username }}!</h1> <!-- filter: |upper -->
 <h2 class="animated slow rollIn">Schön, dich zu sehen!</h2>
-<p class="nav-link" >Mit deinem persönlichen Account kannst du alles mögliche anstellen, zum Beispiel...</p>
+{%endif%}
 
-<ul class="list-group">
-    <li class="list-group-item list-group-item-success"><a href="{% url 'profile' %}">-> Dein Profil bearbeiten, Einstellungen ändern</a></li>
-    <li class="list-group-item list-group-item-success"><a href="{% url 'users-lernweg' %}">-> Lernsessions auf deine Lernbedürfnisse zugeschnitten</a></li>
-    <li class="list-group-item list-group-item-success"><a href="{% url 'profile' %}">-> Einen anpassbaren Prüfungsmodus im Profil-Bereich</a></li>
-    <li class="list-group-item list-group-item-success"><a href="{% url 'statistics-home' %}">-> Deine persönliche Statistik erhalten und sehen wie gut du dich schlägst</a></li>
-    <li class="list-group-item list-group-item-success"><a href="{% url 'blog-home' %}">-> in der Community aktiv werden</a></li>
-    <li class="list-group-item list-group-item-success"><a href="{% url 'post-create' %}">-> Freunde markieren</a></li>
-    <li class="list-group-item list-group-item-success"><a href="{% url 'new-words-start' %}">-> neue Vokabeln oder ganze Units hinzufügen</a></li>
-    <li class="list-group-item list-group-item-success">und noch vieles mehr!</li>
-    <li class="list-group-item list-group-item-success"><a href="{% url 'users-lernweg' %}"><button class="btn btn-success"><b>Starte mit dem Lernweg!</b></button></a></li>
+<div class="container text-white" style="background-color:#ffc14d; border-radius: 10px;">
+    <ol>
 
-</ul>
- <div style="padding-top:10px;">
-     <center>
-            <a href="{%url 'about'%}">
-                <button class="btn text-white" style="background-color: #ff8c1a;">Mehr erfahren?</button>
-            </a>
-        </center>
+
+            <div class="row div-padding">
+
+            <div class="col-sm-1 color-farbverlauf-links">
+                <h2><li></li></h2>
+
+            </div>
+
+            <div class="col-sm-11 color-container-links">
+                <h3>Dein Lernweg</h3>
+            </div>
+        </div>
+
+
+          <div class="row div-padding">
+
+            <div class="col-sm-11 color-container-rechts">
+                <h3>Dein Profil</h3>
+            </div>
+
+              <div class="col-sm-1 color-farbverlauf-rechts">
+                <h2><li></li></h2>
+
+            </div>
+        </div>
+
+
+    </ol>
+
 </div>
+
+
+
+
+<!--<p class="nav-link" >Mit deinem persönlichen Account kannst du alles mögliche anstellen, zum Beispiel...</p>-->
+
+<!--<ul class="list-group">-->
+    <!--<li class="list-group-item list-group-item-success"><a href="{% url 'profile' %}">-> Dein Profil bearbeiten, Einstellungen ändern</a></li>-->
+    <!--<li class="list-group-item list-group-item-success"><a href="{% url 'users-lernweg' %}">-> Lernsessions auf deine Lernbedürfnisse zugeschnitten</a></li>-->
+    <!--<li class="list-group-item list-group-item-success"><a href="{% url 'profile' %}">-> Einen anpassbaren Prüfungsmodus im Profil-Bereich</a></li>-->
+    <!--<li class="list-group-item list-group-item-success"><a href="{% url 'statistics-home' %}">-> Deine persönliche Statistik erhalten und sehen wie gut du dich schlägst</a></li>-->
+    <!--<li class="list-group-item list-group-item-success"><a href="{% url 'blog-home' %}">-> in der Community aktiv werden</a></li>-->
+    <!--<li class="list-group-item list-group-item-success"><a href="{% url 'post-create' %}">-> Freunde markieren</a></li>-->
+    <!--<li class="list-group-item list-group-item-success"><a href="{% url 'new-words-start' %}">-> neue Vokabeln oder ganze Units hinzufügen</a></li>-->
+    <!--<li class="list-group-item list-group-item-success">und noch vieles mehr!</li>-->
+    <!--<li class="list-group-item list-group-item-success"><a href="{% url 'users-lernweg' %}"><button class="btn btn-success"><b>Starte mit dem Lernweg!</b></button></a></li>-->
+
+<!--</ul>-->
+ <!--<div style="padding:10px;">-->
+     <!--<center>-->
+            <!--<a href="{%url 'about'%}">-->
+                <!--<button class="btn text-white" style="background-color: #ff8c1a;">Mehr erfahren?</button>-->
+            <!--</a>-->
+        <!--</center>-->
+<!--</div>-->
 
 
 

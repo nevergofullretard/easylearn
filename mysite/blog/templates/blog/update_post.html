@@ -112,6 +112,24 @@ var availableColleges = [
         content.insertAtCaret("<h5></h5>")
     });
 
+     $("#small").click(function(){
+        content.insertAtCaret("<small></small>")
+    });
+
+    $("#p").click(function(){
+        content.insertAtCaret("<p></p>")
+    });
+    $("#span").click(function(){
+        content.insertAtCaret("<span></span>")
+    });
+
+    $("#ul").click(function(){
+        content.insertAtCaret("<ul>\n\n</ul>")
+    });
+
+    $("#li").click(function(){
+        content.insertAtCaret("<li></li>")
+    });
 
     var vorschau = $("#content-vorschau")
     vorschau.html(content.val())
@@ -174,6 +192,9 @@ var availableColleges = [
                                     Heading
                                   </button>
                                    <div class="dropdown-menu">
+                                       <small class="dropdown-item" id="small">small</small>
+                                       <small class="dropdown-item" id="p">p</small>
+                                       <small class="dropdown-item" id="span">span</small>
                                        <small class="dropdown-item" id="h1">h1</small>
                                        <small class="dropdown-item" id="h2">h2</small>
                                        <small class="dropdown-item" id="h3">h3</small>
@@ -201,6 +222,8 @@ var availableColleges = [
                                     Tabelle
                                   </button>
                                    <div class="dropdown-menu">
+                                       <small class="dropdown-item" id="ul">ul</small>
+                                       <small class="dropdown-item" id="li">li</small>
                                        <small class="dropdown-item" id="table">Tabelle</small>
                                        <small class="dropdown-item" id="row">row</small>
                                        <small class="dropdown-item" id="col">column</small>
