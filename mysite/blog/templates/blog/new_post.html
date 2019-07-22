@@ -52,6 +52,14 @@ $.fn.insertAtCaret = function(text) {
 
 i = 0;
 $(document).ready(function(){
+var content = $("textarea[name=content]");
+
+$('select[name=bild]').change(function() {
+    var changed = $(this).val() != $(this).data('default');
+    content.insertAtCaret('<img src="'+ $(this).val() + '" width="" height="">')
+    <!--alert(changed ? 'changed' : 'not changed');-->
+});
+
 var availableColleges = [
   {% for clg in users %}
       "{{clg}}",
@@ -71,9 +79,6 @@ var availableColleges = [
     });
 
 
-
-
-var content = $("textarea[name=content]");
 
     <!--$("#").click(function(){-->
         <!--content.insertAtCaret("")-->
@@ -143,12 +148,28 @@ var content = $("textarea[name=content]");
         content.insertAtCaret("<span></span>")
     });
 
+ $("#ol").click(function(){
+        content.insertAtCaret("<ol>\n\n</ol>")
+    });
+
     $("#ul").click(function(){
         content.insertAtCaret("<ul>\n\n</ul>")
     });
 
     $("#li").click(function(){
         content.insertAtCaret("<li></li>")
+    });
+
+    $("#container").click(function(){
+            content.insertAtCaret("<div class='container'>\n\n</div>")
+        });
+
+    $("#bt-row").click(function(){
+        content.insertAtCaret("<div class='row'>\n\n</div>")
+    });
+
+    $("#bt-col").click(function(){
+        content.insertAtCaret("<div class='col'>\n\n</div>")
     });
 
 
@@ -343,14 +364,15 @@ var content = $("textarea[name=content]");
 
 
                         <div class="col-sm">
+
                             <div class="dropdown">
                                   <button class="btn btn-info dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Elements
                                   </button>
                                    <div class="dropdown-menu">
+                                       <small class="dropdown-item" id="span">span</small>
                                         <small class="dropdown-item" id="small">small</small>
                                        <small class="dropdown-item" id="p">p</small>
-                                       <small class="dropdown-item" id="span">span</small>
                                        <small class="dropdown-item" id="h1">h1</small>
                                        <small class="dropdown-item" id="h2">h2</small>
                                        <small class="dropdown-item" id="h3">h3</small>
@@ -380,6 +402,7 @@ var content = $("textarea[name=content]");
                                     Tabelle
                                   </button>
                                    <div class="dropdown-menu">
+                                       <small class="dropdown-item" id="ol">ol</small>
                                        <small class="dropdown-item" id="ul">ul</small>
                                        <small class="dropdown-item" id="li">li</small>
                                        <small class="dropdown-item" id="table">Tabelle</small>
@@ -388,7 +411,24 @@ var content = $("textarea[name=content]");
 
                                     </div>
                                 </div>
+
                         </div>
+                        <div class="col-sm">
+                            <div class="dropdown">
+                                  <button class="btn btn-danger dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Bootstrap
+                                  </button>
+                                   <div class="dropdown-menu">
+                                       <small class="dropdown-item" id="container">container</small>
+                                       <small class="dropdown-item" id="bt-row">row</small>
+                                       <small class="dropdown-item" id="bt-col">col</small>
+
+
+                                    </div>
+                                </div>
+                    {{image|crispy}}
+                        </div>
+
 
                     </div>
                 </div>

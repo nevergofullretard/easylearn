@@ -11,7 +11,7 @@ register = template.Library()
 def menu_items(context):
 
 
-    alle_units = Unit_name.objects.all()
+    alle_units = Unit_name.objects.all().order_by('-timestamp').reverse()
     alle_dict = {}
     for schule in Unit_schule.objects.all():
         units_schule = alle_units.filter(schule=schule)
@@ -25,6 +25,6 @@ def menu_items(context):
                     if Unit_words.objects.filter(unit_name__id=schule_sprache.id):
                         units_schule_sprache_all.append(schule_sprache)
                         alle_dict[schule][schule_sprache.sprache] = units_schule_sprache_all
-
+ 
     # print(dict(itertools.islice(alle_dict.items(), 3)))
-    return {'items': dict(itertools.islice(alle_dict.items(), 3))}
+    return {'items': dict(itertools.islice(alle_dict.items(), 4))}

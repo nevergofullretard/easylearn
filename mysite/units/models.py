@@ -1,8 +1,11 @@
+from django.utils import timezone
 from datetime import date
 
 
 from django.db import models
 from django.contrib.auth.models import User
+
+from blog.models import Post
 
 class People(models.Model):
     SHIRT_SIZES = (
@@ -54,9 +57,11 @@ class Unit_sprache(models.Model):
         return self.sprache_kurz
 
 class Unit_name(models.Model):
+    timestamp = models.DateTimeField(default=timezone.now())
     u_name = models.CharField(max_length=100)  # durch unique=True könnte man Redundanzen verhindern
     sprache = models.ForeignKey(Unit_sprache, on_delete=models.CASCADE, null=True)
     schule = models.ForeignKey(Unit_schule, on_delete=models.CASCADE, null=True)
+    artikel = models.ManyToManyField(Post, blank=True)
 
     def __str__(self):
         return f'{self.u_name}-{self.schule}-{self.sprache}'

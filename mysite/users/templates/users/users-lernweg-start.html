@@ -22,6 +22,8 @@ $(document).ready(function(){
 
 <h3 class="text-white" style="background-color: #56BB86;">Lernweg - {{ info }}</h3>
 
+
+
 <table class="table table-striped">
   <thead class="thead text-white" style="background-color: #56BB86;">
     <tr>
@@ -63,6 +65,7 @@ $(document).ready(function(){
     </tr>
     <tr>
         <td><a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'cancel-unit' %}">Unit abbrechen</a></td>
+        <td><a href="{%url 'unittest-method' pk=info.id name_of_unit=info%}"><button class="btn btn-sm btn-success">ganze Unit prüfen lassen</button></a></td>
     </tr>
   </tbody>
 

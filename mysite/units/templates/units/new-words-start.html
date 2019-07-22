@@ -1,18 +1,23 @@
 {% extends "about/header.html" %}
 {% block content %}
 
-
+ <h2>Anfragen - Start</h2>
 <div class="container">
     <div class="row">
-        <div class="col-sm-8">
-            <h2>Anfragen - Start</h2>
+        <div class="col">
+
               <ul class="list-group">
-                <li class="list-group-item"><a href="{%url 'new-unit-user'%}"><button class="btn btn-outline-info" >Neue Wörter hinzufügen</button></a></li>
-                <li class="list-group-item"><a href="{%url 'new-words-user'%}"><button class="btn btn-outline-info" >Neue Unit hinzufügen</button></a></li>
-                <li class="list-group-item"><a href="{%url 'new-school'%}"><button class="btn btn-outline-info" >Neue Schule anfragen</button></a></li>
-                  <li class="list-group-item"><a href="{%url 'new-lang'%}"><button class="btn btn-outline-info" >Neue Sprache anfragen</button></a></li>
+                <li class="list-group-item"><a href="{%url 'new-unit-user'%}"><button class="btn btn-outline-info" >Online: Neue Wörter hinzufügen</button></a></li>
+                  <li class="list-group-item"><a href="{%url 'new-words'%}"><button class="btn btn-outline-info">Offline: Neue Wörter hinzufügen</button></a></li>
 
               </ul>
+        </div>
+        <div class="col">
+            <ul class="list-group">
+                 <li class="list-group-item"><a href="{%url 'new-words-user'%}"><button class="btn btn-outline-info" >Neue Unit hinzufügen</button></a></li>
+                <li class="list-group-item"><a href="{%url 'new-school'%}"><button class="btn btn-outline-info" >Neue Schule anfragen</button></a></li>
+                  <li class="list-group-item"><a href="{%url 'new-lang'%}"><button class="btn btn-outline-info" >Neue Sprache anfragen</button></a></li>
+            </ul>
         </div>
     </div>
 

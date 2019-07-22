@@ -13,6 +13,19 @@ class Units_user(models.Model):
     def __str__(self):
         return f'{self.unit}'
 
+class Images(models.Model):
+    name = models.CharField(max_length=1000, default='image')
+    image = models.ImageField(upload_to='images') # width_field='width_field', height_field='height_field'
+    # width_field = models.IntegerField(default=0)
+    # height_field = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.name}'
+    def save(self, *args, **kwargs):
+        super(Images, self).save(*args, **kwargs)
+        img = Image.open(self.image.path)
+        img.save(self.image.path)
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     voc_bits = models.IntegerField(default=6)   # so viele Vokabeln zeigt es dem User in einem Lerndurchgang an
@@ -22,7 +35,8 @@ class Profile(models.Model):
     pruefung_voc = models.IntegerField(default=3)   # so viele Vokabeln zeigt es dem User bei der Prüfung an
     karteikarten_voc = models.IntegerField(default=4)
     pruefung_umgekehrt = models.BooleanField(default=False) # wenn True, kann es dem User auch Vokabeln von Deutsch auf Italienisch vorschlagen
-    units_gemacht = models.ManyToManyField(Units_user, blank=True) # blank=True bedeutet, dass es nicht required ist
+    units_gemacht = models.ManyToManyField
+    # blank=True bedeutet, dass es nicht required ist
     image = models.ImageField(default='default.png', upload_to='profile_pics')
     newsletter = models.BooleanField(default=True)
     toleranz = models.IntegerField(default=51)

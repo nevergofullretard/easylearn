@@ -1,21 +1,84 @@
 {% extends "about/header.html" %}
 {%  load crispy_forms_tags %}
 {% block content %}
+
+<script>
+    $(document).ready(function(){
+    $('#unit-auswahl').hide();
+
+
+ $('#choose-unit').click(function(){
+    $('#unit-auswahl').slideToggle();
+    });
+
+ });
+</script>
+
+
+
     {%if request.method == 'POST'%}
+    <h2>Angefragt:</h2>
+        <h4>bei <a href="{% url 'unit-words' pk=unit.id name_of_unit=unit %}">{{unit}}</a></h4>
+<h5>Diese Wörter wurden angefragt:</h5>
+<table class="table">
+    <thead class="thead thead-light">
+        <tr>
+            <th>{{unit.sprache}}</th>
+            <th>Deutsch</th>
+            <th>Notiz/Sidenote</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for row in angefragte_woerter%}
+            <tr>
+                {%for col in row%}
+                    <td>{{col}}</td>
+                {%endfor%}
+            </tr>
+        {%endfor%}
+    </tbody>
+</table>
 
     {%else%}
+
         <div class="content-section">
-            <form method="POST">
-                {%  csrf_token %}
-                <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Neue Wörter hinzufügen</legend>
-                    <small class="text-muted">Achtung! Nur CSV-Dateien sind erlaubt. Du kannst die CSV-Tabelle (Download unten) aber auch in Excel bearbeiten</small>
-                    {{  form|crispy }}
-                </fieldset>
-                <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit">Hinzufügen</button>
+<form  method="POST" enctype="multipart/form-data" class="form-horizontal">
+            {% csrf_token %}
+            <div class="form-group">
+                <legend class="border-bottom mb-4">Neue Wörter anfragen - offline</legend>
+                    <small class="text-muted"> <a href="{{link}}">Lade dir die Vorlage herunter</a>
+                        , fülle die Wörter ein und lade sie wieder hoch! Am besten am PC zu erledigen</small>
+
+
+                 <p  style="background-color: #56BB86;; border-radius: 5px;" class="text-white" id="choose-unit"><b>Unit auswählen - Hier klicken zum Auf/Zuklappen</b></p>
+                    <small id="chosen-unit"></small>
+                    <div id="unit-auswahl">
+                        {% include "users/unit_auswahl_input.html" %}
+                    </div>
+
+
+                <label  class="col-md-3 col-sm-3 col-xs-12 control-label">Datei: </label>
+                <div class="col-md-8">
+                    <input type="file" name="csv_file" accept=".csv" id="csv_file" required="True" class="form-control">
                 </div>
+                        <h5>Achtung!Bitte keine ";" einbauen, durch den Punktstrich wird die Tabelle getrennt!</h5>
+
+            </div>
+            <div class="form-group">
+                <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+                     <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Hochladen </button>
+                </div>
+            </div>
             </form>
+
+
+
+
+
+
+
+
+
             <div class="border-top pt-3">
             </div>
             <a href="{{link}}" download>Downloade die Vorlage</a>

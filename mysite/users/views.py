@@ -186,7 +186,7 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
             real_units_gemacht = [unit.id for unit in units_gemacht]
             naechste_untit = \
                 Unit_name.objects.filter(sprache=letzte_unit.sprache, schule=letzte_unit.schule).exclude(
-                    id__in=real_units_gemacht)
+                    id__in=real_units_gemacht).order_by('-timestamp')
             if naechste_untit:
                 lst_naechste_unit = []
                 # print('nächste Units')
@@ -231,18 +231,18 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
                     if not Unit_words.objects.filter(unit_name=next):
                         next = None
             if similar and current_unit:
-                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(id__in=[unit.id for unit in similar]).exclude(id=current_unit.id)
+                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(id__in=[unit.id for unit in similar]).exclude(id=current_unit.id).order_by('-timestamp').reverse()
             elif similar:
                 alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(
-                    id__in=[unit.id for unit in similar])
+                    id__in=[unit.id for unit in similar]).order_by('-timestamp').reverse()
             elif current_unit:
-                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(id=current_unit.id)
+                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).exclude(id=current_unit.id).order_by('-timestamp').reverse()
             else:
-                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht)
+                alle_units = Unit_name.objects.all().exclude(id__in=real_units_gemacht).order_by('-timestamp').reverse()
 
 
         else:
-            alle_units = Unit_name.objects.all()
+            alle_units = Unit_name.objects.all().order_by('-timestamp').reverse()
 
         print(alle_units)
 
@@ -294,7 +294,7 @@ def units_auswahl(request, nur_volle_units=True, nur_alle=False):
 
 
     else:
-        alle_units = Unit_name.objects.all()
+        alle_units = Unit_name.objects.all().order_by('-timestamp').reverse()
 
         for schule in Unit_schule.objects.all():
             units_schule = alle_units.filter(schule=schule)
@@ -440,7 +440,8 @@ def new_words_or_unit_finished(request, words_user, current_u):
             # Units_user.objects.create(user=request.user, unit=current_unit)
 
             messages.success(request,
-                             f'Du bist fertig mit {current_unit}! <a href="{reverse("statistic-units", args=[current_unit.id, current_unit])}">Zur Statistik</a>')
+                             f'Du bist fertig mit {current_unit}! <a href="{reverse("statistic-units", args=[current_unit.id, current_unit])}">Zur Statistik</a> - <a href="{reverse("unittest-method", args=[current_unit.id, current_unit])}">ganze Unit testen lassen</a>')
+
             unit_update = request.user.profile
             unit_update.current_unit = 0
             unit_update.current_unit2 = None

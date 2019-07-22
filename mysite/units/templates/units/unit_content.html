@@ -86,11 +86,33 @@ var availableColleges = [
 
     <div class="row">
         <div class="col-sm-7"> <h2 class="text-white" style="background-color:#56BB86;">{{name}}</h2> </div>
+        {%if artikel%}
+        <div class="dropdown">
+          <button class="btn btn-success dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Empfohlene Artikel dazu
+          </button>
+           <div class="dropdown-menu">
+               {%for obj in artikel%}
+               <small class="dropdown-item" id="span">
+                   <a href="{%url 'post-detail' pk=obj.id%}">{{obj.title}}</a>
+               </small>
+              {%endfor%}
+            </div>
+        </div>
+        {%endif%}
+
+
         <div class="col-sm-5 input-group">
             <input type="text" id="search_word" class='form-control mr-sm-2' placeholder="Suche ein Wort in der Unit" aria-label="Search"  value = '{{ val }}'>
             <!--<button id="search_word_button" class="btn"><img src="https://img.icons8.com/material/24/000000/search.png"></button>-->
 
         </div>
+
+        {%if words%}
+         <div class="col-sm">
+            <a href="{%url 'unittest-method' pk=name.id name_of_unit=name%}"><button class="btn btn-sm btn-success">Unit prüfen lassen</button></a>
+         </div>
+        {%endif%}
 
     </div>
     <div class="row">

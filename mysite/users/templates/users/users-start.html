@@ -106,7 +106,7 @@
                             einstellen, wie viele Wörter du geprüft werden willst
                         </li>
                          <li class="list-group-item color-ul">
-                            einstellen, wie viele Wörter dir bei der Karteikarten-Methode (siehe Bild) zur Auswahl stehen
+                            einstellen, wie viele Wörter dir bei der Karteikarten-Methode  zur Auswahl stehen
                         </li>
                         <li class="list-group-item color-ul">
                             eine Unit abbrechen und eine neue beginnen, ohne den Fortschritt zu verlieren
@@ -193,7 +193,7 @@
                         wie du dich heute bzw. diese Woche geschlagen hast
                     </li>
                      <li class="list-group-item color-ul">
-                        für jede gelernte Unit eine eigene Statistik (siehe Bild)
+                        für jede gelernte Unit eine eigene Statistik
                 </ul>
 
             </div>
@@ -365,6 +365,12 @@
 {%if not request.user.is_authenticated%}
 <center style="padding:10px;">
     <a href="{%url 'register'%}"><button  class="btn btn-success"><b>Jetzt registrieren!</b></button></a>
+</center>
+
+    {%else%}
+
+    <center style="padding:10px;">
+    <a href="{%url 'users-lernweg'%}"><button  class="btn btn-success"><b>Zum Lernweg!</b></button></a>
 </center>
 {%endif%}
 

@@ -122,8 +122,17 @@ def split_list(a_list):
     if half == 0:
         return zip(a_list, [' '])
 
-    first_half = a_list[:half]
-    second_half = a_list[half:]
+    first_half = []
+    second_half = []
+
+    # first_half = a_list[:half]
+    # second_half = a_list[half:]
+    for index, element in enumerate(a_list):
+        if (index % 2) == 0:
+            first_half.append(element)
+        else:
+            second_half.append(element)
+
     if len(first_half) < len(second_half):
         first_half.append(' ')
     # print(first_half)
@@ -178,7 +187,7 @@ def units(request):
 def unitname(request, pk, name_of_unit):
 
     obj = unit_exists(user=request.user, pk=pk, name_of_unit=name_of_unit)
-
+    articles = obj.artikel.all()
     # for name in Unit_name.objects.all():
     #     if str(name_of_unit) == str(name):
     #         obj = get_object_or_404(Unit_name, id=name.id)
@@ -187,7 +196,7 @@ def unitname(request, pk, name_of_unit):
 
 
     context = {'unit_names': Unit_name.objects.all(), 'name': obj,
-               'words': Unit_words.objects.filter(unit_name_id=obj.id), 'url': request.META["HTTP_HOST"]}
+               'words': Unit_words.objects.filter(unit_name_id=obj.id), 'url': request.META["HTTP_HOST"], 'artikel':articles}
     return render(request, 'units/unit_content.html', context)
 
 
@@ -229,20 +238,52 @@ def units_all(request):
     # context = {'alle': alle_dict}
     return render(request, 'units/units_all.html', context)
 
-@staff_member_required
+@login_required
 def new_words(request):
     link = None
+    context = None
+    unit = None
+    angefragte_woerter = []
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
+        new_unit = request.POST.get('unit')
+        unit = Unit_name.objects.get(id=new_unit)
 
-        if form.is_valid():
-            file = form.cleaned_data.get('file')
-            print(str(file))
+        csv_file = request.FILES["csv_file"]
+        file_data = csv_file.read().decode("utf-8")
+        lines = file_data.split("\n")
+
+
+        for line in lines[1:]:  #der Header (Fremdsprache, Deutsch, Sidenote wird übersprungen)
+            fremdsprache = None
+            deutsch = None
+            sidenote = None
+            line_splitted = line.split(";")
+            try:
+                fremdsprache = line_splitted[0]
+            except IndexError:
+                break
+            try:
+                deutsch = line_splitted[1]
+            except IndexError:
+                break
+
+            try:
+                sidenote = line_splitted[2]
+            except IndexError:
+                pass
+            if fremdsprache and deutsch:
+                Anfrage_words_user.objects.create(user=request.user, unit=unit, word_fremdsprache=fremdsprache, word_deutsch=deutsch, sidenote=sidenote)
+                angefragte_woerter.append((fremdsprache, deutsch, sidenote))
+        context = {'angefragte_woerter': angefragte_woerter, 'unit': unit}
     else:
-        form = UploadFileForm()
+
         link = f'http://{request.META["HTTP_HOST"]}/media/templates/new_words2.csv'
 
-    return render(request, 'units/new-words.html', {'form': form, 'link': link})
+        auswahl = users_views.units_auswahl(request, nur_volle_units=False, nur_alle=False)
+        context = {'naechste_unit': auswahl['next'], 'similar': auswahl['similar'], 'alle': auswahl['alle'],
+                   'units_gemacht': auswahl['dict_units_gemacht'], 'current_unit': auswahl['current_unit']} #'form': form, 'link': link}
+
+    return render(request, 'units/new-words.html', context)
 
 @login_required
 def new_words_user(request):
@@ -252,7 +293,7 @@ def new_words_user(request):
         if form.is_valid():
             unit = form.cleaned_data.get('unit')
             sprache = form.cleaned_data.get('sprache')
-            schule = form.clean().get('schule')
+            schule = form.cleaned_data.get('schule')
 
             if ',' not in unit and '/' not in unit and '#' not in unit:
                 Anfrage_unit.objects.create(user=request.user, sprache_id=sprache, schule=schule, unit=unit)

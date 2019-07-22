@@ -1,8 +1,11 @@
+from django import forms
+from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django import forms
 from django.http import HttpResponseRedirect
 from django.db.models import Q
+
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -15,7 +18,8 @@ from django.views.generic import (
 )
 from django.contrib.auth.decorators import login_required
 from .models import Post
-from .forms import PostCreate
+from users.models import Images
+from .forms import PostCreate, UploadImageForm
 
 deutsch = ['Haus', 'Weihnachten', 'Wollen', 'möchten', 'sprechen', 'besuchen']
 italienisch = ['Casa', 'Natale', 'volere', 'prendere', 'parlare', 'visitare']
@@ -65,6 +69,13 @@ class PostCreateView(LoginRequiredMixin ,CreateView):
 
 @login_required
 def post_create(request):
+    class LinkImageForm(forms.Form):
+        images = []
+        for image in Images.objects.all():
+            images.append((image.image.url, image.name))
+
+        bild = forms.ChoiceField(choices=images)
+
     users = User.objects.all()
     linked = []
     title = ""
@@ -87,10 +98,18 @@ def post_create(request):
 
     else:
         content_form = PostCreate()
-    return render(request, 'blog/new_post.html', {'content_form': content_form, 'users': users})
+        image = LinkImageForm()
+    return render(request, 'blog/new_post.html', {'content_form': content_form, 'users': users, 'image': image})
 
 @login_required
 def update_post(request, pk):
+    class LinkImageForm(forms.Form):
+        images = []
+        for image in Images.objects.all():
+            images.append((image.image.url, image.name))
+
+        bild = forms.ChoiceField(choices=images)
+
     blogpost = get_object_or_404(Post, id=pk)
     title = ""
     content = ""
@@ -124,7 +143,8 @@ def update_post(request, pk):
 
         else:
             content_form = UpdatePost()
-        return render(request, 'blog/update_post.html', {'content_form': content_form, 'users': users, 'title': str(blogpost.title)})
+            image = LinkImageForm()
+        return render(request, 'blog/update_post.html', {'content_form': content_form, 'users': users, 'title': str(blogpost.title), 'image': image})
     else:
         return redirect('/')
 
@@ -234,3 +254,21 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About me'})
+
+
+def upload_image(request):
+
+
+    if request.method == 'POST':
+        form = UploadImageForm(request.POST or None, request.FILES or None)
+        # print(request.POST)
+        # print(request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Das Bild wurde hochgeladen')
+        # else:
+        #     print(form.errors)
+    else:
+        form = UploadImageForm()
+
+    return render(request, 'blog/image.html', {'form': form})

@@ -140,6 +140,12 @@ a.article-title:hover {
                     <li class="nav-item active">
                         <a class="nav-item nav-link" href="{% url 'post-create' %}">Neuer Post</a></li>
                     <li class="nav-item active">
+                        {%if user.is_staff%}
+                          <li class="nav-item active">
+                        <a class="nav-item nav-link" href="{% url 'upload-image' %}">Neues Bild</a>
+                        </li>
+                        {%endif%}
+                    <li class="nav-item active">
                         <a class="nav-item nav-link" href="{% url 'profile' %}"><img src="https://img.icons8.com/ultraviolet/30/000000/gender-neutral-user.png"> Profil</a></li>
                     <li class="nav-item active">
                         <a class="nav-item nav-link" href="{% url 'logout' %}"><img src="https://img.icons8.com/office/30/000000/exit.png"></a></li>
