@@ -67,15 +67,16 @@ function toggle(source,name) {
                                 <tr>
                                      <td></td>
                                     <td></td>
+                                    <td>{{wrd.id}}</td>
                                     <td>{{wrd.word_deutsch}}</td>
-                                    <td>{{wrd.word_fremdsprache}}</td>
-                                    <td><small class="text-muted">{{wrd.sidenote}}</small></td>
+                                    <td><small class="text-muted">{{wrd.sidenote}}-{{wrd.id}}</small></td>
+                                    <td></td>
 
                                     <td>
                                         <form name="{{key1}}-{{key2}}">
                                      <div class="checkbox">
                                     <label>
-                                         <input type="checkbox" value="{{word1}};{{word2}};{{anfrage_key.id}};{{sidenote}}" name="{{key1.id}}--{{key2.id}}"><br/>
+                                         <input type="checkbox" value="{{{wrd.word_fremdsprache}};{{wrd.word_deutsch}};{{wrd.id}};{{wrd.sidenote}}" name="{{key1.id}}--{{key2.id}}"><br/>
                                     </label>
                                     </div>
                                         </form>
