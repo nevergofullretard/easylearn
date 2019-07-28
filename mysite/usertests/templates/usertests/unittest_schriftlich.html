@@ -109,11 +109,7 @@
         <fieldset class="form-group">
             <!--<legend class="border-bottom mb-4">Auf gehts!</legend>-->
                 <table class="table">
-                  <thead class="thead-dark">
-                    <tr>
 
-                    </tr>
-                  </thead>
                     <tbody>
                             {% for key, values in words_right_false.items %}
                                 {% for key2, value in values.items%}
@@ -121,14 +117,14 @@
 
                             <tr>
                                 <td>{{ value.deutsch}}</td>
-                                <td> <input class="form-control-plaintext" placeholder="{{value.unit_name.sprache.sprache_lang}}" type='text' maxlength="80" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
+                                <td> <input class="form-control-plaintext" placeholder="{{value.unit_name.sprache.sprache_lang}}" type='text' maxlength="500" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
                             </tr>
                         {%else%}
                             <tr>
                                 <td>{{ value.italienisch}}</td>
 
                                 <!-- wenn man es required möchte, einfach nach naem='my_list' required eingeben -->
-                                <td> <input class="form-control-plaintext" placeholder="Deutsch" type='text' maxlength="80" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
+                                <td> <input class="form-control-plaintext" placeholder="Deutsch" type='text' maxlength="500" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
                             </tr>
                             {%endif%}
                                 {% endfor %}

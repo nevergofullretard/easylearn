@@ -20,7 +20,7 @@ $(document).ready(function(){
 
 
 
-<h3 class="text-white" style="background-color: #56BB86;">Lernweg - {{ info }}</h3>
+<h3 class="text-white" style="background-color: #56BB86;">Lernweg - <a class="text-white" href="{%url 'unit-words' pk=info.id name_of_unit=info%}"><u>{{ info }}</u></a></h3>
 
 
 
@@ -29,13 +29,29 @@ $(document).ready(function(){
     <tr>
       <th scope="col">{{info.sprache.sprache_lang}}</th>
       <th scope="col">Deutsch</th>
+
     </tr>
   </thead>
   <tbody>
     {% for word in words %}
         <tr>
             <td>{{ word }}</td>
-            <td>{{ word.deutsch }}</td>
+            <td>{{ word.deutsch }}
+             {%if word.sidenote%}
+
+               <div class="dropdown">
+                  <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Notiz
+                  </button>
+                   <div class="dropdown-menu">
+                        <small class="text-muted">{{word.sidenote}}</small>
+                     </div>
+                </div>
+
+                {%endif%}
+
+            </td>
+
         </tr>
     {% endfor %}
   </tbody>

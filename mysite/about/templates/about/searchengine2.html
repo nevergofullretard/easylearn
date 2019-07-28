@@ -288,12 +288,8 @@ $(document).ready(function(){
                                                   <a class="mr-2 text-secondary" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
                                                   <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
                                                 </div>
-                                                <h5><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
-                                            {%if post.author.is_staff%}
-                                                  {{post.content|safe}}
-                                              {%else%}
-                                                    {{post.content}}
-                                              {%endif%}
+                                                <h4><a class="article-title text-dark" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
+
                                               </div>
 
 
@@ -301,6 +297,11 @@ $(document).ready(function(){
 
 
                                             </article>
+                                          {%if post.author.is_staff%}
+                                                  {{post.content|safe}}
+                                              {%else%}
+                                                    {{post.content}}
+                                              {%endif%}
                                             </div>
                                 </li>
                             {%endfor%}

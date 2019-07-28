@@ -249,31 +249,36 @@ def new_words(request):
         unit = Unit_name.objects.get(id=new_unit)
 
         csv_file = request.FILES["csv_file"]
-        file_data = csv_file.read().decode("utf-8")
-        lines = file_data.split("\n")
+        filename = csv_file.name
+        if not filename.endswith('.csv'):
+            messages.error(request, 'Nur CSV-Dateien erlaubt')
+        else:
+            file_data = csv_file.read().decode("utf-8")
+            lines = file_data.split("\n")
 
 
-        for line in lines[1:]:  #der Header (Fremdsprache, Deutsch, Sidenote wird übersprungen)
-            fremdsprache = None
-            deutsch = None
-            sidenote = None
-            line_splitted = line.split(";")
-            try:
-                fremdsprache = line_splitted[0]
-            except IndexError:
-                break
-            try:
-                deutsch = line_splitted[1]
-            except IndexError:
-                break
+            for line in lines[1:]:  #der Header (Fremdsprache, Deutsch, Sidenote wird übersprungen)
+                fremdsprache = None
+                deutsch = None
+                sidenote = None
+                line_splitted = line.split(";")
+                try:
+                    fremdsprache = line_splitted[0]
+                except IndexError:
+                    break
+                try:
+                    deutsch = line_splitted[1]
+                except IndexError:
+                    break
 
-            try:
-                sidenote = line_splitted[2]
-            except IndexError:
-                pass
-            if fremdsprache and deutsch:
-                Anfrage_words_user.objects.create(user=request.user, unit=unit, word_fremdsprache=fremdsprache, word_deutsch=deutsch, sidenote=sidenote)
-                angefragte_woerter.append((fremdsprache, deutsch, sidenote))
+                try:
+                    sidenote = line_splitted[2]
+                except IndexError:
+                    pass
+                if fremdsprache and deutsch:
+                    Anfrage_words_user.objects.create(user=request.user, unit=unit, word_fremdsprache=fremdsprache, word_deutsch=deutsch, sidenote=sidenote)
+                    angefragte_woerter.append((fremdsprache, deutsch, sidenote))
+
         context = {'angefragte_woerter': angefragte_woerter, 'unit': unit}
     else:
 
@@ -338,12 +343,12 @@ def new_unit_user(request):
             Anfrage_words_user.objects.create(user=request.user, unit=unit, word_fremdsprache=value[0], word_deutsch=value[1], sidenote=value[2])
 
             anfragen = Anfrage_words_user.objects.all()
-            max = 5000
-            if anfragen.count() > max:
-                words_delete = Anfrage_words_user.objects.all()[::1][0:anfragen.count()-max]
-
-                for word_delete in words_delete:
-                    word_delete.delete()
+            # max = 5000
+            # if anfragen.count() > max:
+            #     words_delete = Anfrage_words_user.objects.all()[::1][0:anfragen.count()-max]
+            #
+            #     for word_delete in words_delete:
+            #         word_delete.delete()
 
         messages.success(request, 'Anfrage wurde gesendet')
 
@@ -381,7 +386,7 @@ def anfragen(request):
                 # print(words)
 
                 words_anfragen[user].append(
-                    {unit_u: zip([anfr for anfr in words], [word.word_fremdsprache for word in words], [word.word_deutsch for word in words], [word.sidenote for word in words])})
+                    {unit_u: words})
 
     if request.method == 'POST':
         for key, values in words_anfragen.items():
@@ -411,17 +416,17 @@ def anfragen(request):
                                 delete_anfrage.delete()
                                 deleted.append(delete_anfrage)
 
-    else:
-        # units_neu = Anfrage_unit.objects.all()
-        # schulen = Anfrage_schule.objects.all()
-
-
-        for key, values in words_anfragen.items():
-            print(key)
-            for value in values:
-                for key in value:
-                    print(key)
-
+    # else:
+    #     # units_neu = Anfrage_unit.objects.all()
+    #     # schulen = Anfrage_schule.objects.all()
+    #
+    #
+    #     for key, values in words_anfragen.items():
+    #         print(key)
+    #         for value in values:
+    #             for key in value:
+    #                 print(key)
+    # print(words_anfragen)
     return render(request, 'units/anfragen.html', {'anfragen': words_anfragen, 'added': added, 'deleted': deleted})
 
 

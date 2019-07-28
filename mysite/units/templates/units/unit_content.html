@@ -86,20 +86,7 @@ var availableColleges = [
 
     <div class="row">
         <div class="col-sm-7"> <h2 class="text-white" style="background-color:#56BB86;">{{name}}</h2> </div>
-        {%if artikel%}
-        <div class="dropdown">
-          <button class="btn btn-success dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Empfohlene Artikel dazu
-          </button>
-           <div class="dropdown-menu">
-               {%for obj in artikel%}
-               <small class="dropdown-item" id="span">
-                   <a href="{%url 'post-detail' pk=obj.id%}">{{obj.title}}</a>
-               </small>
-              {%endfor%}
-            </div>
-        </div>
-        {%endif%}
+
 
 
         <div class="col-sm-5 input-group">
@@ -108,9 +95,27 @@ var availableColleges = [
 
         </div>
 
+        {%if artikel%}
+        <div class="col-sm">
+                <div class="dropdown">
+                  <button class="btn btn-success dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Empfohlene Artikel dazu
+                  </button>
+                   <div class="dropdown-menu">
+                       {%for obj in artikel%}
+                       <small class="dropdown-item" id="span">
+                           <a href="{%url 'post-detail' pk=obj.id%}">{{obj.title}}</a>
+                       </small>
+                      {%endfor%}
+                    </div>
+            </div>
+        </div>
+
+        {%endif%}
+
         {%if words%}
          <div class="col-sm">
-            <a href="{%url 'unittest-method' pk=name.id name_of_unit=name%}"><button class="btn btn-sm btn-success">Unit prüfen lassen</button></a>
+            <a href="{%url 'unittest-method' pk=name.id name_of_unit=name%}"><button class="btn btn-success">Unit prüfen lassen</button></a>
          </div>
         {%endif%}
 

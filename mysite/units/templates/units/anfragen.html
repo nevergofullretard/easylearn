@@ -34,10 +34,9 @@ function toggle(source,name) {
 {%else%}
 
 
-
 <form method="POST"> {%  csrf_token %}
     <fieldset class="form-group">
-        <legend class="border-bottom mb-4">Auf gehts!</legend>
+        <legend class="border-bottom mb-4">Anfragen Wörter</legend>
         <small class="text-muted">Achtung! Die Anfragen dürfen keine Semikolons enthalten (;) sonst können sie nicht richtig in die Database integriert werden!</small>
             <table class="table">
                 <thead class="thead-light">
@@ -51,6 +50,7 @@ function toggle(source,name) {
                     </tr>
                 </thead>
                 <tbody>
+
                 {%for key1,values1 in anfragen.items%}
                     <tr>
                         <td>
@@ -63,21 +63,25 @@ function toggle(source,name) {
                                 <td></td>
                                 <td><a href="{% url 'unit-words' pk=key2.id name_of_unit=key2 %}" target="_blank">{{key2}}</a></td>
                             </tr>
-                            {%for anfrage_key, word1, word2, sidenote in value%}
+                            {%for wrd in value%}
                                 <tr>
+                                     <td></td>
                                     <td></td>
-                                    <td></td>
-                                    <td>{{word1}}</td>
-                                    <td>{{word2}}</td>
-                                    <td><small class="text-muted">{{sidenote}}</small></td>
+                                    <td>{{wrd.word_deutsch}}</td>
+                                    <td>{{wrd.word_fremdsprache}}</td>
+                                    <td><small class="text-muted">{{wrd.sidenote}}</small></td>
 
-
-                                    <!--<form name="{{key1}}-{{key2}}">-->
+                                    <td>
+                                        <form name="{{key1}}-{{key2}}">
                                      <div class="checkbox">
                                     <label>
-                                        <td> <input type="checkbox" value="{{word1}};{{word2}};{{anfrage_key.id}};{{sidenote}}" name="{{key1.id}}--{{key2.id}}"><br/></td>
+                                         <input type="checkbox" value="{{word1}};{{word2}};{{anfrage_key.id}};{{sidenote}}" name="{{key1.id}}--{{key2.id}}"><br/>
                                     </label>
-                                            </div>
+                                    </div>
+                                        </form>
+
+                                    </td>
+
 
 
 

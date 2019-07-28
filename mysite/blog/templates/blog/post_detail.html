@@ -39,8 +39,9 @@ var availableColleges = [
 
 });
 </script>
+    <div class="content-section">
 
-  <article class="media content-section">
+          <article class="media ">
           <img class="rounded-circle article-img" height="100" width="100" src="{{ object.author.profile.image.url }}">
     <div class="media-body">
 
@@ -66,17 +67,24 @@ var availableColleges = [
         {%endfor%}
 
       </h4>
- {%if object.author.is_staff%}
-                    {{object.content|safe}}
-              {%else%}
-                    {{object.content}}
-              {%endif%}
+        <hr>
+
 
     </div>
 
 
     <!--<h2>Amadeus testa <p class="bg-success text-white"><a href="{% url "user-posts" username="maxistraif"%}">@maxistraif</a></p>maxistraif </h2>-->
   </article>
+        {%if object.author.is_staff%}
+                    {{object.content|safe}}
+              {%else%}
+                    {{object.content}}
+              {%endif%}
+    </div>
+
+
+
+
 
 
 {%if content_form%}

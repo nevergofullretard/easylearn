@@ -7,7 +7,9 @@
 
 
 {%if request.user.profile.current_unit2%}
-<h3 class="text-white" style="background-color: #56BB86;">Lernweg - {{ request.user.profile.current_unit2 }}</h3>
+<h3 class="text-white" style="background-color: #56BB86;">Lernweg -
+    <a class="text-white" href="{%url 'unit-words' pk=request.user.profile.current_unit2.id name_of_unit=request.user.profile.current_unit2%}"><u>{{ request.user.profile.current_unit2 }}</u></a>
+    </h3>
 {%else%}
 <h3 class="text-white" style="background-color: #56BB86;">Lernweg</h3>
 {%endif%}
@@ -153,14 +155,14 @@
 
                             <tr>
                                 <td>{{ value.word.deutsch}}</td>
-                                <td> <input class="form-control-plaintext" placeholder="{{value.word.unit_name.sprache.sprache_lang}}" type='text' maxlength="80" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
+                                <td> <input class="form-control-plaintext" placeholder="{{value.word.unit_name.sprache.sprache_lang}}" type='text' maxlength="500" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
                             </tr>
                         {%else%}
                             <tr>
                                 <td>{{ value.word.italienisch}}</td>
 
                                 <!-- wenn man es required möchte, einfach nach naem='my_list' required eingeben -->
-                                <td> <input class="form-control-plaintext" placeholder="Deutsch" type='text' maxlength="80" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
+                                <td> <input class="form-control-plaintext" placeholder="Deutsch" type='text' maxlength="500" value = '{{ val}}' name='{{key2}}-{{value.id}}'> {{ val }}</input> </td>
                             </tr>
                             {%endif%}
                                 {% endfor %}
