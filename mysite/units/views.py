@@ -389,12 +389,15 @@ def anfragen(request):
                     {unit_u: words})
 
     if request.method == 'POST':
+        # print(request.POST)
         for key, values in words_anfragen.items():
             user = key
             for value in values:
                 for key in value:
                     unit = key
                     value_from_user = request.POST.getlist(str(user.id) + '--' + str(unit.id))
+
+
                     if value_from_user != []:
                         for value in value_from_user:
                             einzeln = value.split(';')

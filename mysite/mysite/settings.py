@@ -165,3 +165,8 @@ EMAIL_HOST_USER = 'easylearn.service@gmail.com'
 EMAIL_HOST_PASSWORD = 'meinewebsite88'
 
 # AUTHENTICATION_BACKENDS = ('users.backends.EmailBackend', 'django.contrib.auth.backends.ModelBackend',)
+
+
+
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 1100 # wenn man Daten hochlädt, z.B: bei checkbox field im dashboard bei 1000 russisch wörter anfragen
